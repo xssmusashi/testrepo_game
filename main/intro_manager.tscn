@@ -1,0 +1,154 @@
+[gd_scene load_steps=6 format=3 uid="uid://8kwlprvxd0bx"]
+
+[ext_resource type="Script" uid="uid://cnkvkulbdnlhn" path="res://main/intro_manager.gd" id="1_clcxo"]
+[ext_resource type="Texture2D" uid="uid://2fsskayw37xy" path="res://gavno/screens/intro_first_screen.png" id="2_cyw3y"]
+[ext_resource type="Texture2D" uid="uid://bc4ty6mo8ajpv" path="res://gavno/screens/intro_second_screen.png" id="3_1to3y"]
+[ext_resource type="Texture2D" uid="uid://cgbamucoug1m6" path="res://gavno/screens/intro_third_screen.png" id="4_5x1uo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cyw3y"]
+font_size = 14
+
+[node name="IntroManager" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_clcxo")
+next_scene_path = "res://main.tscn"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="Screen1" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Screen1Text" type="Label" parent="Screen1"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -227.0
+offset_top = 343.0
+offset_right = 193.0
+offset_bottom = 678.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Your room always smells of heated plastic and dust. Your parents have been asleep for a long time. You know every level of your favorite games by heart. At school, you are silent, but here, with a controller in your hands, you are a hero, an explorer. You loved these worlds more than reality, because in them, everything made sense.
+
+Tonight your eyes are heavy with exhaustion, and the boundary between the room and the screen is wearing thin. You see your reflection in the dark glass, and it smiles at you, even though your own face remains still."
+label_settings = SubResource("LabelSettings_cyw3y")
+autowrap_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="Screen1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -4.3
+anchor_right = 5.3
+anchor_bottom = 9.6
+grow_horizontal = 2
+texture = ExtResource("2_cyw3y")
+
+[node name="Screen2" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="TextureRect" type="TextureRect" parent="Screen2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -4.3
+anchor_right = 5.3
+anchor_bottom = 9.6
+grow_horizontal = 2
+texture = ExtResource("3_1to3y")
+
+[node name="Screen2Text" type="Label" parent="Screen2"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -227.0
+offset_top = 343.0
+offset_right = 193.0
+offset_bottom = 678.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Exhaustion finally claims you, heavier than any boss battle. Your grip loosens, and the controller slips silently onto the carpet, forgotten. The glowing words \"GAME OVER\" hover in the darkness, but tonight, they don't feel like a defeat. They feel like permission to rest. 
+
+The low, steady hum of the television sets becomes a lullaby, and as your breathing slows, the cramped walls of your room dissolve into the comforting void of sleep."
+label_settings = SubResource("LabelSettings_cyw3y")
+autowrap_mode = 3
+
+[node name="Screen3" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Screen3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -4.3
+anchor_right = 5.3
+anchor_bottom = 9.6
+grow_horizontal = 2
+texture = ExtResource("4_5x1uo")
+
+[node name="Screen2Text" type="Label" parent="Screen3"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -227.0
+offset_top = 343.0
+offset_right = 193.0
+offset_bottom = 678.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "But sleep is just another gateway. In the deepest part of your dream, you rise, drawn by the electric blue light. You reach out, expecting the cold resistance of glass, but your fingers dip into something else entirely—a shimmering pool of static and distant stars. The barrier is gone. 
+
+The reflection that smiled at you is now pulling you forward. You take a breath and step through the screen, leaving the silent, dusty room behind to finally enter the world where you truly belong."
+label_settings = SubResource("LabelSettings_cyw3y")
+autowrap_mode = 3
+
+[node name="EnterLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Fader" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

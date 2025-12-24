@@ -1,0 +1,292 @@
+[gd_scene load_steps=21 format=3 uid="uid://77aelesuib8m"]
+
+[ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle.gd" id="1_ip7xm"]
+[ext_resource type="Texture2D" uid="uid://cc1tayp6vmxrl" path="res://gavno/sprites/Rin/rin_face.png" id="2_oxp8w"]
+[ext_resource type="PackedScene" uid="uid://de37unrvy5g8p" path="res://main/player_attack.tscn" id="3_7sfm4"]
+[ext_resource type="PackedScene" uid="uid://duq3wnc6qhgw1" path="res://main/enemy_attack_geometry_dash/enemy_attack_geometry_dash_style.tscn" id="3_o63kq"]
+[ext_resource type="Texture2D" uid="uid://d2iqlbex60a1s" path="res://gavno/sprites/Icons/AttackButton_Icon.png" id="5_33lwt"]
+[ext_resource type="Texture2D" uid="uid://dn63mfionmbs0" path="res://gavno/sprites/Icons/InventoryButton_Icon.png" id="6_c6s1a"]
+[ext_resource type="Texture2D" uid="uid://dl3r7o14ksqff" path="res://gavno/sprites/Icons/SayButton_Icon.png" id="7_vkqg8"]
+[ext_resource type="Texture2D" uid="uid://cy6yl5cu1x4om" path="res://gavno/sprites/Icons/HackButton_Icon.png" id="8_is2p5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7sfm4"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i431l"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oxp8w"]
+bg_color = Color(1, 0, 0, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mhv3b"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6t8i5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dw4jg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0npn6"]
+bg_color = Color(1, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s0bho"]
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xav1o"]
+bg_color = Color(0.8875768, 0.47768772, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gapho"]
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ouvwj"]
+bg_color = Color(0, 0, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66um8"]
+bg_color = Color(0.69991606, 0.44884825, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[node name="Battle" type="CanvasLayer"]
+script = ExtResource("1_ip7xm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VersusSection" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayerSketch" type="TextureRect" parent="VBoxContainer/VersusSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VersusSection"]
+layout_mode = 2
+
+[node name="EnemySketch" type="TextureRect" parent="VBoxContainer/VersusSection"]
+layout_mode = 2
+
+[node name="MainPanel" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="You" type="PanelContainer" parent="VBoxContainer/MainPanel"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7sfm4")
+
+[node name="PanelContainer2" type="VBoxContainer" parent="VBoxContainer/MainPanel/You"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
+layout_mode = 2
+text = "YOU"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_i431l")
+
+[node name="Portrait" type="TextureRect" parent="VBoxContainer/MainPanel/You/PanelContainer2/PanelContainer"]
+custom_minimum_size = Vector2(192, 192)
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("2_oxp8w")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HPBar" type="ProgressBar" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_oxp8w")
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="VBoxContainer/MainPanel/You/PanelContainer2/HPBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -11.5
+offset_right = 31.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+
+[node name="BattlePanel" type="Panel" parent="VBoxContainer/MainPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_mhv3b")
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MainPanel/BattlePanel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6t8i5")
+
+[node name="EnemyAttack_geometry_dash_style" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("3_o63kq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerAttack" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("3_7sfm4")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Enemy" type="PanelContainer" parent="VBoxContainer/MainPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dw4jg")
+
+[node name="PanelContainer3" type="VBoxContainer" parent="VBoxContainer/MainPanel/Enemy"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3"]
+layout_mode = 2
+text = "ENEMY"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_i431l")
+
+[node name="Portrait" type="TextureRect" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3/PanelContainer"]
+custom_minimum_size = Vector2(192, 192)
+layout_mode = 2
+texture = ExtResource("2_oxp8w")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HPBar" type="ProgressBar" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3"]
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_oxp8w")
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3/HPBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -11.5
+offset_right = 31.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+
+[node name="FunctionButtons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Attack" type="Button" parent="VBoxContainer/FunctionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_0npn6")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_s0bho")
+icon = ExtResource("5_33lwt")
+
+[node name="Inventory" type="Button" parent="VBoxContainer/FunctionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_xav1o")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
+icon = ExtResource("6_c6s1a")
+
+[node name="Say" type="Button" parent="VBoxContainer/FunctionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_ouvwj")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
+icon = ExtResource("7_vkqg8")
+
+[node name="Hack" type="Button" parent="VBoxContainer/FunctionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_66um8")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
+icon = ExtResource("8_is2p5")
+
+[node name="Inventory" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+columns = 10
+
+[connection signal="pressed" from="VBoxContainer/FunctionButtons/Attack" to="." method="_on_attack_pressed"]
