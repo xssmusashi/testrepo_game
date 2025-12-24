@@ -9,8 +9,8 @@ signal finished(result: Dictionary)
 @export var base_damage: int = 12
 
 # --- Физика игрока ---
-@export var gravity: float = 7000.0
-@export var jump_velocity: float = -1400.0
+@export var gravity: float = 20000.0
+@export var jump_velocity: float = -2000.0
 
 # --- Скорость прокрутки ---
 @export var base_speed: float = 320.0

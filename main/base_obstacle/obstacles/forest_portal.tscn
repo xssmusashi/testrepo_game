@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://denfg0mn2ullq"]
+
+[ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_kllgw"]
+[ext_resource type="Texture2D" uid="uid://btuplxh0ywx12" path="res://main/base_obstacle/sprites/portal.png" id="2_w0l43"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w0l43"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kllgw"]
+size = Vector2(79.66667, 49)
+
+[node name="BaseObstacle" instance=ExtResource("1_kllgw")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_w0l43")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TrunkCollision (main collision)" index="0"]
+polygon = PackedVector2Array(-37, -9.333334, -20, -8.333334, -20.333334, 5, -20, 18.666668, -20, 34, -26.666668, 38.333336, -35.666668, 33.333336, -44.666668, 23, -56, 19.666668, -54, 8.666667, -47, 4.666667, -38.666668, 1.3333334)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="TrunkCollision (main collision)" index="1"]
+polygon = PackedVector2Array(18.333334, -9.666667, 33.666668, -11.333334, 43.333336, -0.33333334, 49.333336, 5.666667, 54.333336, 17.666668, 44, 22.333334, 25, 33.666668, 16, 38.333336, 10.666667, 35.333336, 11.333334, 27.333334, 18, 23.333334)
+
+[node name="CollisionShape2D" parent="TrunkCollision (main collision)" index="2"]
+position = Vector2(-31.666668, 15)
+shape = SubResource("RectangleShape2D_w0l43")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CanopyArea (transparensy collision)" index="0"]
+polygon = PackedVector2Array(-45, -11.333334, -14.333334, -7.3333335, 38, -12, 40, -25.333334, 20, -53, -13.666667, -56.666668, -31.666668, -43)
+
+[node name="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="1"]
+position = Vector2(-1.8333309, -33.833336)
+shape = SubResource("RectangleShape2D_kllgw")

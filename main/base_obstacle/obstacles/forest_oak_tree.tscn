@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwi32u38huvjr"]
+
+[ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_tnpb5"]
+[ext_resource type="Texture2D" uid="uid://cysq5mreipvoq" path="res://main/base_obstacle/sprites/trees/oak_tree.png" id="2_7gio5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7gio5"]
+size = Vector2(54.666668, 14.666664)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8pa80"]
+size = Vector2(117.66667, 97)
+
+[node name="BaseObstacle" instance=ExtResource("1_tnpb5")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_7gio5")
+
+[node name="CollisionShape2D" parent="TrunkCollision (main collision)" index="0"]
+position = Vector2(-2.3333347, 47.666668)
+shape = SubResource("RectangleShape2D_7gio5")
+
+[node name="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="0"]
+position = Vector2(-0.16666603, -8.5)
+shape = SubResource("RectangleShape2D_8pa80")

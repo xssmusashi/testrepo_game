@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm2t35r7so2v5"]
+
+[ext_resource type="Script" uid="uid://b4ly7xavbguxj" path="res://main/base_obstacle/base_obstacle.gd" id="1_3tqt8"]
+
+[node name="BaseObstacle" type="Node2D"]
+y_sort_enabled = true
+scale = Vector2(3, 3)
+script = ExtResource("1_3tqt8")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="TrunkCollision (main collision)" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TrunkCollision (main collision)"]
+
+[node name="CanopyArea (transparensy collision)" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanopyArea (transparensy collision)"]

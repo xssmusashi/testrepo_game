@@ -1,7 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://77aelesuib8m"]
+[gd_scene load_steps=27 format=3 uid="uid://77aelesuib8m"]
 
 [ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle.gd" id="1_ip7xm"]
+[ext_resource type="PackedScene" uid="uid://cxy262yld4soa" path="res://main/inventory/inventory_ui.tscn" id="2_c6s1a"]
 [ext_resource type="Texture2D" uid="uid://cc1tayp6vmxrl" path="res://gavno/sprites/Rin/rin_face.png" id="2_oxp8w"]
+[ext_resource type="FontFile" uid="uid://figoqy7xtpx5" path="res://PressStart2P-Regular.ttf" id="2_vkqg8"]
 [ext_resource type="PackedScene" uid="uid://de37unrvy5g8p" path="res://main/player_attack.tscn" id="3_7sfm4"]
 [ext_resource type="PackedScene" uid="uid://duq3wnc6qhgw1" path="res://main/enemy_attack_geometry_dash/enemy_attack_geometry_dash_style.tscn" id="3_o63kq"]
 [ext_resource type="Texture2D" uid="uid://d2iqlbex60a1s" path="res://gavno/sprites/Icons/AttackButton_Icon.png" id="5_33lwt"]
@@ -16,6 +18,9 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xav1o"]
+font = ExtResource("2_vkqg8")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i431l"]
 bg_color = Color(0, 0, 0, 1)
@@ -33,24 +38,12 @@ border_width_right = 10
 border_width_bottom = 10
 border_color = Color(1, 0, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mhv3b"]
-bg_color = Color(1, 1, 1, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6t8i5"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dw4jg"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_is2p5"]
+line_spacing = 0.0
+font = ExtResource("2_vkqg8")
+font_size = 20
+shadow_size = 0
+shadow_offset = Vector2(0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0npn6"]
 bg_color = Color(1, 0, 0, 1)
@@ -98,6 +91,31 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mhv3b"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6t8i5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dw4jg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gapho"]
+font = ExtResource("2_vkqg8")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ouvwj"]
+font = ExtResource("2_vkqg8")
+
 [node name="Battle" type="CanvasLayer"]
 script = ExtResource("1_ip7xm")
 
@@ -118,18 +136,6 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VersusSection" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="PlayerSketch" type="TextureRect" parent="VBoxContainer/VersusSection"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/VersusSection"]
-layout_mode = 2
-
-[node name="EnemySketch" type="TextureRect" parent="VBoxContainer/VersusSection"]
-layout_mode = 2
-
 [node name="MainPanel" type="HBoxContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
@@ -142,15 +148,19 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_7sfm4")
 
 [node name="PanelContainer2" type="VBoxContainer" parent="VBoxContainer/MainPanel/You"]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
 
 [node name="NameLabel" type="Label" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
 layout_mode = 2
+size_flags_vertical = 10
 text = "YOU"
+label_settings = SubResource("LabelSettings_xav1o")
 horizontal_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_i431l")
 
 [node name="Portrait" type="TextureRect" parent="VBoxContainer/MainPanel/You/PanelContainer2/PanelContainer"]
@@ -163,24 +173,67 @@ stretch_mode = 5
 
 [node name="HPBar" type="ProgressBar" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
 layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_oxp8w")
 value = 100.0
 show_percentage = false
 
 [node name="Label" type="Label" parent="VBoxContainer/MainPanel/You/PanelContainer2/HPBar"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -31.0
-offset_top = -11.5
-offset_right = 31.0
-offset_bottom = 11.5
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 1.5
+offset_right = -28.0
+offset_bottom = 1.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "100/100"
+label_settings = SubResource("LabelSettings_is2p5")
+
+[node name="FunctionButtons" type="HBoxContainer" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Attack" type="Button" parent="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons"]
+custom_minimum_size = Vector2(47, 46)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_0npn6")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_s0bho")
+icon = ExtResource("5_33lwt")
+icon_alignment = 1
+
+[node name="Inventory" type="Button" parent="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons"]
+custom_minimum_size = Vector2(47, 46)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_xav1o")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
+icon = ExtResource("6_c6s1a")
+icon_alignment = 1
+
+[node name="Say" type="Button" parent="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons"]
+custom_minimum_size = Vector2(47, 46)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_ouvwj")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
+icon = ExtResource("7_vkqg8")
+icon_alignment = 1
+
+[node name="Hack" type="Button" parent="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons"]
+custom_minimum_size = Vector2(47, 46)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_66um8")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
+icon = ExtResource("8_is2p5")
+icon_alignment = 1
 
 [node name="BattlePanel" type="Panel" parent="VBoxContainer/MainPanel"]
 layout_mode = 2
@@ -218,6 +271,7 @@ size_flags_vertical = 3
 [node name="NameLabel" type="Label" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3"]
 layout_mode = 2
 text = "ENEMY"
+label_settings = SubResource("LabelSettings_gapho")
 horizontal_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3"]
@@ -251,42 +305,10 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "100/100"
+label_settings = SubResource("LabelSettings_ouvwj")
 
-[node name="FunctionButtons" type="HBoxContainer" parent="VBoxContainer"]
+[node name="InventoryUI" parent="VBoxContainer" instance=ExtResource("2_c6s1a")]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
 
-[node name="Attack" type="Button" parent="VBoxContainer/FunctionButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_0npn6")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_s0bho")
-icon = ExtResource("5_33lwt")
-
-[node name="Inventory" type="Button" parent="VBoxContainer/FunctionButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_xav1o")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
-icon = ExtResource("6_c6s1a")
-
-[node name="Say" type="Button" parent="VBoxContainer/FunctionButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ouvwj")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
-icon = ExtResource("7_vkqg8")
-
-[node name="Hack" type="Button" parent="VBoxContainer/FunctionButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_66um8")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
-icon = ExtResource("8_is2p5")
-
-[node name="Inventory" type="GridContainer" parent="VBoxContainer"]
-layout_mode = 2
-columns = 10
-
-[connection signal="pressed" from="VBoxContainer/FunctionButtons/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Inventory" to="." method="_on_inventory_pressed"]

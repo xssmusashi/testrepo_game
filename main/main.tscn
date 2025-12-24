@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=4 uid="uid://bxfmuy5jnbvex"]
+[gd_scene load_steps=11 format=4 uid="uid://bxfmuy5jnbvex"]
 
-[ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://gavno/meadow_location_textures/grass_floor.png" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://gavno/sprites/ValleyForestSprites/grass_floor.png" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://denfg0mn2ullq" path="res://main/base_obstacle/obstacles/forest_portal.tscn" id="3_c651c"]
+[ext_resource type="PackedScene" uid="uid://bwi32u38huvjr" path="res://main/base_obstacle/obstacles/forest_oak_tree.tscn" id="3_xwkvk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0xm2m"]
 texture = ExtResource("1_ig7tw")
@@ -10,12 +12,34 @@ texture = ExtResource("1_ig7tw")
 [sub_resource type="TileSet" id="TileSet_h2yge"]
 sources/0 = SubResource("TileSetAtlasSource_0xm2m")
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_c651c"]
+scenes/1/scene = ExtResource("3_xwkvk")
+
+[sub_resource type="TileSet" id="TileSet_3wy1v"]
+sources/0 = SubResource("TileSetScenesCollectionSource_c651c")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_3wy1v"]
+scenes/1/scene = ExtResource("3_c651c")
+
+[sub_resource type="TileSet" id="TileSet_kfbq2"]
+sources/0 = SubResource("TileSetScenesCollectionSource_3wy1v")
+
 [node name="Main" type="Node2D"]
+y_sort_enabled = true
 
 [node name="Ground" type="TileMapLayer" parent="."]
 scale = Vector2(4, 4)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAACAAUAAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAUAAAAAAAAAAAAIAAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAAAAAAAAAJAAAAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAQAAAAAAAAAAAAJAAUAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_h2yge")
 
-[node name="Player" parent="Ground" instance=ExtResource("2_0xm2m")]
-position = Vector2(83.75, 38.5)
+[node name="Trees" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAABAAIAAAAAAAAAAQAIAPz/AAAAAAAAAQA=")
+tile_set = SubResource("TileSet_3wy1v")
+
+[node name="Portal" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAATABIAAAAAAAAAAQA=")
+tile_set = SubResource("TileSet_kfbq2")
+
+[node name="Player" parent="." instance=ExtResource("2_0xm2m")]
+position = Vector2(335, 154)
+scale = Vector2(4, 4)
