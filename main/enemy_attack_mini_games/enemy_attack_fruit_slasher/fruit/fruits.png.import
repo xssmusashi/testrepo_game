@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0at7knxtjnda"
-path="res://.godot/imported/fruits.png-21fa8e35e3cd3c23d6a9a2224a639806.ctex"
+path="res://.godot/imported/fruits.png-1e69b437c625cc601a2d8172e76f7f9e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/enemy_attack_fruit_slasher/fruit/fruits.png"
-dest_files=["res://.godot/imported/fruits.png-21fa8e35e3cd3c23d6a9a2224a639806.ctex"]
+source_file="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/fruit/fruits.png"
+dest_files=["res://.godot/imported/fruits.png-1e69b437c625cc601a2d8172e76f7f9e.ctex"]
 
 [params]
 

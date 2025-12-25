@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bis3etku74iqv"]
 
-[ext_resource type="Script" uid="uid://dercxp44dhol5" path="res://main/enemy_attack_geometry_dash/spike.gd" id="1_jpaqi"]
+[ext_resource type="Script" uid="uid://dercxp44dhol5" path="res://main/enemy_attack_mini_games/enemy_attack_geometry_dash/spike.gd" id="1_jpaqi"]
 
 [node name="Spike" type="Control"]
 layout_mode = 3

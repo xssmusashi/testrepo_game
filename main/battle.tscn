@@ -1,16 +1,17 @@
-[gd_scene load_steps=28 format=3 uid="uid://dajsoxawargk1"]
+[gd_scene load_steps=29 format=3 uid="uid://dajsoxawargk1"]
 
 [ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle.gd" id="1_ip7xm"]
 [ext_resource type="PackedScene" uid="uid://cxy262yld4soa" path="res://main/inventory/inventory_ui.tscn" id="2_c6s1a"]
 [ext_resource type="Texture2D" uid="uid://cc1tayp6vmxrl" path="res://gavno/sprites/Rin/rin_face.png" id="2_oxp8w"]
 [ext_resource type="FontFile" uid="uid://figoqy7xtpx5" path="res://PressStart2P-Regular.ttf" id="2_vkqg8"]
 [ext_resource type="PackedScene" uid="uid://de37unrvy5g8p" path="res://main/player_attack.tscn" id="3_7sfm4"]
-[ext_resource type="PackedScene" uid="uid://duq3wnc6qhgw1" path="res://main/enemy_attack_geometry_dash/enemy_attack_geometry_dash.tscn" id="3_o63kq"]
+[ext_resource type="PackedScene" uid="uid://duq3wnc6qhgw1" path="res://main/enemy_attack_mini_games/enemy_attack_geometry_dash/enemy_attack_geometry_dash.tscn" id="3_o63kq"]
 [ext_resource type="Texture2D" uid="uid://d2iqlbex60a1s" path="res://gavno/sprites/Icons/AttackButton_Icon.png" id="5_33lwt"]
 [ext_resource type="Texture2D" uid="uid://dn63mfionmbs0" path="res://gavno/sprites/Icons/InventoryButton_Icon.png" id="6_c6s1a"]
 [ext_resource type="Texture2D" uid="uid://dl3r7o14ksqff" path="res://gavno/sprites/Icons/SayButton_Icon.png" id="7_vkqg8"]
 [ext_resource type="Texture2D" uid="uid://cy6yl5cu1x4om" path="res://gavno/sprites/Icons/HackButton_Icon.png" id="8_is2p5"]
-[ext_resource type="PackedScene" uid="uid://bh0uaqro0rbyo" path="res://main/enemy_attack_fruit_slasher/enemy_attack_fruit_slasher.tscn" id="8_xav1o"]
+[ext_resource type="PackedScene" uid="uid://bh0uaqro0rbyo" path="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/enemy_attack_fruit_slasher.tscn" id="8_xav1o"]
+[ext_resource type="PackedScene" uid="uid://cj1naildc5r7d" path="res://main/enemy_attack_mini_games/enemy_attack_shield_orbit/enemy_attack_shield_orbit.tscn" id="10_xav1o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7sfm4"]
 bg_color = Color(0, 0, 0, 1)
@@ -259,6 +260,10 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="EnemyAttackGeometryDash" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("3_o63kq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EnemyAttackShieldOrbit" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("10_xav1o")]
 unique_name_in_owner = true
 layout_mode = 2
 

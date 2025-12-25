@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bh0uaqro0rbyo"]
 
-[ext_resource type="Script" uid="uid://b701amgjmv6p7" path="res://main/enemy_attack_fruit_slasher/enemy_attack_fruit_slasher.gd" id="1_hgd5l"]
-[ext_resource type="PackedScene" uid="uid://w1q3ucysd0n6" path="res://main/enemy_attack_fruit_slasher/fruit/fruit.tscn" id="2_utv21"]
-[ext_resource type="Texture2D" uid="uid://d0at7knxtjnda" path="res://main/enemy_attack_fruit_slasher/fruit/fruits.png" id="3_0bsn0"]
+[ext_resource type="Script" uid="uid://b701amgjmv6p7" path="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/enemy_attack_fruit_slasher.gd" id="1_hgd5l"]
+[ext_resource type="PackedScene" uid="uid://w1q3ucysd0n6" path="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/fruit/fruit.tscn" id="2_utv21"]
+[ext_resource type="Texture2D" uid="uid://d0at7knxtjnda" path="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/fruit/fruits.png" id="3_0bsn0"]
 
 [node name="EnemyAttackFruitSlasher" type="Control"]
 layout_mode = 3

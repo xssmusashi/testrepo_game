@@ -42,7 +42,7 @@ func _update_slash_trail() -> void:
 
 func _on_spawn_timer_timeout() -> void:
 	if not is_active: return
-	var count = randi_range(1, 3)
+	var count = randi_range(1, 10)
 	for i in count:
 		_spawn_random_fruit()
 		await get_tree().create_timer(0.1).timeout
@@ -50,36 +50,36 @@ func _on_spawn_timer_timeout() -> void:
 func _spawn_random_fruit() -> void:
 	if not fruit_scene or not fruits_sheet: return
 	var fruit = fruit_scene.instantiate()
-	fruit_container.add_child(fruit)
 	
-	# Выбираем случайный фрукт из сетки 3x4 (32x32 пикселя на один)
+	# Сетка 3x4, 11 фруктов. Клетка = 32x32.
 	var idx = randi() % 11
 	var col = idx % 3
 	var row = idx / 3
 	var region = Rect2(col * 32, row * 32, 32, 32)
 	
-	# Передаем текстуру, регион и масштаб во фрукт
-	if fruit.has_method("setup_fruit"):
-		fruit.setup_fruit(fruits_sheet, region, fruit_display_scale)
+	# 1. Настраиваем фрукт
+	fruit.setup_fruit(fruits_sheet, region, fruit_display_scale)
 	
+	# 2. Добавляем в контейнер
+	fruit_container.add_child(fruit)
+	
+	# 3. Позиция и полет (Tween)
 	var w = size.x if size.x > 100 else 1152.0
 	var h = size.y if size.y > 100 else 648.0
-	var start_x = randf_range(100, w - 100)
-	fruit.position = Vector2(start_x, h + 100) # Спавним чуть ниже панели
+	fruit.position = Vector2(randf_range(100, w - 100), h + 50)
 	
-	var target_x = start_x + randf_range(-150, 150)
+	var target_x = fruit.position.x + randf_range(-150, 150)
 	var peak_y = randf_range(h * 0.2, h * 0.5)
 	
-	# Раздельные Tween для X и Y, чтобы не было "зависаний"
-	var tween_x = create_tween()
-	tween_x.tween_property(fruit, "position:x", target_x, 1.6).set_trans(Tween.TRANS_LINEAR)
+	var tw_x = create_tween()
+	tw_x.tween_property(fruit, "position:x", target_x, 1.6).set_trans(Tween.TRANS_LINEAR)
 	
-	var tween_y = create_tween()
-	tween_y.tween_property(fruit, "position:y", peak_y, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween_y.tween_property(fruit, "position:y", h + 100, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	var tw_y = create_tween()
+	tw_y.tween_property(fruit, "position:y", peak_y, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw_y.tween_property(fruit, "position:y", h + 150, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	
 	fruit.slashed.connect(_on_fruit_slashed)
-	tween_y.finished.connect(func(): if is_instance_valid(fruit): fruit.queue_free())
+	tw_y.finished.connect(func(): if is_instance_valid(fruit): fruit.queue_free())
 
 func _on_fruit_slashed() -> void:
 	score += 1
