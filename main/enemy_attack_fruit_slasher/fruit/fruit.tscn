@@ -9,11 +9,7 @@ anchors_preset = 0
 mouse_filter = 1
 script = ExtResource("1_n8vwe")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-mouse_filter = 2
+[node name="Visual" type="Sprite2D" parent="."]
+region_enabled = true
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

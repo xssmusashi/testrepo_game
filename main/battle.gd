@@ -10,12 +10,14 @@ extends CanvasLayer
 @onready var hack_button = $VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Hack
 @onready var inventory_ui = $VBoxContainer/InventoryUI
 
+@onready var enemy_attack = enemy_attack_fruit_slash
+
 # ОБЯЗАТЕЛЬНО: объявляем переменную, чтобы не было ошибки "not declared"
 var attack_running := false
 
 func _ready():
-	if enemy_attack_geometry_dash:
-		enemy_attack_geometry_dash.finished.connect(_on_enemy_attack_finished)
+	if enemy_attack:
+		enemy_attack.finished.connect(_on_enemy_attack_finished)
 	if player_attack_game:
 		player_attack_game.attack_finished.connect(_on_player_attack_finished)
 
@@ -54,7 +56,7 @@ func _on_player_attack_finished(_multiplier):
 
 func test_enemy_attack():
 	disable_buttons()
-	enemy_attack_geometry_dash.start({ "damage": 12, "duration": 12.0 })
+	enemy_attack.start({ "damage": 12, "duration": 12.0 })
 
 func _on_enemy_attack_finished(result: Dictionary):
 	enable_buttons()

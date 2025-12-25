@@ -1,30 +1,26 @@
 extends Control
 
 @export var spike_scene: PackedScene
-
 signal finished(result: Dictionary)
 
 @export var base_damage: int = 12
 
 # --- Игрок ---
 @export var player_size: Vector2 = Vector2(26, 26)
-@export var player_x: float = 60.0
+@export var player_x: float = 80.0 # Чуть дальше от края для удобства
 
-# --- Генерация платформ (только снизу) ---
-@export var platform_min_w: float = 180.0
-@export var platform_max_w: float = 360.0
-@export var platform_h: float = 26.0
-
-# Высота нижней платформы над полом
-@export var low_platform_min_y_from_ground: float = 70.0
-@export var low_platform_max_y_from_ground: float = 150.0
-
-# --- Шипы ---
+# --- Параметры объектов ---
+@export var platform_h: float = 20.0
 @export var spike_w: float = 18.0
 @export var spike_h: float = 26.0
 
-# --- "прощение" хитбокса игрока ---
-@export var player_hitbox_shrink: Vector2 = Vector2(6, 6)
+# --- Физика и Скорость ---
+@export var duration: float = 12.0
+@export var gravity: float = 4000.0       # Гравитация для быстрого падения
+@export var jump_velocity: float = -1100.0 # Сильный прыжок
+@export var base_speed: float = 500.0      # Начальная скорость уровня
+@export var speed_growth: float = 20.0     # Постепенное ускорение
+@export var rotation_speed: float = 450.0  # Скорость вращения куба
 
 # --- Узлы ---
 @onready var play_area: Control = $PlayArea
@@ -33,21 +29,11 @@ signal finished(result: Dictionary)
 @onready var obstacles_holder: Control = $PlayArea/Obstacles
 @onready var info: Label = $InfoLabel
 
-# Оптимизированные константы для драйва
-@export var duration: float = 12.0
-@export var gravity: float = 3800.0       # Снизили для "длинного" прыжка
-@export var jump_velocity: float = -1050.0 # Оптимально для перелета через 3 шипа
-@export var base_speed: float = 350.0      # Ускорили темп игры
-@export var speed_growth: float = 10.0
-@export var rotation_speed: float = 420.0
-
 # --- Состояние ---
 var is_active := false
 var t := 0.0
 var v_y := 0.0
 var on_ground := true
-
-# спавн по дистанции
 var spawn_dist_left := 0.0
 var rng := RandomNumberGenerator.new()
 
@@ -57,301 +43,159 @@ func _ready():
 	rng.randomize()
 
 func start(ctx: Dictionary = {}):
-	if ctx.has("damage"):
-		base_damage = int(ctx["damage"])
-	if ctx.has("duration"):
-		duration = float(ctx["duration"])
+	if ctx.has("damage"): base_damage = int(ctx["damage"])
+	if ctx.has("duration"): duration = float(ctx["duration"])
 
 	visible = true
 	info.text = "DODGE!"
 	clear_obstacles()
 
-	# дождаться корректных размеров
 	await get_tree().process_frame
-	if play_area.size.x <= 1.0:
-		await play_area.resized
-
-	# убедимся, что у пола есть высота
-	if ground.size.y <= 1.0:
-		ground.custom_minimum_size.y = 24
-		await get_tree().process_frame
-
-	# игрок
+	
+	# Настройка игрока
 	player.custom_minimum_size = player_size
-	player.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	player.size = player_size
+	# ВАЖНО: Центрируем ось вращения, чтобы куб не уезжал назад
+	player.pivot_offset = player_size / 2 
 	player.position = Vector2(player_x, get_ground_y())
-	player.color = Color(0.2, 0.5, 1.0) # синий
-
+	player.rotation = 0
+	
 	t = 0.0
 	v_y = 0.0
 	on_ground = true
-	spawn_dist_left = 240.0
+	spawn_dist_left = 300.0 # Задержка перед первым препятствием
 
 	is_active = true
 	set_process(true)
 
-func stop():
-	if is_active:
-		_finish(false, 0)
-
 func _unhandled_input(event):
-	if not is_active:
-		return
+	if not is_active: return
 	if event.is_action_pressed("ui_accept") and on_ground:
 		get_viewport().set_input_as_handled()
 		v_y = jump_velocity
 		on_ground = false
 
 func _process(delta):
-	if not is_active:
-		return
+	if not is_active: return
 
 	t += delta
 	var speed = base_speed + speed_growth * t
 
-	# 1) Движение препятствий
+	# 1) ДВИЖЕНИЕ ПРЕПЯТСТВИЙ (Шипы и Платформы)
 	for obs in obstacles_holder.get_children():
 		obs.position.x -= speed * delta
-		if obs.position.x < -obs.size.x - 240:
+		if obs.position.x < -400: # Удаляем, когда улетели далеко за экран
 			obs.queue_free()
 
-	# 2) Спавн
+	# 2) СПАВН СЕГМЕНТОВ
 	spawn_dist_left -= speed * delta
 	if spawn_dist_left <= 0.0:
-		spawn_segment(play_area.size.x + 200.0)
-		spawn_dist_left = rng.randf_range(280, 450) # Увеличили зазор для скорости
+		spawn_segment(play_area.size.x + 100.0)
+		# Расстояние между препятствиями
+		spawn_dist_left = rng.randf_range(250.0, 450.0)
 
-	# 3) ФИЗИКА (Убрали дубликаты!)
+	# 3) ФИЗИКА ИГРОКА (Y) - ТОЛЬКО ОДИН РАСЧЕТ
 	var prev_y := player.position.y
 	v_y += gravity * delta
 	player.position.y += v_y * delta
 
-	# Вращение
+	# Вращение в прыжке
 	if not on_ground:
 		player.rotation_degrees += rotation_speed * delta
-	
-	# Приземление
-	if v_y >= 0.0:
+
+	# 4) ПРИЗЕМЛЕНИЕ И КОЛЛИЗИИ
+	if v_y >= 0.0: # Если падаем
 		if handle_landing(prev_y):
-			_align_player_to_grid()
 			v_y = 0.0
 			on_ground = true
+			_align_player_to_grid()
 		else:
 			var gy := get_ground_y()
 			if player.position.y >= gy:
 				player.position.y = gy
-				_align_player_to_grid()
 				v_y = 0.0
 				on_ground = true
+				_align_player_to_grid()
 	
-	# Столкновения
-	handle_side_pushback()
-	if check_spike_hit():
+	# Смерть от шипов или удара в бок платформы
+	if check_spike_hit() or handle_side_collision():
 		_finish(true, base_damage)
+		return
 
 	if t >= duration:
 		_finish(false, 0)
 
-func _align_player_to_grid():
-	var current_rot = player.rotation_degrees
-	# Находим ближайший угол кратный 90
-	var target_rot = round(current_rot / 90.0) * 90.0
-	
-	# Плавное докручивание через Tween для красоты
-	var tween = create_tween()
-	tween.tween_property(player, "rotation_degrees", target_rot, 0.1)\
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # Исправлено здесь
+# --- Вспомогательные функции ---
 
-func ground_top_y() -> float:
-	return play_area.size.y - ground.size.y
+func _align_player_to_grid():
+	var target_rot = round(player.rotation_degrees / 90.0) * 90.0
+	create_tween().tween_property(player, "rotation_degrees", target_rot, 0.1).set_ease(Tween.EASE_OUT)
 
 func get_ground_y() -> float:
-	return ground_top_y() - player.size.y
-
-func rect_local_of(node: Control) -> Rect2:
-	var p = node.global_position - play_area.global_position
-	return Rect2(p, node.size)
-
-func player_rect_local(shrunk: bool = false) -> Rect2:
-	var p = player.global_position - play_area.global_position
-	var s = player.size
-	if not shrunk:
-		return Rect2(p, s)
-
-	var sh = player_hitbox_shrink
-	var ps = p + sh * 0.5
-	var ss = s - sh
-	return Rect2(ps, ss)
-
-# ----------------------------
-# Спавн сегмента (только снизу)
-# ----------------------------
+	return play_area.size.y - ground.size.y - player.size.y
 
 func spawn_segment(x: float):
-	var g_top := ground_top_y()
-	var chance := rng.randf()
+	var g_top = play_area.size.y - ground.size.y
+	var chance = rng.randf()
 	
-	var last_obj_width := 0.0
-
-	if chance < 0.4:
-		# Слой шипов (1-3 шт)
-		var count = rng.randi_range(1, 3)
+	if chance < 0.4: # Одиночный шип или группа
+		var count = rng.randi_range(1, 2)
 		for i in count:
-			var sx = x + i * (spike_w + 2)
-			_spawn_spike(sx, g_top - spike_h, spike_w, spike_h)
-		last_obj_width = count * spike_w
-	elif chance < 0.8:
-		# Платформа
-		var plat_w := rng.randf_range(200.0, 400.0)
-		var plat_y := g_top - platform_h
-		_spawn_platform(x, plat_y, plat_w, platform_h)
-		
-		# Шанс спавна шипа НА платформе
-		if rng.randf() < 0.4:
-			_spawn_spike(x + plat_w/2, plat_y - spike_h, spike_w, spike_h)
-		last_obj_width = plat_w
+			_spawn_obj("spike", Vector2(x + i*20, g_top - spike_h), Vector2(spike_w, spike_h))
+	elif chance < 0.8: # Платформа в воздухе
+		var pw = rng.randf_range(150, 300)
+		var py = g_top - rng.randf_range(80, 140)
+		_spawn_obj("platform", Vector2(x, py), Vector2(pw, platform_h))
+		if rng.randf() < 0.4: # Шип на платформе
+			_spawn_obj("spike", Vector2(x + pw/2, py - spike_h), Vector2(spike_w, spike_h))
+
+func _spawn_obj(kind: String, pos: Vector2, sz: Vector2):
+	var obj: Control
+	if kind == "spike" and spike_scene:
+		obj = spike_scene.instantiate()
 	else:
-		# Пустой промежуток
-		last_obj_width = 150.0
-
-	# ВАЖНО: теперь отодвигаем следующий спавн на ширину текущего объекта + рандомный зазор
-	spawn_dist_left = last_obj_width + rng.randf_range(180.0, 300.0)
-
-func _spawn_platform(x: float, y: float, w: float, h: float) -> ColorRect:
-	var c := ColorRect.new()
-	c.color = Color.WHITE
-	c.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	c.size = Vector2(w, h)
-	c.position = Vector2(x, y)
-	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	c.z_index = 4
-	c.size_flags_horizontal = 0
-	c.size_flags_vertical = 0
-	c.set_meta("kind", "platform")
-	obstacles_holder.add_child(c)
-	return c
-
-func _spawn_spike(x: float, y: float, w: float, h: float):
-	var s: Control
-
-	if spike_scene:
-		s = spike_scene.instantiate()
-	else:
-		var c := ColorRect.new()
-		c.color = Color(1, 1, 1)
-		s = c
-
-	s.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	s.size = Vector2(w, h)
-	s.position = Vector2(x, y)
-	s.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	s.z_index = 6
-	s.size_flags_horizontal = 0
-	s.size_flags_vertical = 0
-	s.set_meta("kind", "spike")
-
-	# если это Spike.gd — направление вверх
-	if s is Spike:
-		(s as Spike).direction = 1
-		(s as Spike).queue_redraw()
-
-	obstacles_holder.add_child(s)
-
-# ----------------------------
-# Коллизии
-# ----------------------------
+		obj = ColorRect.new()
+		obj.color = Color.WHITE if kind == "platform" else Color.RED
+	
+	obj.size = sz
+	obj.position = pos
+	obj.set_meta("kind", kind)
+	obstacles_holder.add_child(obj)
 
 func handle_landing(prev_y: float) -> bool:
-	var p_size = player.size
-	var prev_bottom = prev_y + p_size.y
-	var curr_bottom = player.position.y + p_size.y
-
-	var p_rect = player_rect_local(false)
-
+	var p_rect = Rect2(player.position, player.size)
 	for obs in obstacles_holder.get_children():
-		if obs.get_meta("kind", "") != "platform":
-			continue
-
-		var o_rect = rect_local_of(obs)
-
-		# x overlap
-		var x_overlap = (p_rect.position.x < o_rect.position.x + o_rect.size.x) and \
-						(p_rect.position.x + p_rect.size.x > o_rect.position.x)
-		if not x_overlap:
-			continue
-
-		var platform_top = o_rect.position.y
-
-		# падали сверху и пересекли верх платформы
-		if prev_bottom <= platform_top and curr_bottom >= platform_top:
-			player.position.y = platform_top - p_size.y
-			return true
-
+		if obs.get_meta("kind", "") != "platform": continue
+		var o_rect = Rect2(obs.position, obs.size)
+		# Проверка: были над платформой, стали под её уровнем
+		if p_rect.position.x < o_rect.end.x and p_rect.end.x > o_rect.position.x:
+			if (prev_y + player.size.y) <= o_rect.position.y and p_rect.end.y >= o_rect.position.y:
+				player.position.y = o_rect.position.y - player.size.y
+				return true
 	return false
 
-func handle_side_pushback():
-	var p = player_rect_local(false)
-
+func handle_side_collision() -> bool:
+	var p_rect = Rect2(player.position + Vector2(2, 2), player.size - Vector2(4, 8))
 	for obs in obstacles_holder.get_children():
-		if obs.get_meta("kind", "") != "platform":
-			continue
-
-		var o = rect_local_of(obs)
-		if not p.intersects(o):
-			continue
-
-		# если стоим на платформе — не пушим
-		var p_bottom = p.position.y + p.size.y
-		var o_top = o.position.y
-		var standing = abs(p_bottom - o_top) <= 2.0
-		if standing:
-			continue
-
-		# push влево на глубину пересечения
-		var p_right = p.position.x + p.size.x
-		var o_left = o.position.x
-		var overlap_x = p_right - o_left
-		if overlap_x > 0.0 and overlap_x < 100.0:
-			_finish(true, base_damage)
+		if obs.get_meta("kind", "") != "platform": continue
+		if p_rect.intersects(Rect2(obs.position, obs.size)):
+			return true # Врезался в бок платформы
+	return false
 
 func check_spike_hit() -> bool:
-	var p_rect = player_rect_local(true)
-
+	var p_rect = Rect2(player.position + Vector2(4, 4), player.size - Vector2(8, 8))
 	for obs in obstacles_holder.get_children():
-		if obs.get_meta("kind", "") != "spike":
-			continue
-		var o = rect_local_of(obs)
-		# небольшая “щадящая” корректировка
-		o.size.y = max(0.0, o.size.y - 2.0)
-		if p_rect.intersects(o):
-			return true
-
+		if obs.get_meta("kind", "") == "spike":
+			if p_rect.intersects(Rect2(obs.position, obs.size)): return true
 	return false
-
-# ----------------------------
-# Завершение / утилиты
-# ----------------------------
 
 func _finish(hit: bool, damage: int):
 	is_active = false
 	set_process(false)
-	
-	if hit:
-		info.text = "HIT!"
-	else:
-		info.text = "SAFE!"
-	
-	finished.emit({
-		"success": not hit,
-		"damage": damage,
-		"survived_time": t
-	})
-
-
+	info.text = "HIT!" if hit else "SAFE!"
+	finished.emit({"success": not hit, "damage": damage})
 	await get_tree().create_timer(0.6).timeout
-	info.text = ""
 	visible = false
 
 func clear_obstacles():
-	for c in obstacles_holder.get_children():
-		c.queue_free()
+	for c in obstacles_holder.get_children(): c.queue_free()
