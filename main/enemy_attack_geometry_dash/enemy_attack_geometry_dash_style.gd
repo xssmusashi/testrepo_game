@@ -109,47 +109,29 @@ func _process(delta):
 	t += delta
 	var speed = base_speed + speed_growth * t
 
-	# 1) движение препятствий
+	# 1) Движение препятствий
 	for obs in obstacles_holder.get_children():
 		obs.position.x -= speed * delta
 		if obs.position.x < -obs.size.x - 240:
 			obs.queue_free()
 
-	# 2) спавн сегментов
+	# 2) Спавн сегментов
 	spawn_dist_left -= speed * delta
 	if spawn_dist_left <= 0.0:
 		spawn_segment(play_area.size.x + 200.0)
-		spawn_dist_left = float(rng.randi_range(220, 380))
+		# Дистанция между препятствиями теперь зависит от скорости
+		spawn_dist_left = rng.randf_range(250, 400) 
 
-	# 3) физика игрока (Y)
+	# 3) Физика игрока (Y) - ТОЛЬКО ОДИН РАЗ
 	var prev_y := player.position.y
-
 	v_y += gravity * delta
 	player.position.y += v_y * delta
 
-	# 3.1) приземление (если падаем)
-	if v_y >= 0.0:
-		if handle_landing(prev_y):
-			v_y = 0.0
-			on_ground = true
-		else:
-			var gy := get_ground_y()
-			if player.position.y >= gy:
-				player.position.y = gy
-				v_y = 0.0
-				on_ground = true
-			else:
-				on_ground = false
-	else:
-		on_ground = false
-
-	v_y += gravity * delta
-	player.position.y += v_y * delta
-
-	# ВРАЩЕНИЕ: если не на земле, крутим спрайт игрока
+	# ВРАЩЕНИЕ: крутим куб только когда он в воздухе
 	if not on_ground:
 		player.rotation_degrees += rotation_speed * delta
-	
+
+	# Обработка приземления
 	if v_y >= 0.0:
 		if handle_landing(prev_y):
 			_align_player_to_grid() # Выравниваем при посадке
@@ -159,25 +141,22 @@ func _process(delta):
 			var gy := get_ground_y()
 			if player.position.y >= gy:
 				player.position.y = gy
-				_align_player_to_grid() # Выравниваем при посадке на пол
+				_align_player_to_grid()
 				v_y = 0.0
 				on_ground = true
 			else:
 				on_ground = false
+	else:
+		on_ground = false
 
-	# 3.2) боковые упоры об платформы (не смерть)
+	# 4) Столкновения
 	handle_side_pushback()
-
-	# 4) шипы убивают
 	if check_spike_hit():
 		_finish(true, base_damage)
 		return
 
-	# 5) победа по времени
 	if t >= duration:
 		_finish(false, 0)
-		return
-
 # ----------------------------
 # Геометрия / rect helpers
 # ----------------------------

@@ -33,6 +33,7 @@ mouse_filter = 2
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 1
 
 [node name="SlashTrail" type="Line2D" parent="PlayArea"]
 width = 5.0
