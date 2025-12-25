@@ -3,8 +3,8 @@ extends CharacterBody2D
 @export var speed: float = 200.0
 @onready var anim = $AnimatedSprite2D
 
-@onready var interact_detector = $InteractDetector
-@onready var interact_prompt = $InteractPrompt
+@onready var interact_detector = %InteractDetector
+@onready var interact_prompt = %InteractPrompt
 
 @onready var inventory: Inventory = $Inventory
 
@@ -19,7 +19,8 @@ func _physics_process(_delta):
 	_handle_movement()
 
 	if Input.is_action_just_pressed("interact") and current_interactable:
-		current_interactable.interact()
+			print("Нажата E! Вызываю interact() у: ", current_interactable.name)
+			current_interactable.interact()
 
 func _handle_movement():
 	var direction = Input.get_vector("left", "right", "up", "down")
@@ -33,12 +34,18 @@ func _handle_movement():
 	move_and_slide()
 
 func _on_area_entered(area):
-	if area.has_method("interact"):
-		current_interactable = area
+	# Проверяем и саму область, и её родителя
+	var target = area
+	if not target.has_method("interact"):
+		target = area.get_parent()
+	
+	if target.has_method("interact"):
+		current_interactable = target
 		interact_prompt.visible = true
+		print("Объект найден: ", target.name)
 
 func _on_area_exited(area):
-	if current_interactable == area:
+	if current_interactable == area or current_interactable == area.get_parent():
 		current_interactable = null
 		interact_prompt.visible = false
 

@@ -26,7 +26,12 @@ func _on_timer_timeout():
 		timer.stop()
 
 func _input(event):
-	if event.is_action_just_pressed("interact") and visible:
+	# Используем is_action_pressed вместо is_action_just_pressed
+	if event.is_action_pressed("interact") and visible:
+		# Добавляем проверку, чтобы не срабатывало при зажатии (echo)
+		if event.is_echo(): 
+			return
+			
 		if text_label.visible_characters < text_label.text.length():
 			text_label.visible_characters = text_label.text.length() # Пропустить анимацию
 		else:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://bxfmuy5jnbvex"]
+[gd_scene load_steps=22 format=4 uid="uid://bxfmuy5jnbvex"]
 
 [ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png" id="1_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player/player.tscn" id="2_0xm2m"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c2dfxccqyyxac" path="res://main/locations/forest_1/forest_1_obstacles/forest_green_tree.tscn" id="4_kfbq2"]
 [ext_resource type="PackedScene" uid="uid://b4h6p3icfel7" path="res://main/locations/forest_1/forest_1_obstacles/forest_house.tscn" id="7_4dugh"]
 [ext_resource type="PackedScene" uid="uid://cyefg7o2picp0" path="res://main/enemies/glorb_frog/enemy_glorb_frog.tscn" id="8_67ri8"]
+[ext_resource type="PackedScene" uid="uid://coi3renlv8qbw" path="res://main/dialogue_ui/dialogue_ui.tscn" id="9_grrlh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4dugh"]
 texture = ExtResource("1_3wy1v")
@@ -65,6 +66,8 @@ size = Vector2(1932.5, 1170)
 
 [node name="Main" type="Node2D"]
 y_sort_enabled = true
+
+[node name="DialogueUi" parent="." instance=ExtResource("9_grrlh")]
 
 [node name="Ground" type="TileMapLayer" parent="."]
 z_index = -1
