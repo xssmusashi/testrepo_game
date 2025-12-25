@@ -34,7 +34,7 @@ func _handle_movement():
 	move_and_slide()
 
 func _on_area_entered(area):
-	# Проверяем и саму область, и её родителя
+	# Проверяем метод у области ИЛИ у её родителя (самой жабы)
 	var target = area
 	if not target.has_method("interact"):
 		target = area.get_parent()
@@ -42,9 +42,10 @@ func _on_area_entered(area):
 	if target.has_method("interact"):
 		current_interactable = target
 		interact_prompt.visible = true
-		print("Объект найден: ", target.name)
+		print("Готов к диалогу с: ", target.name)
 
 func _on_area_exited(area):
+	# Проверяем и область, и родителя при выходе
 	if current_interactable == area or current_interactable == area.get_parent():
 		current_interactable = null
 		interact_prompt.visible = false

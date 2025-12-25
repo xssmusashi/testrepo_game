@@ -6,8 +6,9 @@
 script = ExtResource("1_63tg4")
 
 [node name="Panel" type="Panel" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_top = 379.0
+offset_right = 1152.0
+offset_bottom = 668.0
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
@@ -16,7 +17,10 @@ offset_bottom = 23.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 11.0
+offset_top = 44.0
+offset_right = 1163.0
+offset_bottom = 333.0
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 0.1

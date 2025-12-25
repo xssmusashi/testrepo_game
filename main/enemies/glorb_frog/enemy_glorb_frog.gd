@@ -4,15 +4,11 @@ extends Node2D
 @onready var dialogue_ui = get_tree().root.find_child("DialogueUI", true, false)
 
 func interact():
-	# Когда игрок нажал E, запускаем диалог
 	if dialogue_ui:
+		print("Запускаю диалог...")
 		dialogue_ui.start_dialogue(dialogue_lines)
-		push_error("DialogueUI не найден в дереве сцен!")
-		# Ждем сигнала окончания диалога, чтобы начать бой
-		if not dialogue_ui.dialogue_finished.is_connected(_start_battle):
-			dialogue_ui.dialogue_finished.connect(_start_battle, CONNECT_ONE_SHOT)
 	else:
-		push_error("DialogueUI не найден в дереве сцен!")
+		print("ОШИБКА: DialogueUI не найден!")
 
 func _start_battle():
 	# Переходим в сцену боя (battle.tscn)
