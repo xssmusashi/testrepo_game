@@ -3,9 +3,8 @@ extends Control
 signal finished(result: Dictionary)
 
 @export_group("Movement")
-@export var base_speed: float = 150.0 # Быстрее, чем было
-@export var randomness_factor: float = 0.8
-@export var change_dir_time: float = 0.5 # Как часто меняет вектор
+@export var base_speed: float = 250.0 
+@export var change_dir_time: float = 0.5
 
 @export_group("Mechanics")
 @export var stability_drain: float = 45.0
@@ -14,8 +13,8 @@ signal finished(result: Dictionary)
 
 var is_active := false
 var time_left := 10.0
-var max_duration := 1000.0
-var stability := 10000.0
+var max_duration := 10.0
+var stability := 100.0
 var current_velocity := Vector2.ZERO
 var dir_change_timer := 0.0
 
@@ -27,13 +26,11 @@ var dir_change_timer := 0.0
 
 func _ready():
 	visible = false
-	# Настройка визуальных размеров
+	# Настройка размеров
 	focus_circle.custom_minimum_size = Vector2(focus_radius * 2, focus_radius * 2)
 	focus_circle.pivot_offset = Vector2(focus_radius, focus_radius)
-	
-	# ТЕПЕРЬ: Скрываем системный курсор и всегда показываем свой
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-	crosshair.visible = true
+	# Мышь здесь НЕ скрываем, чтобы она была видна в меню/интерфейсе
+	crosshair.visible = false
 
 func start(ctx: Dictionary = {}):
 	max_duration = ctx.get("duration", 10.0)
@@ -41,26 +38,58 @@ func start(ctx: Dictionary = {}):
 	stability = 100.0
 	visible = true
 	is_active = true
+	
+	# СКРЫВАЕМ системный курсор только когда игра началась
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	crosshair.visible = true
+	
+	# РАНДОМНЫЙ СПАВН КРУГА
+	var area_size = play_area.get_rect().size
+	var margin = focus_radius * 2
+	focus_circle.position = Vector2(
+		randf_range(0, area_size.x - margin),
+		randf_range(0, area_size.y - margin)
+	)
+	
 	_pick_random_velocity()
 
 func _process(delta: float):
 	if not is_active: return
 	
-	# 1. Круговой таймер (исчезает по часовой стрелке)
+	crosshair.global_position = get_global_mouse_position()
+	
 	time_left -= delta
 	timer_progress.value = (time_left / max_duration) * 100.0
 	
-	# 2. Управление прицелом (ЛКМ)
-	_handle_input()
-	
-	# 3. Рандомное движение цели
 	_move_target(delta)
-	
-	# 4. Проверка условий
 	_check_focus(delta)
 	
 	if stability <= 0: _finish(true)
 	elif time_left <= 0: _finish(false)
+
+func _check_focus(delta: float):
+	# Считаем расстояние между центрами в глобальных координатах
+	var circle_center = focus_circle.global_position + (focus_circle.size * 0.5)
+	var dist = crosshair.global_position.distance_to(circle_center)
+	
+	if dist <= focus_radius:
+		stability = move_toward(stability, 100.0, stability_recovery * delta)
+		focus_circle.modulate = Color.GREEN # Свечение Cyan (если текстура белая)
+	else:
+		stability -= stability_drain * delta
+		focus_circle.modulate = Color.RED
+		
+	
+	stability_bar.value = stability
+
+func _finish(was_hit: bool):
+	is_active = false
+	visible = false
+	# ВОЗВРАЩАЕМ системный курсор, когда игра закончилась
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	crosshair.visible = false
+	
+	finished.emit({"success": not was_hit, "damage": 25 if was_hit else 0})
 
 func _handle_input():
 	# ВМЕСТО get_global_mouse_position() используем позицию на экране:
@@ -89,35 +118,3 @@ func _pick_random_velocity():
 	var angle = randf() * TAU
 	var speed_mod = randf_range(0.8, 1.5)
 	current_velocity = Vector2.from_angle(angle) * base_speed * speed_mod
-
-func _check_focus(delta: float):
-	# 1. Находим центр круга в координатах МИРА
-	var world_circle_center = focus_circle.global_position + (focus_circle.size * 0.5)
-	
-	# 2. Переводим эту точку в координаты ЭКРАНА
-	# Для этого нам нужен CanvasTransform (трансформация текущего вьюпорта)
-	var screen_circle_center = get_viewport_transform() * world_circle_center
-	
-	# 3. Позиция крестика на ЭКРАНЕ (он уже там)
-	var crosshair_screen_pos = crosshair.position 
-	
-	# 4. Теперь можно честно считать дистанцию
-	var dist = crosshair_screen_pos.distance_to(screen_circle_center)
-	
-	# Дальше ваш код без изменений
-	if dist <= focus_radius:
-		stability = move_toward(stability, 100.0, stability_recovery * delta)
-		focus_circle.modulate = Color.CYAN
-	else:
-		stability -= stability_drain * delta
-		focus_circle.modulate = Color.RED
-	
-	stability_bar.value = stability
-
-func _finish(was_hit: bool):
-	is_active = false
-	visible = false
-	# Возвращаем стандартный курсор
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE 
-	
-	finished.emit({"success": not was_hit, "damage": 25 if was_hit else 0})
