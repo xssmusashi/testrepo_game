@@ -30,9 +30,12 @@ offset_bottom = 40.0
 mouse_filter = 2
 
 [node name="FruitContainer" type="Control" parent="PlayArea"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 1
 
 [node name="SlashTrail" type="Line2D" parent="PlayArea"]
@@ -44,13 +47,16 @@ end_cap_mode = 2
 
 [node name="SpawnTimer" type="Timer" parent="PlayArea"]
 
-[node name="HUD" type="CanvasLayer" parent="PlayArea"]
+[node name="HUD" type="Control" parent="PlayArea"]
+anchors_preset = 0
 
 [node name="Label" type="Label" parent="PlayArea/HUD"]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="TimeLabel" type="Label" parent="PlayArea/HUD"]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 

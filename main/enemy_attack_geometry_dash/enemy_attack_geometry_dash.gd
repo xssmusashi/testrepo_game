@@ -103,7 +103,8 @@ func _unhandled_input(event):
 		on_ground = false
 
 func _process(delta):
-	if not is_active: return
+	if not is_active:
+		return
 
 	t += delta
 	var speed = base_speed + speed_growth * t
@@ -114,77 +115,25 @@ func _process(delta):
 		if obs.position.x < -obs.size.x - 240:
 			obs.queue_free()
 
-	# 2) Спавн сегментов (с зазором, зависящим от скорости)
+	# 2) Спавн
 	spawn_dist_left -= speed * delta
 	if spawn_dist_left <= 0.0:
 		spawn_segment(play_area.size.x + 200.0)
-		spawn_dist_left = rng.randf_range(280, 450)
+		spawn_dist_left = rng.randf_range(280, 450) # Увеличили зазор для скорости
 
-	# 3) Физика игрока - ОСТАВЛЯЕМ ТОЛЬКО ОДИН РАСЧЕТ
+	# 3) ФИЗИКА (Убрали дубликаты!)
 	var prev_y := player.position.y
 	v_y += gravity * delta
 	player.position.y += v_y * delta
 
-	# Вращение куба в воздухе
+	# Вращение
 	if not on_ground:
 		player.rotation_degrees += rotation_speed * delta
-
-	# 3.1) Приземление
-	if v_y >= 0.0: # Только если падаем вниз
-		if handle_landing(prev_y):
-			_align_player_to_grid() # Выравниваем по завершении прыжка
-			v_y = 0.0
-			on_ground = true
-		else:
-			var gy := get_ground_y()
-			if player.position.y >= gy:
-				player.position.y = gy
-				_align_player_to_grid()
-				v_y = 0.0
-				on_ground = true
-			else:
-				on_ground = false
-	else:
-		on_ground = false
-
-	# 3.2) Коллизии и условия конца
-	handle_side_pushback()
-	if check_spike_hit():
-		_finish(true, base_damage)
-		return
-
-	if t >= duration:
-		_finish(false, 0)
-	if not is_active:
-		return
-
-	t += delta
-
-	# 1) Движение препятствий
-	for obs in obstacles_holder.get_children():
-		obs.position.x -= speed * delta
-		if obs.position.x < -obs.size.x - 240:
-			obs.queue_free()
-
-	# 2) Спавн сегментов
-	spawn_dist_left -= speed * delta
-	if spawn_dist_left <= 0.0:
-		spawn_segment(play_area.size.x + 200.0)
-		# Дистанция между препятствиями теперь зависит от скорости
-		spawn_dist_left = rng.randf_range(250, 400) 
-
-	# 3) Физика игрока (Y) - ТОЛЬКО ОДИН РАЗ
-	v_y += gravity * delta
-	player.position.y += v_y * delta
-
-	# ВРАЩЕНИЕ: крутим куб только когда он в воздухе
-	if not on_ground:
-		player.rotation_degrees += rotation_speed * delta
-
-	# Обработка приземления
+	
+	# Приземление
 	if v_y >= 0.0:
 		if handle_landing(prev_y):
-			_align_player_to_grid() # Выравниваем при посадке
+			_align_player_to_grid()
 			v_y = 0.0
 			on_ground = true
 		else:
@@ -194,22 +143,14 @@ func _process(delta):
 				_align_player_to_grid()
 				v_y = 0.0
 				on_ground = true
-			else:
-				on_ground = false
-	else:
-		on_ground = false
-
-	# 4) Столкновения
+	
+	# Столкновения
 	handle_side_pushback()
 	if check_spike_hit():
 		_finish(true, base_damage)
-		return
 
 	if t >= duration:
 		_finish(false, 0)
-# ----------------------------
-# Геометрия / rect helpers
-# ----------------------------
 
 func _align_player_to_grid():
 	var current_rot = player.rotation_degrees

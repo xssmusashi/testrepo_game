@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://duq3wnc6qhgw1"]
 
-[ext_resource type="Script" uid="uid://bwvnsyd2iy2dm" path="res://main/enemy_attack_geometry_dash/enemy_attack_geometry_dash_style.gd" id="1_mliec"]
+[ext_resource type="Script" uid="uid://bwvnsyd2iy2dm" path="res://main/enemy_attack_geometry_dash/enemy_attack_geometry_dash.gd" id="1_mliec"]
 [ext_resource type="PackedScene" uid="uid://bis3etku74iqv" path="res://main/enemy_attack_geometry_dash/spike.tscn" id="2_fytqf"]
 
-[node name="EnemyAttack_geometry_dash_style" type="Control"]
+[node name="EnemyAttackGeometryDash" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

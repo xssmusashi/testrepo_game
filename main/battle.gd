@@ -2,7 +2,7 @@ extends CanvasLayer
 
 @onready var player_attack_game = %PlayerAttack 
 @onready var attack_button = $VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Attack
-@onready var enemy_attack_geometry_dash = %EnemyAttack_geometry_dash_style
+@onready var enemy_attack_geometry_dash = %EnemyAttackGeometryDash
 @onready var enemy_attack_fruit_slash = %EnemyAttackFruitSlasher
 
 @onready var inventory_button = $VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Inventory
@@ -14,8 +14,8 @@ extends CanvasLayer
 var attack_running := false
 
 func _ready():
-	if enemy_attack_fruit_slash:
-		enemy_attack_fruit_slash.finished.connect(_on_enemy_attack_finished)
+	if enemy_attack_geometry_dash:
+		enemy_attack_geometry_dash.finished.connect(_on_enemy_attack_finished)
 	if player_attack_game:
 		player_attack_game.attack_finished.connect(_on_player_attack_finished)
 
@@ -54,7 +54,7 @@ func _on_player_attack_finished(_multiplier):
 
 func test_enemy_attack():
 	disable_buttons()
-	enemy_attack_fruit_slash.start({ "damage": 12, "duration": 12.0 })
+	enemy_attack_geometry_dash.start({ "damage": 12, "duration": 12.0 })
 
 func _on_enemy_attack_finished(result: Dictionary):
 	enable_buttons()
