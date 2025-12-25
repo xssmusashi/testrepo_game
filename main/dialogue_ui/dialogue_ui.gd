@@ -3,23 +3,26 @@ extends CanvasLayer
 signal dialogue_finished
 
 @onready var text_label = $Panel/RichTextLabel
+@onready var name_label = $Panel/NameLabel     # Узел для имени
+@onready var portrait_rect = $Panel/PanelContainer/Portrait   # Узел для портрета
 @onready var timer = $Timer
 
 var lines: Array = []
 var current_line: int = 0
 
 func _ready():
-	# ГАРАНТИРУЕМ, что сигнал таймера подключен программно
+	visible = false
+	# Гарантируем, что таймер подключен
 	if not timer.timeout.is_connected(_on_timer_timeout):
 		timer.timeout.connect(_on_timer_timeout)
-	visible = false
 
-func start_dialogue(data: Array):
+# Обновленная функция: принимает текст, имя и портрет
+func start_dialogue(data: Array, character_name: String, portrait_texture: Texture2D):
 	lines = data
 	current_line = 0
+	name_label.text = character_name        # Устанавливаем имя
+	portrait_rect.texture = portrait_texture  # Устанавливаем портрет
 	visible = true
-	# Делаем панель активной для ввода
-	set_process_input(true)
 	_show_line()
 
 func _show_line():
@@ -37,21 +40,19 @@ func _on_timer_timeout():
 		timer.stop()
 
 func _input(event):
-	# Правильная проверка нажатия для функции _input
-	if visible and event.is_action_pressed("interact") and not event.is_echo():
+	# Проверяем нажатие "Enter" (ui_accept) или "E" (interact)
+	var is_action = event.is_action_pressed("ui_accept") or event.is_action_pressed("interact")
+	
+	if visible and is_action and not event.is_echo():
 		if text_label.visible_characters < text_label.text.length():
-			# Если текст еще печатается — показываем его мгновенно
+			# Если текст еще печатается — показываем его сразу
 			text_label.visible_characters = text_label.text.length()
 			timer.stop()
 		else:
-			# Если текст уже весь — переходим к следующей строке
+			# Если текст закончен — переходим к следующей строке
 			current_line += 1
-			if current_line < lines.size():
-				_show_line()
-			else:
-				_close_dialogue()
+			_show_line()
 
 func _close_dialogue():
 	visible = false
-	set_process_input(false)
-	dialogue_finished.emit()
+	dialogue_finished.emit() # Сигнал для врага, чтобы начать бой

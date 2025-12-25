@@ -1,26 +1,94 @@
-[gd_scene load_steps=2 format=3 uid="uid://coi3renlv8qbw"]
+[gd_scene load_steps=7 format=3 uid="uid://coi3renlv8qbw"]
 
 [ext_resource type="Script" uid="uid://cr5pf5fw1hxtt" path="res://main/dialogue_ui/dialogue_ui.gd" id="1_63tg4"]
+[ext_resource type="FontFile" uid="uid://figoqy7xtpx5" path="res://PressStart2P-Regular.ttf" id="2_3njn6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3f6iu"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4jbym"]
+font = ExtResource("2_3njn6")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_63tg4"]
+bg_color = Color(0.27058825, 0.27058825, 0.27058825, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3njn6"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
 
 [node name="DialogueUi" type="CanvasLayer"]
 script = ExtResource("1_63tg4")
 
 [node name="Panel" type="Panel" parent="."]
-offset_top = 379.0
-offset_right = 1152.0
-offset_bottom = 668.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -155.0
+offset_right = 576.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Panel"]
+[node name="NameLabel" type="Label" parent="Panel"]
+custom_minimum_size = Vector2(160, 20)
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_top = -1.0
+offset_right = 164.0
+offset_bottom = 26.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_3f6iu")
+label_settings = SubResource("LabelSettings_4jbym")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
-layout_mode = 0
-offset_left = 11.0
-offset_top = 44.0
-offset_right = 1163.0
-offset_bottom = 333.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -414.0
+offset_top = -164.0
+offset_right = 576.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_63tg4")
+fit_content = true
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -164.0
+offset_right = 164.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_3njn6")
+
+[node name="Portrait" type="TextureRect" parent="Panel/PanelContainer"]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.1
