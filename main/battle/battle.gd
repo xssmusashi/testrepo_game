@@ -1,14 +1,14 @@
 extends CanvasLayer
 
 @onready var player_attack_game = %PlayerAttack 
-@onready var attack_button = $VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Attack
+@onready var attack_button = $VBoxContainer/ActionsPanel/Attack
 @onready var enemy_attack_geometry_dash = %EnemyAttackGeometryDash
 @onready var enemy_attack_fruit_slash = %EnemyAttackFruitSlasher
 @onready var enemy_attack_shield_orbit = %EnemyAttackShieldOrbit
 
-@onready var inventory_button = $VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Inventory
-@onready var say_button = $VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Say
-@onready var hack_button = $VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Hack
+@onready var inventory_button = $VBoxContainer/ActionsPanel/Inventory
+@onready var say_button = $VBoxContainer/ActionsPanel/Say
+@onready var hack_button = $VBoxContainer/ActionsPanel/Hack
 @onready var inventory_ui = $VBoxContainer/InventoryUI
 
 @onready var enemy_attack = enemy_attack_fruit_slash

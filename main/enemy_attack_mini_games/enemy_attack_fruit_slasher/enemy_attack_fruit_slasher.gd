@@ -42,7 +42,14 @@ func _update_slash_trail() -> void:
 
 func _on_spawn_timer_timeout() -> void:
 	if not is_active: return
-	var count = randi_range(1, 10)
+	
+	# Усложнение: чем меньше времени осталось, тем больше фруктов
+	var difficulty_modifier = 1.0 + (12.0 - time_left) / 10.0
+	var count = randi_range(1, int(2 * difficulty_modifier))
+	
+	# Ускоряем сам таймер постепенно
+	spawn_timer.wait_time = max(0.4, 0.8 - (12.0 - time_left) * 0.03)
+	
 	for i in count:
 		_spawn_random_fruit()
 		await get_tree().create_timer(0.1).timeout
@@ -71,8 +78,13 @@ func _spawn_random_fruit() -> void:
 	var target_x = fruit.position.x + randf_range(-150, 150)
 	var peak_y = randf_range(h * 0.2, h * 0.5)
 	
+	var rotation_tween = create_tween().set_loops()
+	rotation_tween.tween_property(fruit, "rotation_degrees", 360, randf_range(1.0, 2.0))
+	
+	var flight_time = randf_range(1, 2)
+	
 	var tw_x = create_tween()
-	tw_x.tween_property(fruit, "position:x", target_x, 1.6).set_trans(Tween.TRANS_LINEAR)
+	tw_x.tween_property(fruit, "position:x", target_x, flight_time).set_trans(Tween.TRANS_LINEAR)
 	
 	var tw_y = create_tween()
 	tw_y.tween_property(fruit, "position:y", peak_y, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)

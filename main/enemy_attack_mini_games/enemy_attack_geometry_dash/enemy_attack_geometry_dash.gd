@@ -11,8 +11,8 @@ signal finished(result: Dictionary)
 
 # --- Параметры объектов ---
 @export var platform_h: float = 20.0
-@export var spike_w: float = 18.0
-@export var spike_h: float = 26.0
+@export var spike_w: float = 32.0
+@export var spike_h: float = 32.0
 
 # --- Физика и Скорость ---
 @export var duration: float = 12.0
@@ -175,11 +175,22 @@ func handle_landing(prev_y: float) -> bool:
 	return false
 
 func handle_side_collision() -> bool:
-	var p_rect = Rect2(player.position + Vector2(2, 2), player.size - Vector2(4, 8))
+	var p = Rect2(player.position, player.size)
+	# Сужаем хитбокс игрока для "честности"
+	var p_hitbox = p.grow_individual(-4, -2, -4, -2) 
+
 	for obs in obstacles_holder.get_children():
 		if obs.get_meta("kind", "") != "platform": continue
-		if p_rect.intersects(Rect2(obs.position, obs.size)):
-			return true # Врезался в бок платформы
+		var o = Rect2(obs.position, obs.size)
+		
+		if p_hitbox.intersects(o):
+			# Проверка: если мы ударились головой (мы ниже верха платформы)
+			# И наш правый бок зашел за левый бок платформы
+			var is_hitting_wall = p_hitbox.end.x > o.position.x + 5 and p_hitbox.position.y > o.position.y - 5
+			
+			# Если мы НЕ наступили сверху (landing), а пересекаемся сбоку
+			if is_hitting_wall:
+				return true
 	return false
 
 func check_spike_hit() -> bool:
@@ -198,4 +209,4 @@ func _finish(hit: bool, damage: int):
 	visible = false
 
 func clear_obstacles():
-	for c in obstacles_holder.get_children(): c.queue_free()
+	for c in obstacles_holder.get_children(): c.queue_free() 

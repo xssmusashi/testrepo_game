@@ -1,7 +1,6 @@
-[gd_scene load_steps=29 format=3 uid="uid://dajsoxawargk1"]
+[gd_scene load_steps=20 format=3 uid="uid://dajsoxawargk1"]
 
 [ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle/battle.gd" id="1_ip7xm"]
-[ext_resource type="PackedScene" uid="uid://cxy262yld4soa" path="res://main/inventory/inventory_ui.tscn" id="2_c6s1a"]
 [ext_resource type="Texture2D" uid="uid://cc1tayp6vmxrl" path="res://main/main_hero/main_hero_face.png" id="2_oxp8w"]
 [ext_resource type="FontFile" uid="uid://figoqy7xtpx5" path="res://PressStart2P-Regular.ttf" id="2_vkqg8"]
 [ext_resource type="PackedScene" uid="uid://de37unrvy5g8p" path="res://main/battle/player_attack.tscn" id="3_7sfm4"]
@@ -13,39 +12,17 @@
 [ext_resource type="PackedScene" uid="uid://bh0uaqro0rbyo" path="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/enemy_attack_fruit_slasher.tscn" id="8_xav1o"]
 [ext_resource type="PackedScene" uid="uid://cj1naildc5r7d" path="res://main/enemy_attack_mini_games/enemy_attack_shield_orbit/enemy_attack_shield_orbit.tscn" id="10_xav1o"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7sfm4"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_xav1o"]
+[sub_resource type="LabelSettings" id="LabelSettings_yv0sx"]
 font = ExtResource("2_vkqg8")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i431l"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oxp8w"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_18tdr"]
 bg_color = Color(1, 0, 0, 1)
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color(1, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_is2p5"]
-line_spacing = 0.0
-font = ExtResource("2_vkqg8")
-font_size = 20
-shadow_size = 0
-shadow_offset = Vector2(0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0npn6"]
 bg_color = Color(1, 0, 0, 1)
@@ -93,31 +70,6 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mhv3b"]
-bg_color = Color(1, 1, 1, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6t8i5"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dw4jg"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_gapho"]
-font = ExtResource("2_vkqg8")
-
-[sub_resource type="LabelSettings" id="LabelSettings_ouvwj"]
-font = ExtResource("2_vkqg8")
-
 [node name="Battle" type="CanvasLayer"]
 script = ExtResource("1_ip7xm")
 
@@ -139,70 +91,103 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MainPanel" type="HBoxContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 250)
+[node name="TopPanel" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 6
 
-[node name="You" type="PanelContainer" parent="VBoxContainer/MainPanel"]
+[node name="PlayerBox" type="VBoxContainer" parent="VBoxContainer/TopPanel"]
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_7sfm4")
 
-[node name="PanelContainer2" type="VBoxContainer" parent="VBoxContainer/MainPanel/You"]
+[node name="Portrait" type="TextureRect" parent="VBoxContainer/TopPanel/PlayerBox"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 3
-
-[node name="NameLabel" type="Label" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
-layout_mode = 2
-size_flags_vertical = 10
-text = "YOU"
-label_settings = SubResource("LabelSettings_xav1o")
-horizontal_alignment = 1
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_i431l")
-
-[node name="Portrait" type="TextureRect" parent="VBoxContainer/MainPanel/You/PanelContainer2/PanelContainer"]
-custom_minimum_size = Vector2(192, 192)
-layout_mode = 2
-size_flags_horizontal = 0
 texture = ExtResource("2_oxp8w")
-expand_mode = 1
-stretch_mode = 5
 
-[node name="HPBar" type="ProgressBar" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
+[node name="Name" type="Label" parent="VBoxContainer/TopPanel/PlayerBox"]
+layout_mode = 2
+text = "YOU"
+label_settings = SubResource("LabelSettings_yv0sx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HPBar" type="ProgressBar" parent="VBoxContainer/TopPanel/PlayerBox"]
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_18tdr")
+value = 100.0
+
+[node name="Spacer" type="Control" parent="VBoxContainer/TopPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnemyBox" type="VBoxContainer" parent="VBoxContainer/TopPanel"]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="VBoxContainer/TopPanel/EnemyBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VBoxContainer/TopPanel/EnemyBox"]
+layout_mode = 2
+
+[node name="HPBar" type="ProgressBar" parent="VBoxContainer/TopPanel/EnemyBox"]
+layout_mode = 2
+fill_mode = 1
+
+[node name="Arena" type="Control" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.0
-theme_override_styles/fill = SubResource("StyleBoxFlat_oxp8w")
-value = 100.0
-show_percentage = false
 
-[node name="Label" type="Label" parent="VBoxContainer/MainPanel/You/PanelContainer2/HPBar"]
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Arena"]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 28.0
-offset_top = 1.5
-offset_right = -28.0
-offset_bottom = 1.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "100/100"
-label_settings = SubResource("LabelSettings_is2p5")
 
-[node name="FunctionButtons" type="HBoxContainer" parent="VBoxContainer/MainPanel/You/PanelContainer2"]
-custom_minimum_size = Vector2(30, 0)
+[node name="GameViewport" type="Control" parent="VBoxContainer/Arena"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Arena/GameViewport"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnemyAttackFruitSlasher" parent="VBoxContainer/Arena/GameViewport/PanelContainer" instance=ExtResource("8_xav1o")]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
 
-[node name="Attack" type="Button" parent="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons"]
+[node name="EnemyAttackGeometryDash" parent="VBoxContainer/Arena/GameViewport/PanelContainer" instance=ExtResource("3_o63kq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EnemyAttackShieldOrbit" parent="VBoxContainer/Arena/GameViewport/PanelContainer" instance=ExtResource("10_xav1o")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerAttack" parent="VBoxContainer/Arena/GameViewport/PanelContainer" instance=ExtResource("3_7sfm4")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="LogPanel" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/LogPanel"]
+layout_mode = 2
+
+[node name="ActionsPanel" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="Attack" type="Button" parent="VBoxContainer/ActionsPanel"]
 custom_minimum_size = Vector2(47, 46)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -211,7 +196,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_s0bho")
 icon = ExtResource("5_33lwt")
 icon_alignment = 1
 
-[node name="Inventory" type="Button" parent="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons"]
+[node name="Inventory" type="Button" parent="VBoxContainer/ActionsPanel"]
 custom_minimum_size = Vector2(47, 46)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -220,7 +205,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
 icon = ExtResource("6_c6s1a")
 icon_alignment = 1
 
-[node name="Say" type="Button" parent="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons"]
+[node name="Say" type="Button" parent="VBoxContainer/ActionsPanel"]
 custom_minimum_size = Vector2(47, 46)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -229,7 +214,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
 icon = ExtResource("7_vkqg8")
 icon_alignment = 1
 
-[node name="Hack" type="Button" parent="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons"]
+[node name="Hack" type="Button" parent="VBoxContainer/ActionsPanel"]
 custom_minimum_size = Vector2(47, 46)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -238,90 +223,5 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
 icon = ExtResource("8_is2p5")
 icon_alignment = 1
 
-[node name="BattlePanel" type="Panel" parent="VBoxContainer/MainPanel"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_mhv3b")
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MainPanel/BattlePanel"]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_6t8i5")
-
-[node name="EnemyAttackFruitSlasher" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("8_xav1o")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="EnemyAttackGeometryDash" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("3_o63kq")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="EnemyAttackShieldOrbit" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("10_xav1o")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="PlayerAttack" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("3_7sfm4")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="Enemy" type="PanelContainer" parent="VBoxContainer/MainPanel"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_dw4jg")
-
-[node name="PanelContainer3" type="VBoxContainer" parent="VBoxContainer/MainPanel/Enemy"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="NameLabel" type="Label" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3"]
-layout_mode = 2
-text = "ENEMY"
-label_settings = SubResource("LabelSettings_gapho")
-horizontal_alignment = 1
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_i431l")
-
-[node name="Portrait" type="TextureRect" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3/PanelContainer"]
-custom_minimum_size = Vector2(192, 192)
-layout_mode = 2
-texture = ExtResource("2_oxp8w")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="HPBar" type="ProgressBar" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3"]
-layout_mode = 2
-theme_override_styles/fill = SubResource("StyleBoxFlat_oxp8w")
-value = 100.0
-show_percentage = false
-
-[node name="Label" type="Label" parent="VBoxContainer/MainPanel/Enemy/PanelContainer3/HPBar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -31.0
-offset_top = -11.5
-offset_right = 31.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "100/100"
-label_settings = SubResource("LabelSettings_ouvwj")
-
-[node name="InventoryUI" parent="VBoxContainer" instance=ExtResource("2_c6s1a")]
-layout_mode = 2
-
-[connection signal="pressed" from="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Attack" to="." method="_on_attack_pressed"]
-[connection signal="pressed" from="VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Inventory" to="." method="_on_inventory_pressed"]
+[connection signal="pressed" from="VBoxContainer/ActionsPanel/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="VBoxContainer/ActionsPanel/Inventory" to="." method="_on_inventory_pressed"]
