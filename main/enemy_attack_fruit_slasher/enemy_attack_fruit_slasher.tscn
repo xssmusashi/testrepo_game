@@ -36,6 +36,7 @@ offset_bottom = 40.0
 mouse_filter = 1
 
 [node name="SlashTrail" type="Line2D" parent="PlayArea"]
+z_index = 10
 width = 5.0
 joint_mode = 2
 begin_cap_mode = 2

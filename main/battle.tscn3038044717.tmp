@@ -126,7 +126,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -261,6 +260,23 @@ layout_mode = 2
 [node name="EnemyAttack_geometry_dash_style" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("3_o63kq")]
 unique_name_in_owner = true
 layout_mode = 2
+base_damage = null
+player_size = null
+player_x = null
+platform_min_w = null
+platform_max_w = null
+platform_h = null
+low_platform_min_y_from_ground = null
+low_platform_max_y_from_ground = null
+spike_w = null
+spike_h = null
+player_hitbox_shrink = null
+duration = null
+gravity = null
+jump_velocity = null
+base_speed = null
+speed_growth = null
+rotation_speed = null
 
 [node name="PlayerAttack" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("3_7sfm4")]
 unique_name_in_owner = true

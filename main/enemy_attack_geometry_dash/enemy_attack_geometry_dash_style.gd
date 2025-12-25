@@ -35,11 +35,11 @@ signal finished(result: Dictionary)
 
 # Оптимизированные константы для драйва
 @export var duration: float = 12.0
-@export var gravity: float = 4500.0       # Снизили для более плавного полета
-@export var jump_velocity: float = -950.0  # Соотношение для прыжка через 3 шипа
-@export var base_speed: float = 450.0      # Быстрее оригинала
-@export var speed_growth: float = 15.0
-@export var rotation_speed: float = 400.0
+@export var gravity: float = 3800.0       # Снизили для "длинного" прыжка
+@export var jump_velocity: float = -1050.0 # Оптимально для перелета через 3 шипа
+@export var base_speed: float = 350.0      # Ускорили темп игры
+@export var speed_growth: float = 10.0
+@export var rotation_speed: float = 420.0
 
 # --- Состояние ---
 var is_active := false
@@ -103,11 +103,62 @@ func _unhandled_input(event):
 		on_ground = false
 
 func _process(delta):
+	if not is_active: return
+
+	t += delta
+	var speed = base_speed + speed_growth * t
+
+	# 1) Движение препятствий
+	for obs in obstacles_holder.get_children():
+		obs.position.x -= speed * delta
+		if obs.position.x < -obs.size.x - 240:
+			obs.queue_free()
+
+	# 2) Спавн сегментов (с зазором, зависящим от скорости)
+	spawn_dist_left -= speed * delta
+	if spawn_dist_left <= 0.0:
+		spawn_segment(play_area.size.x + 200.0)
+		spawn_dist_left = rng.randf_range(280, 450)
+
+	# 3) Физика игрока - ОСТАВЛЯЕМ ТОЛЬКО ОДИН РАСЧЕТ
+	var prev_y := player.position.y
+	v_y += gravity * delta
+	player.position.y += v_y * delta
+
+	# Вращение куба в воздухе
+	if not on_ground:
+		player.rotation_degrees += rotation_speed * delta
+
+	# 3.1) Приземление
+	if v_y >= 0.0: # Только если падаем вниз
+		if handle_landing(prev_y):
+			_align_player_to_grid() # Выравниваем по завершении прыжка
+			v_y = 0.0
+			on_ground = true
+		else:
+			var gy := get_ground_y()
+			if player.position.y >= gy:
+				player.position.y = gy
+				_align_player_to_grid()
+				v_y = 0.0
+				on_ground = true
+			else:
+				on_ground = false
+	else:
+		on_ground = false
+
+	# 3.2) Коллизии и условия конца
+	handle_side_pushback()
+	if check_spike_hit():
+		_finish(true, base_damage)
+		return
+
+	if t >= duration:
+		_finish(false, 0)
 	if not is_active:
 		return
 
 	t += delta
-	var speed = base_speed + speed_growth * t
 
 	# 1) Движение препятствий
 	for obs in obstacles_holder.get_children():
@@ -123,7 +174,6 @@ func _process(delta):
 		spawn_dist_left = rng.randf_range(250, 400) 
 
 	# 3) Физика игрока (Y) - ТОЛЬКО ОДИН РАЗ
-	var prev_y := player.position.y
 	v_y += gravity * delta
 	player.position.y += v_y * delta
 
