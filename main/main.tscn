@@ -1,12 +1,13 @@
-[gd_scene load_steps=20 format=4 uid="uid://bxfmuy5jnbvex"]
+[gd_scene load_steps=21 format=4 uid="uid://bxfmuy5jnbvex"]
 
 [ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png" id="1_3wy1v"]
-[ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player/player.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://3d807hvuj3ye" path="res://main/ground.gd" id="2_kfbq2"]
 [ext_resource type="PackedScene" uid="uid://denfg0mn2ullq" path="res://main/locations/forest_1/forest_1_obstacles/forest_portal.tscn" id="3_c651c"]
 [ext_resource type="PackedScene" uid="uid://bwi32u38huvjr" path="res://main/locations/forest_1/forest_1_obstacles/forest_oak_tree.tscn" id="3_xwkvk"]
 [ext_resource type="PackedScene" uid="uid://c2dfxccqyyxac" path="res://main/locations/forest_1/forest_1_obstacles/forest_green_tree.tscn" id="4_kfbq2"]
 [ext_resource type="PackedScene" uid="uid://b4h6p3icfel7" path="res://main/locations/forest_1/forest_1_obstacles/forest_house.tscn" id="7_4dugh"]
+[ext_resource type="PackedScene" uid="uid://cyefg7o2picp0" path="res://main/enemies/glorb_frog/enemy_glorb_frog.tscn" id="8_67ri8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4dugh"]
 texture = ExtResource("1_3wy1v")
@@ -114,8 +115,12 @@ position = Vector2(-2672, 3005)
 shape = SubResource("RectangleShape2D_bsumw")
 
 [node name="Player" parent="." instance=ExtResource("2_0xm2m")]
-position = Vector2(-918, 1954)
+position = Vector2(-1166, 1989)
 scale = Vector2(4, 4)
 
 [node name="BaseObstacle" parent="." instance=ExtResource("7_4dugh")]
 position = Vector2(-1495, 1871)
+
+[node name="EnemyGlorbFrog" parent="." instance=ExtResource("8_67ri8")]
+position = Vector2(-1271, 1984)
+scale = Vector2(2, 2)

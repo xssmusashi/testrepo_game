@@ -63,7 +63,14 @@ func test_enemy_attack():
 func _on_enemy_attack_finished(result: Dictionary):
 	enable_buttons()
 	if result.has("damage") and int(result["damage"]) > 0:
-		print("PLAYER TAKE DAMAGE: ", result["damage"])
+		var damage = int(result["damage"])
+		print("PLAYER TAKE DAMAGE: ", damage)
+		
+		# Находим игрока в мире и наносим урон
+		# (Если игрок - это глобальный синглтон или есть ссылка)
+		var player = get_tree().root.find_child("Player", true, false)
+		if player:
+			player.take_damage(damage)
 
 
 func disable_buttons():

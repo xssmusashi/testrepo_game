@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://coi3renlv8qbw"]
+
+[ext_resource type="Script" uid="uid://cr5pf5fw1hxtt" path="res://main/dialogue_ui/dialogue_ui.gd" id="1_63tg4"]
+
+[node name="DialogueUi" type="CanvasLayer"]
+script = ExtResource("1_63tg4")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Timer" type="Timer" parent="."]
