@@ -11,7 +11,7 @@ extends CanvasLayer
 @onready var hack_button = $VBoxContainer/MainPanel/You/PanelContainer2/FunctionButtons/Hack
 @onready var inventory_ui = $VBoxContainer/InventoryUI
 
-@onready var enemy_attack = enemy_attack_shield_orbit
+@onready var enemy_attack = enemy_attack_fruit_slash
 
 # ОБЯЗАТЕЛЬНО: объявляем переменную, чтобы не было ошибки "not declared"
 var attack_running := false

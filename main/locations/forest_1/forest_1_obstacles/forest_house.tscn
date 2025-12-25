@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://b4h6p3icfel7"]
 
 [ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_8udq7"]
-[ext_resource type="Shader" uid="uid://d0o21nngmm31a" path="res://main/base_obstacle/obstacles/forest_house.gdshader" id="2_no31m"]
-[ext_resource type="Texture2D" uid="uid://ecmplv0611li" path="res://main/base_obstacle/sprites/forest_house.png" id="2_y3v6b"]
+[ext_resource type="Shader" uid="uid://d0o21nngmm31a" path="res://main/locations/forest_1/forest_1_obstacles/forest_house.gdshader" id="2_no31m"]
+[ext_resource type="Texture2D" uid="uid://ecmplv0611li" path="res://main/locations/forest_1/forest_1_sprites/forest_house.png" id="2_y3v6b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5pamj"]
 shader = ExtResource("2_no31m")

@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://8kwlprvxd0bx"]
 
 [ext_resource type="Script" uid="uid://cnkvkulbdnlhn" path="res://main/intro_manager.gd" id="1_clcxo"]
-[ext_resource type="Texture2D" uid="uid://2fsskayw37xy" path="res://gavno/screens/intro_first_screen.png" id="2_cyw3y"]
-[ext_resource type="Texture2D" uid="uid://bc4ty6mo8ajpv" path="res://gavno/screens/intro_second_screen.png" id="3_1to3y"]
-[ext_resource type="Texture2D" uid="uid://cgbamucoug1m6" path="res://gavno/screens/intro_third_screen.png" id="4_5x1uo"]
+[ext_resource type="Texture2D" uid="uid://2fsskayw37xy" path="res://main/title_screens/intro_first_screen.png" id="2_cyw3y"]
+[ext_resource type="Texture2D" uid="uid://bc4ty6mo8ajpv" path="res://main/title_screens/intro_second_screen.png" id="3_1to3y"]
+[ext_resource type="Texture2D" uid="uid://cgbamucoug1m6" path="res://main/title_screens/intro_third_screen.png" id="4_5x1uo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_cyw3y"]
 font_size = 14

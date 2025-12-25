@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg41k8aovfp7f"
-path="res://.godot/imported/green_tree.png-eb42e08b1d2793ec272c39d102e4f025.ctex"
+uid="uid://d2iqlbex60a1s"
+path="res://.godot/imported/AttackButton_Icon.png-ceec5a2cbccf1fe7c2820bb97c735d74.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/base_obstacle/sprites/trees/green_tree.png"
-dest_files=["res://.godot/imported/green_tree.png-eb42e08b1d2793ec272c39d102e4f025.ctex"]
+source_file="res://main/battle/sprites/AttackButton_Icon.png"
+dest_files=["res://.godot/imported/AttackButton_Icon.png-ceec5a2cbccf1fe7c2820bb97c735d74.ctex"]
 
 [params]
 

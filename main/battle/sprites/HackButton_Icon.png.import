@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://keg5cpg2kr2v"
-path="res://.godot/imported/Trees.png-11ab779d44e084cda9bd1146dedbf264.ctex"
+uid="uid://cy6yl5cu1x4om"
+path="res://.godot/imported/HackButton_Icon.png-46d77474a7feec2e346697cbf7c6b2a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/base_obstacle/sprites/trees/Trees.png"
-dest_files=["res://.godot/imported/Trees.png-11ab779d44e084cda9bd1146dedbf264.ctex"]
+source_file="res://main/battle/sprites/HackButton_Icon.png"
+dest_files=["res://.godot/imported/HackButton_Icon.png-46d77474a7feec2e346697cbf7c6b2a3.ctex"]
 
 [params]
 

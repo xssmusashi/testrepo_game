@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wtmwel043acg"
-path="res://.godot/imported/orange_tree.png-1aa02df5e41157711be1f46abb64477b.ctex"
+uid="uid://bo021asdafvw"
+path="res://.godot/imported/forest_grass_floor.png-358083594a81be0dd682c1464d1dde86.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/base_obstacle/sprites/trees/orange_tree.png"
-dest_files=["res://.godot/imported/orange_tree.png-1aa02df5e41157711be1f46abb64477b.ctex"]
+source_file="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png"
+dest_files=["res://.godot/imported/forest_grass_floor.png-358083594a81be0dd682c1464d1dde86.ctex"]
 
 [params]
 

@@ -1,12 +1,12 @@
 [gd_scene load_steps=20 format=4 uid="uid://bxfmuy5jnbvex"]
 
-[ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://gavno/sprites/ForestSprites/grass_floor.png" id="1_3wy1v"]
+[ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png" id="1_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://3d807hvuj3ye" path="res://main/ground.gd" id="2_kfbq2"]
-[ext_resource type="PackedScene" uid="uid://denfg0mn2ullq" path="res://main/base_obstacle/obstacles/forest_portal.tscn" id="3_c651c"]
-[ext_resource type="PackedScene" uid="uid://bwi32u38huvjr" path="res://main/base_obstacle/obstacles/forest_oak_tree.tscn" id="3_xwkvk"]
-[ext_resource type="PackedScene" uid="uid://c2dfxccqyyxac" path="res://main/base_obstacle/obstacles/forest_green_tree.tscn" id="4_kfbq2"]
-[ext_resource type="PackedScene" uid="uid://b4h6p3icfel7" path="res://main/base_obstacle/obstacles/forest_house.tscn" id="7_4dugh"]
+[ext_resource type="PackedScene" uid="uid://denfg0mn2ullq" path="res://main/locations/forest_1/forest_1_obstacles/forest_portal.tscn" id="3_c651c"]
+[ext_resource type="PackedScene" uid="uid://bwi32u38huvjr" path="res://main/locations/forest_1/forest_1_obstacles/forest_oak_tree.tscn" id="3_xwkvk"]
+[ext_resource type="PackedScene" uid="uid://c2dfxccqyyxac" path="res://main/locations/forest_1/forest_1_obstacles/forest_green_tree.tscn" id="4_kfbq2"]
+[ext_resource type="PackedScene" uid="uid://b4h6p3icfel7" path="res://main/locations/forest_1/forest_1_obstacles/forest_house.tscn" id="7_4dugh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4dugh"]
 texture = ExtResource("1_3wy1v")

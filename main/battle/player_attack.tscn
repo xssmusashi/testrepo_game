@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://de37unrvy5g8p"]
 
-[ext_resource type="Script" uid="uid://bi6r8i6rwmnl4" path="res://main/player_attack.gd" id="1_m5rqh"]
+[ext_resource type="Script" uid="uid://bi6r8i6rwmnl4" path="res://main/battle/player_attack.gd" id="1_m5rqh"]
 
 [node name="PlayerAttack" type="Control"]
 layout_mode = 3

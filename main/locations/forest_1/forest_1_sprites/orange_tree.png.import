@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btuplxh0ywx12"
-path="res://.godot/imported/portal.png-b366bde23618bad553412fc76cb6704c.ctex"
+uid="uid://wtmwel043acg"
+path="res://.godot/imported/orange_tree.png-eb6540a341097e9b238d478f6006be23.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/base_obstacle/sprites/portal.png"
-dest_files=["res://.godot/imported/portal.png-b366bde23618bad553412fc76cb6704c.ctex"]
+source_file="res://main/locations/forest_1/forest_1_sprites/orange_tree.png"
+dest_files=["res://.godot/imported/orange_tree.png-eb6540a341097e9b238d478f6006be23.ctex"]
 
 [params]
 

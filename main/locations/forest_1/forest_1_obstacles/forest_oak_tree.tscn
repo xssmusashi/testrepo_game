@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://bwi32u38huvjr"]
 
 [ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_tnpb5"]
-[ext_resource type="Texture2D" uid="uid://cysq5mreipvoq" path="res://main/base_obstacle/sprites/trees/oak_tree.png" id="2_7gio5"]
-[ext_resource type="Shader" uid="uid://dvjfgjk4jo8b2" path="res://main/base_obstacle/obstacles/forest_oak_tree.gdshader" id="2_8pa80"]
+[ext_resource type="Texture2D" uid="uid://cysq5mreipvoq" path="res://main/locations/forest_1/forest_1_sprites/oak_tree.png" id="2_7gio5"]
+[ext_resource type="Shader" uid="uid://dvjfgjk4jo8b2" path="res://main/locations/forest_1/forest_1_obstacles/forest_oak_tree.gdshader" id="2_8pa80"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gimkf"]
 shader = ExtResource("2_8pa80")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cysq5mreipvoq"
-path="res://.godot/imported/oak_tree.png-d1a3b6446c91d631f793bae14d066f00.ctex"
+uid="uid://dwonq5gpaqef2"
+path="res://.godot/imported/main_hero_spritesheet.png-10febb75d715de5cc60e8fe41435eefe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/base_obstacle/sprites/trees/oak_tree.png"
-dest_files=["res://.godot/imported/oak_tree.png-d1a3b6446c91d631f793bae14d066f00.ctex"]
+source_file="res://main/main_hero/main_hero_spritesheet.png"
+dest_files=["res://.godot/imported/main_hero_spritesheet.png-10febb75d715de5cc60e8fe41435eefe.ctex"]
 
 [params]
 
