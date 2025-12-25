@@ -12,16 +12,15 @@ var current_line: int = 0
 
 func _ready():
 	visible = false
-	# Гарантируем, что таймер подключен
 	if not timer.timeout.is_connected(_on_timer_timeout):
 		timer.timeout.connect(_on_timer_timeout)
 
-# Обновленная функция: принимает текст, имя и портрет
-func start_dialogue(data: Array, character_name: String, portrait_texture: Texture2D):
+# ТЕПЕРЬ: принимаем текст, имя и портрет
+func start_dialogue(data: Array, char_name: String, portrait_texture: Texture2D):
 	lines = data
 	current_line = 0
-	name_label.text = character_name        # Устанавливаем имя
-	portrait_rect.texture = portrait_texture  # Устанавливаем портрет
+	name_label.text = char_name            # Устанавливаем имя
+	portrait_rect.texture = portrait_texture # Устанавливаем портрет
 	visible = true
 	_show_line()
 
@@ -40,19 +39,19 @@ func _on_timer_timeout():
 		timer.stop()
 
 func _input(event):
-	# Проверяем нажатие "Enter" (ui_accept) или "E" (interact)
-	var is_action = event.is_action_pressed("ui_accept") or event.is_action_pressed("interact")
+	# ТЕПЕРЬ: Реагируем на Enter (ui_accept) или E (interact)
+	var is_advancing = event.is_action_pressed("ui_accept") or event.is_action_pressed("interact")
 	
-	if visible and is_action and not event.is_echo():
+	if visible and is_advancing and not event.is_echo():
 		if text_label.visible_characters < text_label.text.length():
-			# Если текст еще печатается — показываем его сразу
+			# Если текст еще "печатается" - показываем сразу всю строку
 			text_label.visible_characters = text_label.text.length()
 			timer.stop()
 		else:
-			# Если текст закончен — переходим к следующей строке
+			# Если строка закончена - идем к следующей
 			current_line += 1
 			_show_line()
 
 func _close_dialogue():
 	visible = false
-	dialogue_finished.emit() # Сигнал для врага, чтобы начать бой
+	dialogue_finished.emit()

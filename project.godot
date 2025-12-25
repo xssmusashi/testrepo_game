@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.5", "Forward Plus")
 [autoload]
 
 ItemDb="*res://main/items/itemdb.gd"
+BattleManager="*res://main/global_battle_manager.gd"
 
 [display]
 

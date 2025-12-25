@@ -1,86 +1,86 @@
 extends CanvasLayer
 
 @onready var player_attack_game = %PlayerAttack 
-@onready var attack_button = $VBoxContainer/ActionsPanel/Attack
-@onready var enemy_attack_geometry_dash = %EnemyAttackGeometryDash
-@onready var enemy_attack_fruit_slash = %EnemyAttackFruitSlasher
-@onready var enemy_attack_shield_orbit = %EnemyAttackShieldOrbit
-@onready var enemy_attack_focus = %EnemyAttackFocus
+@onready var log_label = $VBoxContainer/LogPanel/Label # Узел текста лога
 
-@onready var inventory_button = $VBoxContainer/ActionsPanel/Inventory
-@onready var say_button = $VBoxContainer/ActionsPanel/Say
-@onready var hack_button = $VBoxContainer/ActionsPanel/Hack
-@onready var inventory_ui = $VBoxContainer/InventoryUI
+# Узлы атак (мини-игр)
+@onready var attack_nodes = {
+	"focus": %EnemyAttackFocus,
+	"geometry_dash": %EnemyAttackGeometryDash,
+	"fruit": %EnemyAttackFruitSlasher,
+	"shield": %EnemyAttackShieldOrbit
+}
 
-@onready var enemy_attack = enemy_attack_focus
-
-# ОБЯЗАТЕЛЬНО: объявляем переменную, чтобы не было ошибки "not declared"
+var current_enemy_hp: int = 100
+var enemy_damage: int = 10
+var active_enemy_attack = null
 var attack_running := false
 
 func _ready():
-	if enemy_attack:
-		enemy_attack.finished.connect(_on_enemy_attack_finished)
+	# 1. Загружаем данные врага
+	var data = BattleManager.enemy_data
+	current_enemy_hp = data["hp"]
+	enemy_damage = data["damage"]
+	
+	# 2. Выбираем нужный узел атаки
+	if attack_nodes.has(data["attack_type"]):
+		active_enemy_attack = attack_nodes[data["attack_type"]]
+		active_enemy_attack.finished.connect(_on_enemy_attack_finished)
+	
+	# 3. Подключаем игрока
 	if player_attack_game:
 		player_attack_game.attack_finished.connect(_on_player_attack_finished)
+	
+	update_log("Появился " + data["name"] + "!")
 
-	if inventory_button:
-		inventory_button.pressed.connect(_on_inventory_pressed)
-
-	# Инициализация инвентаря для боя
-	if inventory_ui:
-		# Пытаемся найти существующий узел или создаем новый
-		var battle_inv = get_node_or_null("Inventory")
-		if not battle_inv:
-			battle_inv = Node.new()
-			battle_inv.set_script(load("res://main/inventory/inventory.gd"))
-			battle_inv.name = "Inventory"
-			add_child(battle_inv)
-		
-		inventory_ui.set_inventory(battle_inv)
-		# Тестовый предмет
-		if battle_inv.has_method("add_item"):
-			battle_inv.add_item("potion", 3)
-
-func _on_inventory_pressed():
-	if inventory_ui:
-		inventory_ui.toggle_visibility()
+func update_log(text: String):
+	if log_label: log_label.text = text
 
 func _on_attack_pressed():
-	if attack_running:
-		return
+	if attack_running: return
 	disable_buttons()
-	attack_button.release_focus()
+	update_log("Вы атакуете...")
 	player_attack_game.start()
 
-func _on_player_attack_finished(_multiplier):
-	enable_buttons()
-	test_enemy_attack()
+# --- ПЕРЕХОД ХОДА К ВРАГУ ---
+func _on_player_attack_finished(multiplier):
+	var damage_dealt = 50 * multiplier
+	current_enemy_hp -= int(damage_dealt)
+	update_log("Вы нанесли " + str(int(damage_dealt)) + " урона!")
+	
+	if current_enemy_hp <= 0:
+		_on_enemy_died()
+		return
 
-func test_enemy_attack():
-	disable_buttons()
-	enemy_attack.start({ "damage": 12, "duration": 12.0 })
+	# Ждем немного и запускаем атаку врага (ответный ход)
+	await get_tree().create_timer(1.0).timeout
+	start_enemy_turn()
+
+func start_enemy_turn():
+	if active_enemy_attack:
+		disable_buttons()
+		update_log("Ход врага: " + BattleManager.enemy_data["name"] + " атакует!")
+		active_enemy_attack.start({ "damage": enemy_damage, "duration": 10.0 })
 
 func _on_enemy_attack_finished(result: Dictionary):
 	enable_buttons()
-	if result.has("damage") and int(result["damage"]) > 0:
-		var damage = int(result["damage"])
-		print("PLAYER TAKE DAMAGE: ", damage)
-		
-		# Находим игрока в мире и наносим урон
-		# (Если игрок - это глобальный синглтон или есть ссылка)
+	if result.get("success", false):
+		update_log("Вы уклонились!")
+	else:
+		var dmg = result.get("damage", enemy_damage)
+		update_log("Вы получили " + str(dmg) + " урона!")
 		var player = get_tree().root.find_child("Player", true, false)
-		if player:
-			player.take_damage(damage)
+		if player: player.take_damage(dmg)
 
+func _on_enemy_died():
+	update_log("Враг повержен!")
+	await get_tree().create_timer(1.5).timeout
+	get_tree().change_scene_to_file("res://main/main.tscn")
 
+# Методы блокировки кнопок (универсально)
 func disable_buttons():
-	inventory_button.disabled = true
-	attack_button.disabled = true
-	say_button.disabled = true
-	hack_button.disabled = true
-	
+	for btn in [$VBoxContainer/ActionsPanel/Attack, $VBoxContainer/ActionsPanel/Inventory, $VBoxContainer/ActionsPanel/Say, $VBoxContainer/ActionsPanel/Hack]:
+		if btn: btn.disabled = true
 func enable_buttons():
-	inventory_button.disabled = false
-	attack_button.disabled = false
-	say_button.disabled = false
-	hack_button.disabled = false
+	for btn in [$VBoxContainer/ActionsPanel/Attack, $VBoxContainer/ActionsPanel/Inventory, $VBoxContainer/ActionsPanel/Say, $VBoxContainer/ActionsPanel/Hack]:
+		if btn: btn.disabled = false
