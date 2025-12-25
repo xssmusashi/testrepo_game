@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://w1q3ucysd0n6"]
+
+[ext_resource type="Script" uid="uid://b7haebojcekv2" path="res://main/enemy_attack_fruit_slasher/fruit/fruit.gd" id="1_n8vwe"]
+
+[node name="Fruit" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 1
+script = ExtResource("1_n8vwe")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://bh0uaqro0rbyo"]
+
+[ext_resource type="Script" uid="uid://b701amgjmv6p7" path="res://main/enemy_attack_fruit_slasher/enemy_attack_fruit_slasher.gd" id="1_hgd5l"]
+[ext_resource type="PackedScene" uid="uid://w1q3ucysd0n6" path="res://main/enemy_attack_fruit_slasher/fruit/fruit.tscn" id="2_utv21"]
+
+[node name="EnemyAttackFruitSlasher" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_hgd5l")
+fruit_scene = ExtResource("2_utv21")
+
+[node name="PlayArea" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Background" type="ColorRect" parent="PlayArea"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="FruitContainer" type="Control" parent="PlayArea"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SlashTrail" type="Line2D" parent="PlayArea"]
+width = 5.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="SpawnTimer" type="Timer" parent="PlayArea"]
+
+[node name="HUD" type="CanvasLayer" parent="PlayArea"]
+
+[node name="Label" type="Label" parent="PlayArea/HUD"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="TimeLabel" type="Label" parent="PlayArea/HUD"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="timeout" from="PlayArea/SpawnTimer" to="." method="_on_spawn_timer_timeout"]

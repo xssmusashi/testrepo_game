@@ -1,16 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://denfg0mn2ullq"]
+[gd_scene load_steps=7 format=3 uid="uid://denfg0mn2ullq"]
 
 [ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_kllgw"]
+[ext_resource type="Shader" uid="uid://do737spw41anx" path="res://main/base_obstacle/obstacles/forest_portal.gdshader" id="2_fs0q7"]
 [ext_resource type="Texture2D" uid="uid://btuplxh0ywx12" path="res://main/base_obstacle/sprites/portal.png" id="2_w0l43"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dqlrd"]
+shader = ExtResource("2_fs0q7")
+shader_parameter/shadow_params = Vector3(10, -15, 0.3)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w0l43"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kllgw"]
-size = Vector2(79.66667, 49)
+size = Vector2(79.66667, 22)
 
 [node name="BaseObstacle" instance=ExtResource("1_kllgw")]
+z_index = -1
 
 [node name="Sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_dqlrd")
 texture = ExtResource("2_w0l43")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TrunkCollision (main collision)" index="0"]
@@ -24,8 +32,8 @@ position = Vector2(-31.666668, 15)
 shape = SubResource("RectangleShape2D_w0l43")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CanopyArea (transparensy collision)" index="0"]
-polygon = PackedVector2Array(-45, -11.333334, -14.333334, -7.3333335, 38, -12, 40, -25.333334, 20, -53, -13.666667, -56.666668, -31.666668, -43)
+polygon = PackedVector2Array(-37, -9, -20.666668, -8.666667, -14.666667, -30, -4.3333335, -35, 6.666667, -33.666668, 14, -29.666668, 18.333334, -10, 38, -12, 36, -24.333334, 24.666668, -44.666668, 11.666667, -50.666668, -7.3333335, -53.666668, -28.333334, -42.333336, -38, -22.333334)
 
 [node name="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="1"]
-position = Vector2(-1.8333309, -33.833336)
+position = Vector2(-1.8333309, -47.333336)
 shape = SubResource("RectangleShape2D_kllgw")

@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=3 uid="uid://c2dfxccqyyxac"]
+
+[ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_laqnd"]
+[ext_resource type="Texture2D" uid="uid://cg41k8aovfp7f" path="res://main/base_obstacle/sprites/trees/green_tree.png" id="2_hneyk"]
+[ext_resource type="Shader" uid="uid://b6wxo7h5177ml" path="res://main/base_obstacle/obstacles/forest_green_tree.gdshader" id="3_lkfb3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lkfb3"]
+shader = ExtResource("3_lkfb3")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lkfb3"]
+size = Vector2(29.666668, 11.333332)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obwmo"]
+size = Vector2(104, 99.333336)
+
+[node name="BaseObstacle" instance=ExtResource("1_laqnd")]
+
+[node name="Sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_lkfb3")
+texture = ExtResource("2_hneyk")
+
+[node name="CollisionShape2D" parent="TrunkCollision (main collision)" index="0"]
+position = Vector2(0.16666698, 49)
+shape = SubResource("RectangleShape2D_lkfb3")
+
+[node name="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="0"]
+position = Vector2(0.33333206, -6.333336)
+shape = SubResource("RectangleShape2D_obwmo")

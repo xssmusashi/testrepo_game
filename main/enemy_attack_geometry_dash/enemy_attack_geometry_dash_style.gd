@@ -4,17 +4,7 @@ extends Control
 
 signal finished(result: Dictionary)
 
-# --- Результат мини-игры ---
-@export var duration: float = 15.0
 @export var base_damage: int = 12
-
-# --- Физика игрока ---
-@export var gravity: float = 20000.0
-@export var jump_velocity: float = -2000.0
-
-# --- Скорость прокрутки ---
-@export var base_speed: float = 320.0
-@export var speed_growth: float = 10.0
 
 # --- Игрок ---
 @export var player_size: Vector2 = Vector2(26, 26)
@@ -42,6 +32,14 @@ signal finished(result: Dictionary)
 @onready var player: ColorRect = $PlayArea/Player
 @onready var obstacles_holder: Control = $PlayArea/Obstacles
 @onready var info: Label = $InfoLabel
+
+# Оптимизированные константы для драйва
+@export var duration: float = 12.0
+@export var gravity: float = 4500.0       # Снизили для более плавного полета
+@export var jump_velocity: float = -950.0  # Соотношение для прыжка через 3 шипа
+@export var base_speed: float = 450.0      # Быстрее оригинала
+@export var speed_growth: float = 15.0
+@export var rotation_speed: float = 400.0
 
 # --- Состояние ---
 var is_active := false
@@ -145,6 +143,28 @@ func _process(delta):
 	else:
 		on_ground = false
 
+	v_y += gravity * delta
+	player.position.y += v_y * delta
+
+	# ВРАЩЕНИЕ: если не на земле, крутим спрайт игрока
+	if not on_ground:
+		player.rotation_degrees += rotation_speed * delta
+	
+	if v_y >= 0.0:
+		if handle_landing(prev_y):
+			_align_player_to_grid() # Выравниваем при посадке
+			v_y = 0.0
+			on_ground = true
+		else:
+			var gy := get_ground_y()
+			if player.position.y >= gy:
+				player.position.y = gy
+				_align_player_to_grid() # Выравниваем при посадке на пол
+				v_y = 0.0
+				on_ground = true
+			else:
+				on_ground = false
+
 	# 3.2) боковые упоры об платформы (не смерть)
 	handle_side_pushback()
 
@@ -161,6 +181,16 @@ func _process(delta):
 # ----------------------------
 # Геометрия / rect helpers
 # ----------------------------
+
+func _align_player_to_grid():
+	var current_rot = player.rotation_degrees
+	# Находим ближайший угол кратный 90
+	var target_rot = round(current_rot / 90.0) * 90.0
+	
+	# Плавное докручивание через Tween для красоты
+	var tween = create_tween()
+	tween.tween_property(player, "rotation_degrees", target_rot, 0.1)\
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # Исправлено здесь
 
 func ground_top_y() -> float:
 	return play_area.size.y - ground.size.y
@@ -188,30 +218,34 @@ func player_rect_local(shrunk: bool = false) -> Rect2:
 # ----------------------------
 
 func spawn_segment(x: float):
-	var seg_w := rng.randf_range(platform_min_w, platform_max_w)
 	var g_top := ground_top_y()
+	var chance := rng.randf()
+	
+	var last_obj_width := 0.0
 
-	# 1) Решаем: в этом сегменте будет платформа или шипы
-	var has_platform := rng.randf() < 0.55
-
-	if has_platform:
-		# Платформа прибита к полу
-		var plat_y := g_top - platform_h
-		var plat_w := seg_w
-		var plat_x := x
-
-		_spawn_platform(plat_x, plat_y, plat_w, platform_h)
-
-		# НИКАКИХ шипов в этом сегменте (ни на ней, ни рядом)
-		# Можно сделать "передышку" — просто ничего не спавним
-		return
-
-	# 2) Если платформы нет — спавним шипы на полу
-	if rng.randf() < 0.55:
+	if chance < 0.4:
+		# Слой шипов (1-3 шт)
 		var count = rng.randi_range(1, 3)
 		for i in count:
-			var sx = x + 30 + i * 34
+			var sx = x + i * (spike_w + 2)
 			_spawn_spike(sx, g_top - spike_h, spike_w, spike_h)
+		last_obj_width = count * spike_w
+	elif chance < 0.8:
+		# Платформа
+		var plat_w := rng.randf_range(200.0, 400.0)
+		var plat_y := g_top - platform_h
+		_spawn_platform(x, plat_y, plat_w, platform_h)
+		
+		# Шанс спавна шипа НА платформе
+		if rng.randf() < 0.4:
+			_spawn_spike(x + plat_w/2, plat_y - spike_h, spike_w, spike_h)
+		last_obj_width = plat_w
+	else:
+		# Пустой промежуток
+		last_obj_width = 150.0
+
+	# ВАЖНО: теперь отодвигаем следующий спавн на ширину текущего объекта + рандомный зазор
+	spawn_dist_left = last_obj_width + rng.randf_range(180.0, 300.0)
 
 func _spawn_platform(x: float, y: float, w: float, h: float) -> ColorRect:
 	var c := ColorRect.new()

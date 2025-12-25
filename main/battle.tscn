@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://77aelesuib8m"]
+[gd_scene load_steps=28 format=3 uid="uid://77aelesuib8m"]
 
 [ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle.gd" id="1_ip7xm"]
 [ext_resource type="PackedScene" uid="uid://cxy262yld4soa" path="res://main/inventory/inventory_ui.tscn" id="2_c6s1a"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dn63mfionmbs0" path="res://gavno/sprites/Icons/InventoryButton_Icon.png" id="6_c6s1a"]
 [ext_resource type="Texture2D" uid="uid://dl3r7o14ksqff" path="res://gavno/sprites/Icons/SayButton_Icon.png" id="7_vkqg8"]
 [ext_resource type="Texture2D" uid="uid://cy6yl5cu1x4om" path="res://gavno/sprites/Icons/HackButton_Icon.png" id="8_is2p5"]
+[ext_resource type="PackedScene" uid="uid://bh0uaqro0rbyo" path="res://main/enemy_attack_fruit_slasher/enemy_attack_fruit_slasher.tscn" id="8_xav1o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7sfm4"]
 bg_color = Color(0, 0, 0, 1)
@@ -249,6 +250,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6t8i5")
+
+[node name="EnemyAttackFruitSlasher" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("8_xav1o")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="EnemyAttack_geometry_dash_style" parent="VBoxContainer/MainPanel/BattlePanel/PanelContainer" instance=ExtResource("3_o63kq")]
 unique_name_in_owner = true
