@@ -5,13 +5,14 @@ extends CanvasLayer
 @onready var enemy_attack_geometry_dash = %EnemyAttackGeometryDash
 @onready var enemy_attack_fruit_slash = %EnemyAttackFruitSlasher
 @onready var enemy_attack_shield_orbit = %EnemyAttackShieldOrbit
+@onready var enemy_attack_focus = %EnemyAttackFocus
 
 @onready var inventory_button = $VBoxContainer/ActionsPanel/Inventory
 @onready var say_button = $VBoxContainer/ActionsPanel/Say
 @onready var hack_button = $VBoxContainer/ActionsPanel/Hack
 @onready var inventory_ui = $VBoxContainer/InventoryUI
 
-@onready var enemy_attack = enemy_attack_fruit_slash
+@onready var enemy_attack = enemy_attack_focus
 
 # ОБЯЗАТЕЛЬНО: объявляем переменную, чтобы не было ошибки "not declared"
 var attack_running := false

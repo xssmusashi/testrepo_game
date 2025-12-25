@@ -37,13 +37,12 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ShieldPivot" type="Node2D" parent="PlayArea"]
+visible = false
 
 [node name="Shield" type="ColorRect" parent="PlayArea/ShieldPivot"]
 custom_minimum_size = Vector2(48, 15)
-offset_left = 552.0
-offset_top = 278.0
-offset_right = 600.0
-offset_bottom = 293.0
+offset_right = 48.0
+offset_bottom = 15.0
 
 [node name="BulletsContainer" type="Control" parent="PlayArea"]
 layout_mode = 1

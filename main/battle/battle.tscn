@@ -1,15 +1,17 @@
-[gd_scene load_steps=20 format=3 uid="uid://dajsoxawargk1"]
+[gd_scene load_steps=23 format=3 uid="uid://dajsoxawargk1"]
 
 [ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle/battle.gd" id="1_ip7xm"]
 [ext_resource type="Texture2D" uid="uid://cc1tayp6vmxrl" path="res://main/main_hero/main_hero_face.png" id="2_oxp8w"]
 [ext_resource type="FontFile" uid="uid://figoqy7xtpx5" path="res://PressStart2P-Regular.ttf" id="2_vkqg8"]
 [ext_resource type="PackedScene" uid="uid://de37unrvy5g8p" path="res://main/battle/player_attack.tscn" id="3_7sfm4"]
 [ext_resource type="PackedScene" uid="uid://duq3wnc6qhgw1" path="res://main/enemy_attack_mini_games/enemy_attack_geometry_dash/enemy_attack_geometry_dash.tscn" id="3_o63kq"]
+[ext_resource type="Texture2D" uid="uid://de0vdc5lb1abx" path="res://main/enemies/glorb_frog/glorb_sprite.png" id="4_18tdr"]
 [ext_resource type="Texture2D" uid="uid://d2iqlbex60a1s" path="res://main/battle/sprites/AttackButton_Icon.png" id="5_33lwt"]
 [ext_resource type="Texture2D" uid="uid://dn63mfionmbs0" path="res://main/battle/sprites/InventoryButton_Icon.png" id="6_c6s1a"]
 [ext_resource type="Texture2D" uid="uid://dl3r7o14ksqff" path="res://main/battle/sprites/SayButton_Icon.png" id="7_vkqg8"]
 [ext_resource type="Texture2D" uid="uid://cy6yl5cu1x4om" path="res://main/battle/sprites/HackButton_Icon.png" id="8_is2p5"]
 [ext_resource type="PackedScene" uid="uid://bh0uaqro0rbyo" path="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/enemy_attack_fruit_slasher.tscn" id="8_xav1o"]
+[ext_resource type="PackedScene" uid="uid://dkaqsavsx35bt" path="res://main/enemy_attack_mini_games/enemy_attack_focus/enemy_attack_focus.tscn" id="9_keope"]
 [ext_resource type="PackedScene" uid="uid://cj1naildc5r7d" path="res://main/enemy_attack_mini_games/enemy_attack_shield_orbit/enemy_attack_shield_orbit.tscn" id="10_xav1o"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yv0sx"]
@@ -23,6 +25,14 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_keope"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0npn6"]
 bg_color = Color(1, 0, 0, 1)
@@ -95,9 +105,11 @@ size_flags_vertical = 3
 layout_mode = 2
 
 [node name="PlayerBox" type="VBoxContainer" parent="VBoxContainer/TopPanel"]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 
 [node name="Portrait" type="TextureRect" parent="VBoxContainer/TopPanel/PlayerBox"]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 texture = ExtResource("2_oxp8w")
 
@@ -109,22 +121,28 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HPBar" type="ProgressBar" parent="VBoxContainer/TopPanel/PlayerBox"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_18tdr")
 value = 100.0
+show_percentage = false
 
 [node name="Spacer" type="Control" parent="VBoxContainer/TopPanel"]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="EnemyBox" type="VBoxContainer" parent="VBoxContainer/TopPanel"]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 
 [node name="Portrait" type="TextureRect" parent="VBoxContainer/TopPanel/EnemyBox"]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
+texture = ExtResource("4_18tdr")
 
 [node name="Name" type="Label" parent="VBoxContainer/TopPanel/EnemyBox"]
 layout_mode = 2
+text = "GLORB"
 
 [node name="HPBar" type="ProgressBar" parent="VBoxContainer/TopPanel/EnemyBox"]
 layout_mode = 2
@@ -141,6 +159,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="GameViewport" type="Control" parent="VBoxContainer/Arena"]
 layout_mode = 1
@@ -151,12 +170,14 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Arena/GameViewport"]
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_keope")
 
 [node name="EnemyAttackFruitSlasher" parent="VBoxContainer/Arena/GameViewport/PanelContainer" instance=ExtResource("8_xav1o")]
 unique_name_in_owner = true
@@ -175,6 +196,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 1
 size_flags_vertical = 1
+
+[node name="EnemyAttackFocus" parent="VBoxContainer/Arena/GameViewport/PanelContainer" instance=ExtResource("9_keope")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="LogPanel" type="PanelContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 80)

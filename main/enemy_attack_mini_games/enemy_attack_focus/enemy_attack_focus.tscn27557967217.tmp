@@ -1,0 +1,95 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkaqsavsx35bt"]
+
+[ext_resource type="Script" uid="uid://bts5xm3lbxgb0" path="res://main/enemy_attack_mini_games/enemy_attack_focus/enemy_attack_focus.gd" id="1_h86m6"]
+[ext_resource type="Texture2D" uid="uid://dm8xjewsap16x" path="res://main/ui_elements/player_crosshair.png" id="2_1whs6"]
+[ext_resource type="Texture2D" uid="uid://dn8rdudeegkm" path="res://main/ui_elements/enemy_attack_clock.png" id="2_q1r0s"]
+[ext_resource type="Script" uid="uid://b1axe15wnc85i" path="res://main/enemy_attack_mini_games/enemy_attack_focus/crosshair.gd" id="3_oyx5i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1r0s"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 1, 0, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1whs6"]
+bg_color = Color(0, 1, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[node name="EnemyAttackFocus" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h86m6")
+base_speed = null
+randomness_factor = null
+change_dir_time = null
+stability_drain = null
+stability_recovery = null
+focus_radius = null
+
+[node name="PlayArea" type="Control" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FocusCircle" type="Panel" parent="PlayArea"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_q1r0s")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="PlayArea"]
+
+[node name="Crosshair" type="Sprite2D" parent="PlayArea/CanvasLayer"]
+unique_name_in_owner = true
+texture = ExtResource("2_1whs6")
+script = ExtResource("3_oyx5i")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StabilityBar" type="ProgressBar" parent="HUD"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -4.0
+offset_bottom = 27.0
+grow_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_1whs6")
+show_percentage = false
+
+[node name="TimerProgress" type="TextureProgressBar" parent="HUD"]
+layout_mode = 0
+offset_left = 1120.0
+offset_top = 27.0
+offset_right = 1160.0
+offset_bottom = 59.0
+value = 100.0
+fill_mode = 4
+texture_progress = ExtResource("2_q1r0s")

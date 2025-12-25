@@ -18,6 +18,8 @@ var score := 0
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var time_label: Label = $HUD/TimeLabel
 
+@onready var shield: ColorRect = $PlayArea/ShieldPivot/Shield
+
 func _ready():
 	visible = false
 	# Соединяем сигнал таймера кодом, чтобы не забыть в инспекторе
@@ -40,11 +42,26 @@ func start(ctx: Dictionary = {}):
 
 func _center_elements():
 	var center = play_area.size / 2
-	if center == Vector2.ZERO: # Если Layout еще не посчитался
-		center = Vector2(200, 200) # Фолбэк
+	if center == Vector2.ZERO:
+		center = Vector2(200, 200)
+	
+	shield_pivot.visible = true
 	
 	shield_pivot.position = center
-	bullets_container.position = Vector2.ZERO # Контейнер на весь PlayArea
+	
+	# --- НАСТРОЙКА ВИЗУАЛА ЩИТА ---
+	# 1. Устанавливаем точку опоры в центр прямоугольника
+	shield.pivot_offset = shield.size / 2
+	
+	# 2. Поворачиваем на 90 градусов (PI/2 радиан), чтобы он стал вертикальным
+	shield.rotation = PI / 2
+	
+	# 3. Размещаем его на орбите. 
+	# Вычитаем pivot_offset, так как position у Control — это верхний левый угол.
+	# Теперь центр щита будет ровно на расстоянии shield_radius.
+	shield.position = Vector2(shield_radius, 0) - shield.pivot_offset
+	
+	bullets_container.position = Vector2.ZERO
 	bullets_container.size = play_area.size
 
 func _process(delta: float):
