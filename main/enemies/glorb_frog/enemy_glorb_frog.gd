@@ -3,8 +3,9 @@ extends Node2D
 @export var enemy_name: String = "Глорб Жаба"
 @export var hp: int = 100
 @export var damage: int = 10
-@export var attack_type: String = "enemy_attack_geometry_dash" # Какую мини-игру запустить
+@export var attack_type: String = "geometry_dash" # Какую мини-игру запустить
 @export var dialogue_lines: Array[String] = ["Ква-ква!", "Ты не пройдешь!"]
+@export var player_damage_to_enemy: int = 50
 @export var portrait: Texture2D 
 
 @onready var dialogue_ui = get_tree().root.find_child("DialogueUI", true, false)
@@ -22,6 +23,7 @@ func _start_battle():
 		"hp": hp,
 		"damage": damage,
 		"attack_type": attack_type,
-		"portrait": portrait
+		"portrait": portrait,
+		"player_damage_to_enemy": player_damage_to_enemy
 	}
 	get_tree().change_scene_to_file("res://main/battle/battle.tscn")
