@@ -1,8 +1,8 @@
 [gd_scene load_steps=16 format=3 uid="uid://cyefg7o2picp0"]
 
-[ext_resource type="Script" uid="uid://3swei4didcy" path="res://main/enemies/glorb_frog/enemy_glorb_frog.gd" id="1_r8amt"]
-[ext_resource type="Texture2D" uid="uid://de0vdc5lb1abx" path="res://main/enemies/glorb_frog/glorb_sprite.png" id="1_r41eq"]
-[ext_resource type="Texture2D" uid="uid://bekwequdq3lmt" path="res://main/enemies/glorb_frog/glorb_portrait.png" id="2_1lxgq"]
+[ext_resource type="Script" uid="uid://3swei4didcy" path="res://main/characters/glorb_frog_enemy/enemy_glorb_frog.gd" id="1_r8amt"]
+[ext_resource type="Texture2D" uid="uid://de0vdc5lb1abx" path="res://main/characters/glorb_frog_enemy/glorb_sprite.png" id="1_r41eq"]
+[ext_resource type="Texture2D" uid="uid://bekwequdq3lmt" path="res://main/characters/glorb_frog_enemy/glorb_portrait.png" id="2_1lxgq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1lxgq"]
 atlas = ExtResource("1_r41eq")

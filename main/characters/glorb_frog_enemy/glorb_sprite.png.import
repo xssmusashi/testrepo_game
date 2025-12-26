@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bekwequdq3lmt"
-path="res://.godot/imported/glorb_portrait.png-b5183b24b6cc1a97b9433afc05f5ca74.ctex"
+uid="uid://de0vdc5lb1abx"
+path="res://.godot/imported/glorb_sprite.png-450f61133205760ec85f085c7b57d922.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/enemies/glorb_frog/glorb_portrait.png"
-dest_files=["res://.godot/imported/glorb_portrait.png-b5183b24b6cc1a97b9433afc05f5ca74.ctex"]
+source_file="res://main/characters/glorb_frog_enemy/glorb_sprite.png"
+dest_files=["res://.godot/imported/glorb_sprite.png-450f61133205760ec85f085c7b57d922.ctex"]
 
 [params]
 

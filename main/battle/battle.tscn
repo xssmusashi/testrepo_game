@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dajsoxawargk1"]
+[gd_scene load_steps=30 format=3 uid="uid://dajsoxawargk1"]
 
 [ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle/battle.gd" id="1_ip7xm"]
 [ext_resource type="Shader" uid="uid://dxvaqdlnvt7qn" path="res://main/main.gdshader" id="2_keope"]
@@ -56,6 +56,9 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ksl0e"]
+font = ExtResource("2_vkqg8")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3nk04"]
 bg_color = Color(0, 0, 0, 1)
@@ -199,9 +202,13 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_x50yd")
 value = 100.0
 show_percentage = false
 
-[node name="Spacer" type="Control" parent="VBoxContainer/TopPanel"]
+[node name="InstructionLabel" type="Label" parent="VBoxContainer/TopPanel"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+label_settings = SubResource("LabelSettings_ksl0e")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="EnemyBox" type="VBoxContainer" parent="VBoxContainer/TopPanel"]
 custom_minimum_size = Vector2(150, 150)

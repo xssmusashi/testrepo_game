@@ -5,12 +5,23 @@ extends CanvasLayer
 @onready var enemy_hp_bar: ProgressBar = %EnemyHPBar # Убедись, что Unique Name включен!
 @onready var player_hp_bar: ProgressBar = %PlayerHPBar
 
+@onready var instruction_label: Label = %InstructionLabel
+
+const INSTRUCTIONS = {
+	"focus": "Keep your cursor inside the circle!",
+	"geometry_dash": "Press SPACE to jump!",
+	"fruit": "Slice them all with your mouse!",
+	"shield": "Protect yourself with your mouse!"
+}
+
 @onready var attack_nodes = {
 	"focus": %EnemyAttackFocus,
 	"geometry_dash": %EnemyAttackGeometryDash,
 	"fruit": %EnemyAttackFruitSlasher,
 	"shield": %EnemyAttackShieldOrbit
 }
+
+const DEFAULT_ATTACK = "focus"
 
 var current_enemy_hp: int = 100
 var enemy_damage: int = 10
@@ -19,6 +30,8 @@ var attack_running := false
 var player_damage_to_enemy: float = 50.0 # Базовый урон игрока
 
 func _ready():
+	instruction_label.text = ""
+	
 	var data = BattleManager.enemy_data
 	current_enemy_hp = data.get("hp", 100)
 	enemy_damage = data.get("damage", 10)
@@ -66,7 +79,7 @@ func _on_player_attack_finished(multiplier: float): # ИСПРАВЛЕНО ИМ�
 	if enemy_hp_bar:
 		enemy_hp_bar.value = current_enemy_hp
 	
-	update_log("Вы нанесли " + str(damage_dealt) + " урона!")
+	update_log("You made " + str(damage_dealt) + " damage!")
 	
 	if current_enemy_hp <= 0:
 		_on_enemy_died()
@@ -77,7 +90,12 @@ func _on_player_attack_finished(multiplier: float): # ИСПРАВЛЕНО ИМ�
 func start_enemy_turn():
 	if active_enemy_attack:
 		disable_buttons()
-		update_log("Враг атакует!")
+		update_log("Enemy is attacking!")
+		
+		var attack_type = BattleManager.enemy_data.get("attack_type", DEFAULT_ATTACK)
+		
+		instruction_label.text = INSTRUCTIONS.get(attack_type, "Watch out!")
+		
 		active_enemy_attack.start({ "damage": enemy_damage, "duration": 10.0 })
 	else:
 		update_log("Враг в замешательстве...")
@@ -85,6 +103,11 @@ func start_enemy_turn():
 
 func _on_enemy_attack_finished(result: Dictionary):
 	attack_running = false # СБРОС ФЛАГА (теперь можно снова атаковать)
+	enable_buttons()
+	
+	instruction_label.text = ""
+	
+	attack_running = false
 	enable_buttons()
 	
 	if result.get("success", false):

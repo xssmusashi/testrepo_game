@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bwi32u38huvjr" path="res://main/locations/forest_1/forest_1_obstacles/forest_oak_tree.tscn" id="3_xwkvk"]
 [ext_resource type="PackedScene" uid="uid://c2dfxccqyyxac" path="res://main/locations/forest_1/forest_1_obstacles/forest_green_tree.tscn" id="4_kfbq2"]
 [ext_resource type="PackedScene" uid="uid://b4h6p3icfel7" path="res://main/locations/forest_1/forest_1_obstacles/forest_house.tscn" id="7_4dugh"]
-[ext_resource type="PackedScene" uid="uid://cyefg7o2picp0" path="res://main/enemies/glorb_frog/enemy_glorb_frog.tscn" id="8_67ri8"]
+[ext_resource type="PackedScene" uid="uid://cyefg7o2picp0" path="res://main/characters/glorb_frog_enemy/enemy_glorb_frog.tscn" id="8_67ri8"]
 [ext_resource type="PackedScene" uid="uid://coi3renlv8qbw" path="res://main/dialogue_ui/dialogue_ui.tscn" id="9_grrlh"]
 [ext_resource type="Shader" uid="uid://dxvaqdlnvt7qn" path="res://main/main.gdshader" id="10_0i4oc"]
 

@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
-@export var enemy_name: String = "Глорб Жаба"
+@export var enemy_name: String = "Glorb Frog"
 @export var hp: int = 100
 @export var damage: int = 10
-@export var attack_type: String = "geometry_dash"
+@export var attack_type: String = "shield"
 @export var dialogue_lines: Array[String] = ["Ква-ква!", "Ты не пройдешь!"]
 @export var portrait: Texture2D
 @export var attack_first: bool = false
