@@ -27,6 +27,8 @@ const INSTRUCTIONS = {
 
 const DEFAULT_ATTACK = "focus"
 
+var is_spare_attempt := false # Флаг: пытаемся ли мы пощадить сейчас
+
 var current_character_hp: int = 100
 var character_damage: int = 10
 var active_character_attack = null
@@ -35,17 +37,23 @@ var player_damage_to_character: float = 50.0 # Базовый урон игро�
 
 func _ready():
 	var data = BattleManager.character_data
+	var char_id = BattleManager.current_character_id
 	
 	instruction_label.text = ""
-	
 	character_name_label.text = data["name"]
 	character_portrait_sprite.texture = data["portrait"]
 	
+	var max_hp = data.get("hp", 100)
+	current_character_hp = PlayerStorage.get_character_hp(char_id, max_hp)
+	
+	character_damage = data.get("damage", 10)
+	
+	if character_hp_bar:
+		character_hp_bar.max_value = max_hp
+		character_hp_bar.value = current_character_hp
+	
 	mercy_button.pressed.connect(_on_mercy_pressed)
 	_update_mercy_status()
-	
-	current_character_hp = data.get("hp", 100)
-	character_damage = data.get("damage", 10)
 	
 	for attack_node in attack_nodes.values():
 		if attack_node:
@@ -64,11 +72,7 @@ func _ready():
 
 	if player_attack_game:
 		if player_attack_game.has_signal("finished"):
-			if not player_attack_game.finished.is_connected(_on_player_attack_finished):
-				player_attack_game.finished.connect(_on_player_attack_finished)
-		elif player_attack_game.has_signal("attack_finished"):
-			if not player_attack_game.attack_finished.is_connected(_on_player_attack_finished):
-				player_attack_game.attack_finished.connect(_on_player_attack_finished)
+			player_attack_game.finished.connect(_on_player_attack_finished)
 	
 	update_log("The battle begins!")
 
@@ -77,26 +81,51 @@ func update_log(text: String):
 
 func _on_attack_pressed():
 	if attack_running: return
+	is_spare_attempt = false # Обычная атака
 	attack_running = true
 	disable_buttons()
 	update_log("You attack...")
 	player_attack_game.start()
+	
+func _on_mercy_pressed():
+	if attack_running: return
+	is_spare_attempt = true # Попытка пощады
+	attack_running = true
+	disable_buttons()
+	update_log("You try to spare... Be perfect!")
+	player_attack_game.start()
 
-func _on_player_attack_finished(multiplier: float): # ИСПРАВЛЕНО ИМЯ (multiplier)
+func _on_player_attack_finished(multiplier: float):
 	attack_running = false
-	var damage_dealt = int(player_damage_to_character * multiplier)
-	current_character_hp -= damage_dealt
 	
-	if character_hp_bar:
-		character_hp_bar.value = current_character_hp
-	
-	update_log("You dealed " + str(damage_dealt) + " damage!")
-	
-	if current_character_hp <= 0:
-		_on_character_died()
+	if is_spare_attempt:
+		# ПОЩАДА: Нужен идеальный результат (multiplier >= 1.0)
+		if multiplier >= 0.95: # Даем небольшую погрешность для "идеала"
+			update_log("Perfect! The enemy accepts your mercy.")
+			await get_tree().create_timer(1.0).timeout
+			_end_battle_peacefully()
+		else:
+			update_log("Your mercy wasn't convincing...")
+			await get_tree().create_timer(1.0).timeout
+			start_character_turn()
 	else:
-		await get_tree().create_timer(1.0).timeout
-		start_character_turn()
+		# ОБЫЧНАЯ АТАКА
+		var damage_dealt = int(player_damage_to_character * multiplier)
+		current_character_hp -= damage_dealt
+		
+		# СОХРАНЕНИЕ HP: Записываем остаток здоровья сразу после удара
+		PlayerStorage.save_character_hp(BattleManager.current_character_id, current_character_hp)
+		
+		if character_hp_bar:
+			character_hp_bar.value = current_character_hp
+		
+		update_log("You dealt " + str(damage_dealt) + " damage!")
+		
+		if current_character_hp <= 0:
+			_on_character_died()
+		else:
+			await get_tree().create_timer(1.0).timeout
+			start_character_turn()
 
 func start_character_turn():
 	if active_character_attack:
@@ -135,8 +164,16 @@ func _on_character_attack_finished(result: Dictionary):
 
 func _on_character_died():
 	update_log("The character is killed!")
+	# При смерти удаляем запись о здоровье, чтобы в следующий раз он возродился (если надо)
+	# Или оставляем 0, если он не должен больше появляться.
+	PlayerStorage.register_kill(BattleManager.current_character_id)
 	await get_tree().create_timer(1.5).timeout
-	_on_character_defeated()
+	get_tree().change_scene_to_file("res://main/main.tscn")
+	
+func _end_battle_peacefully():
+	# Мирная победа: используем новый метод
+	PlayerStorage.register_spare(BattleManager.current_character_id)
+	get_tree().change_scene_to_file("res://main/main.tscn")
 
 func _on_character_defeated():
 	# ИСПОЛЬЗУЕМ: current_character_id, как указано в BattleManager
@@ -163,20 +200,6 @@ func _update_mercy_status():
 	
 	# Визуально выделяем кнопку, если пощада доступна (как в Undertale)
 	if BattleManager.can_spare:
-		mercy_button.modulate = Color.YELLOW
+		mercy_button.modulate = Color("0072ff")
 	else:
-		mercy_button.modulate = Color.WHITE
-
-func _end_battle_peacefully():
-	# Помечаем NPC как "побежденного" (мирно), чтобы он исчез с карты
-	PlayerStorage.mark_character_defeated(BattleManager.current_character_id)
-	
-	# Переход обратно в мир
-	get_tree().change_scene_to_file("res://main/main.tscn")
-
-func _on_mercy_pressed():
-	if BattleManager.can_spare:
-		_end_battle_peacefully()
-	else:
-		# Можно вывести текст "Враг еще не хочет сдаваться..."
-		print("You can't spare yet!")
+		mercy_button.modulate = Color("000e1fff")

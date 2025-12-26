@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://duq3wnc6qhgw1" path="res://main/character_attack_mini_games/character_attack_geometry_dash/character_attack_geometry_dash.tscn" id="3_o63kq"]
 [ext_resource type="Texture2D" uid="uid://d2iqlbex60a1s" path="res://main/battle/sprites/AttackButton_Icon.png" id="5_33lwt"]
 [ext_resource type="Texture2D" uid="uid://dn63mfionmbs0" path="res://main/battle/sprites/InventoryButton_Icon.png" id="6_c6s1a"]
-[ext_resource type="Texture2D" uid="uid://cy6yl5cu1x4om" path="res://main/battle/sprites/HackButton_Icon.png" id="8_is2p5"]
+[ext_resource type="Texture2D" uid="uid://cy6yl5cu1x4om" path="res://main/battle/sprites/MercyButton_Icon.png" id="8_is2p5"]
 [ext_resource type="PackedScene" uid="uid://bh0uaqro0rbyo" path="res://main/character_attack_mini_games/character_attack_fruit_slasher/character_attack_fruit_slasher.tscn" id="8_xav1o"]
 [ext_resource type="PackedScene" uid="uid://dkaqsavsx35bt" path="res://main/character_attack_mini_games/character_attack_focus/character_attack_focus.tscn" id="9_keope"]
 [ext_resource type="PackedScene" uid="uid://cj1naildc5r7d" path="res://main/character_attack_mini_games/character_attack_shield_orbit/character_attack_shield_orbit.tscn" id="10_xav1o"]
@@ -32,7 +32,7 @@ shader_parameter/static_noise_intensity = 0.1230000058425
 shader_parameter/aberration = 4.7499999933364734e-08
 shader_parameter/brightness = 1.0
 shader_parameter/discolor = false
-shader_parameter/warp_amount = 0.242000011495
+shader_parameter/warp_amount = 0.0
 shader_parameter/clip_warp = false
 shader_parameter/vignette_intensity = 0.1
 shader_parameter/vignette_opacity = 0.11600000551
@@ -301,28 +301,44 @@ layout_mode = 2
 custom_minimum_size = Vector2(47, 46)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_vkqg8")
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_0npn6")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_s0bho")
+text = "ATTACK"
 icon = ExtResource("5_33lwt")
-icon_alignment = 1
+alignment = 2
+icon_alignment = 2
+expand_icon = true
 
 [node name="Inventory" type="Button" parent="VBoxContainer/ActionsPanel"]
 custom_minimum_size = Vector2(47, 46)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_vkqg8")
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_xav1o")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
+text = "INVENTORY
+"
 icon = ExtResource("6_c6s1a")
-icon_alignment = 1
+alignment = 2
+icon_alignment = 2
+expand_icon = true
 
 [node name="Mercy" type="Button" parent="VBoxContainer/ActionsPanel"]
 custom_minimum_size = Vector2(47, 46)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_vkqg8")
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_66um8")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
+text = "MERCY"
 icon = ExtResource("8_is2p5")
-icon_alignment = 1
+alignment = 2
+icon_alignment = 2
+expand_icon = true
 
 [connection signal="pressed" from="VBoxContainer/ActionsPanel/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="VBoxContainer/ActionsPanel/Inventory" to="." method="_on_inventory_pressed"]

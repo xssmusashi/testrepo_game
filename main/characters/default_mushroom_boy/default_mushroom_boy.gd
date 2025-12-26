@@ -32,7 +32,7 @@ var is_playing_special_idle := false
 
 func _ready():
 	# Проверка: если враг убит, удаляем его
-	if PlayerStorage.is_character_defeated(character_id):
+	if PlayerStorage.is_character_killed(character_id):
 		queue_free()
 		return
 	

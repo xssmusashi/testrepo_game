@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dl3r7o14ksqff"
-path="res://.godot/imported/SayButton_Icon.png-89a54dfdc1393b2c836f5abc2ee88e2b.ctex"
+uid="uid://cy6yl5cu1x4om"
+path="res://.godot/imported/MercyButton_Icon.png-1e6c229634e4db082c7c80b85ace066e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/battle/sprites/SayButton_Icon.png"
-dest_files=["res://.godot/imported/SayButton_Icon.png-89a54dfdc1393b2c836f5abc2ee88e2b.ctex"]
+source_file="res://main/battle/sprites/MercyButton_Icon.png"
+dest_files=["res://.godot/imported/MercyButton_Icon.png-1e6c229634e4db082c7c80b85ace066e.ctex"]
 
 [params]
 

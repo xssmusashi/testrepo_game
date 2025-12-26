@@ -28,7 +28,7 @@ func _ready():
 	if character_id == "":
 		character_id = name
 	
-	if PlayerStorage.is_character_defeated(character_id):
+	if PlayerStorage.is_character_killed(character_id):
 		queue_free()
 		return
 	
