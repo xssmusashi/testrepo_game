@@ -9,7 +9,7 @@ extends CharacterBody2D
 @onready var inventory: Inventory = $Inventory
 
 var current_interactable = null
-var health: int = 100 # Добавим HP для урона в бою
+@export var health: int = 100 # Добавим HP для урона в бою
 
 func _ready():
 	interact_detector.area_entered.connect(_on_area_entered)

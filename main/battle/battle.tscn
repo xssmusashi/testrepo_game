@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dajsoxawargk1"]
+[gd_scene load_steps=28 format=3 uid="uid://dajsoxawargk1"]
 
 [ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle/battle.gd" id="1_ip7xm"]
 [ext_resource type="Texture2D" uid="uid://cc1tayp6vmxrl" path="res://main/player/player_portait.png" id="2_oxp8w"]
@@ -56,6 +56,17 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3fv4m"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_keope"]
+font = ExtResource("2_vkqg8")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0npn6"]
 bg_color = Color(1, 0, 0, 1)
@@ -143,7 +154,8 @@ label_settings = SubResource("LabelSettings_yv0sx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HPBar" type="ProgressBar" parent="VBoxContainer/TopPanel/PlayerBox"]
+[node name="PlayerHPBar" type="ProgressBar" parent="VBoxContainer/TopPanel/PlayerBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_ksl0e")
@@ -234,8 +246,11 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/LogPanel"]
+[node name="RichTextLabel" type="Label" parent="VBoxContainer/LogPanel"]
 layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_3fv4m")
+label_settings = SubResource("LabelSettings_keope")
 
 [node name="ActionsPanel" type="HBoxContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 80)
