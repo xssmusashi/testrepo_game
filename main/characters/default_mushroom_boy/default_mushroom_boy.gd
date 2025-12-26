@@ -7,8 +7,8 @@ extends CharacterBody2D
 @export var idle_chance_time := 30.0 # Раз в 30 секунд
 
 # Данные для боя и диалога
-@export var enemy_name: String = "Mushroom Boy"
-@export var enemy_id: String = "forest_1_mushroom_boy"
+@export var character_name: String = "Mushroom Boy"
+@export var character_id: String = "forest_1_mushroom_boy"
 @export var hp: int = 80
 @export var damage: int = 8
 @export var attack_type: String = "shield"
@@ -31,7 +31,7 @@ var is_playing_special_idle := false
 
 func _ready():
 	# Проверка: если враг убит, удаляем его
-	if PlayerStorage.is_enemy_defeated(enemy_id):
+	if PlayerStorage.is_character_defeated(character_id):
 		queue_free()
 		return
 	
@@ -43,7 +43,12 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	if is_talking or is_playing_special_idle:
-		velocity = Vector2.ZERO
+		velocity = velocity.move_toward(Vector2.ZERO, speed * delta * 5)
+		# Если скорость стала совсем маленькой — обнуляем её для срабатывания анимации
+		if velocity.length() < 1.0:
+			velocity = Vector2.ZERO
+		_update_animations() # Важно вызывать и здесь, чтобы при торможении включился default
+		move_and_slide()
 		return
 
 	# Таймер для редкого Idle (раз в 30 сек)
@@ -52,30 +57,66 @@ func _physics_process(delta: float) -> void:
 		_play_rare_idle()
 		return
 
-	# Логика перемещения
 	ai_timer -= delta
 	if ai_timer <= 0:
 		_choose_next_action()
 
-	velocity = move_direction * speed
+	var target_velocity = move_direction * speed
+	velocity = velocity.move_toward(target_velocity, speed * delta * 10)
+	
+	# Снаппинг: если мы почти остановились, сбрасываем в 0
+	if move_direction == Vector2.ZERO and velocity.length() < 2.0:
+		velocity = Vector2.ZERO
+	
 	_update_animations()
 	move_and_slide()
 
 func _choose_next_action():
-	# Случайно выбираем: стоять или идти
 	if randf() > 0.5:
-		# Выбор направления из 4 сторон
+		# Используем только чистые направления и нормализуем на всякий случай
 		move_direction = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN].pick_random()
 		ai_timer = wander_time
 	else:
 		move_direction = Vector2.ZERO
 		ai_timer = wait_time
 
+func _face_player():
+	# Ищем игрока в группе "player" (рекомендуется) или просто по имени в корне
+	var player = get_tree().get_first_node_in_group("player")
+	
+	if not player:
+		# Если группа не настроена, пробуем найти узел с именем "Player"
+		player = get_tree().root.find_child("Player", true, false)
+
+	if player:
+		# Вычисляем вектор направления от гриба к игроку
+		var direction_to_player = player.global_position - global_position
+		
+		# Определяем, какая ось преобладает (горизонтальная или вертикальная)
+		if abs(direction_to_player.x) > abs(direction_to_player.y):
+			# Горизонтальное направление
+			if direction_to_player.x > 0:
+				anim.play("default_right")
+			else:
+				anim.play("default_left")
+		else:
+			# Вертикальное направление
+			if direction_to_player.y > 0:
+				anim.play("default_down")
+			else:
+				anim.play("default_up")
+
 func _update_animations():
-	if velocity.length() == 0:
-		anim.play("default") # Когда не идет — ставим в default
+	# Состояние 1: РАЗГОВОР (приоритет)
+	if is_talking:
+		_face_player()
+		return
+
+	# Состояние 2: ПОКОЙ (не движется)
+	if velocity.is_zero_approx():
+		anim.play("default")
+	# Состояние 3: ДВИЖЕНИЕ
 	else:
-		# Выбор анимации ходьбы по направлению
 		if abs(velocity.x) > abs(velocity.y):
 			anim.play("walk_right" if velocity.x > 0 else "walk_left")
 		else:
@@ -97,24 +138,33 @@ func interact():
 	if is_talking: return
 	
 	is_talking = true
-	velocity = Vector2.ZERO
-	anim.play("default") # Замираем в покое
+	velocity = Vector2.ZERO # Полная остановка перед общением
+	anim.play("default")
 	
 	if dialogue_ui:
-		# Передаем данные в UI диалогов
-		dialogue_ui.start_dialogue(dialogue_lines, enemy_name, portrait, ask_info)
+		dialogue_ui.start_dialogue(dialogue_lines, character_name, portrait, ask_info)
+		
+		# Подключаем два разных сценария
 		if not dialogue_ui.dialogue_finished.is_connected(_on_dialogue_finished):
-			dialogue_ui.dialogue_finished.connect(_on_dialogue_finished, CONNECT_ONE_SHOT)
+			dialogue_ui.dialogue_finished.connect(_on_dialogue_finished)
+		
+		if not dialogue_ui.battle_requested.is_connected(_on_battle_requested):
+			dialogue_ui.battle_requested.connect(_on_battle_requested)
 
 func _on_dialogue_finished():
+	# Просто возвращаемся к жизни, боя не будет
 	is_talking = false
+	_choose_next_action()
+
+func _on_battle_requested():
+	# Игрок нажал "Атака" — начинаем бой
 	_start_battle()
 
 func _start_battle():
 	# Передаем данные именно этого NPC в глобальный менеджер
-	BattleManager.current_enemy_id = enemy_id
-	BattleManager.enemy_data = {
-		"name": enemy_name,
+	BattleManager.current_character_id = character_id
+	BattleManager.character_data = {
+		"name": character_name,
 		"hp": hp,
 		"damage": damage,
 		"attack_type": attack_type,

@@ -1,7 +1,27 @@
-[gd_scene load_steps=23 format=3 uid="uid://ctcllfxgwaapc"]
+[gd_scene load_steps=28 format=3 uid="uid://ctcllfxgwaapc"]
 
 [ext_resource type="Script" uid="uid://bq2qqy56dvdhp" path="res://main/characters/default_mushroom_boy/default_mushroom_boy.gd" id="1_0hsi6"]
 [ext_resource type="Texture2D" uid="uid://b6jkdbodqi0bs" path="res://main/characters/default_mushroom_boy/default_mushroom_boy_spritesheet.png" id="1_vqc28"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgfyr"]
+atlas = ExtResource("1_vqc28")
+region = Rect2(0, 512, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n631x"]
+atlas = ExtResource("1_vqc28")
+region = Rect2(0, 512, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e3654"]
+atlas = ExtResource("1_vqc28")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlcjr"]
+atlas = ExtResource("1_vqc28")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a61eg"]
+atlas = ExtResource("1_vqc28")
+region = Rect2(0, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0hsi6"]
 atlas = ExtResource("1_vqc28")
@@ -73,6 +93,46 @@ region = Rect2(256, 128, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ashr5"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgfyr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n631x")
+}],
+"loop": true,
+"name": &"default_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e3654")
+}],
+"loop": true,
+"name": &"default_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wlcjr")
+}],
+"loop": true,
+"name": &"default_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a61eg")
+}],
+"loop": true,
+"name": &"default_up",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0hsi6")
@@ -166,10 +226,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6pq7i"]
-size = Vector2(256, 256)
+size = Vector2(160, 160)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wgfyr"]
-size = Vector2(96, 112)
+size = Vector2(72, 32)
 
 [node name="DefaultMushroomBoy" type="CharacterBody2D"]
 scale = Vector2(2, 2)
@@ -177,8 +237,6 @@ script = ExtResource("1_0hsi6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ashr5")
-animation = &"walk_up"
-frame_progress = 0.73834836
 
 [node name="InteractArea" type="Area2D" parent="."]
 
@@ -186,4 +244,6 @@ frame_progress = 0.73834836
 shape = SubResource("RectangleShape2D_6pq7i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+y_sort_enabled = true
+position = Vector2(0, 36)
 shape = SubResource("RectangleShape2D_wgfyr")

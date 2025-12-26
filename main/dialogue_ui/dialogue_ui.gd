@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 signal dialogue_finished
+signal battle_requested
 
 @onready var text_label = $Panel/RichTextLabel
 @onready var name_label = $Panel/NameLabel     # Узел для имени
@@ -61,24 +62,35 @@ func _input(event):
 			_show_line()
 
 func _show_options():
-	# Очищаем старые кнопки
 	for child in options_container.get_children():
 		child.queue_free()
 	
 	options_container.visible = true
 	
-	# Создаем кнопку для каждого вопроса
+	# Кнопка "АТАКА" (всегда первая или выделенная)
+	var attack_btn = Button.new()
+	attack_btn.text = "Вступить в бой!"
+	attack_btn.pressed.connect(_on_attack_selected)
+	options_container.add_child(attack_btn)
+	
 	for question in extra_info.keys():
 		var btn = Button.new()
 		btn.text = question
 		btn.pressed.connect(_on_option_selected.bind(question))
 		options_container.add_child(btn)
 	
-	# Кнопка "Завершить"
 	var exit_btn = Button.new()
 	exit_btn.text = "Закончить разговор"
 	exit_btn.pressed.connect(_close_dialogue)
 	options_container.add_child(exit_btn)
+
+func _on_attack_selected():
+	visible = false
+	battle_requested.emit() # Оповещаем NPC, что пора воевать
+	
+func _close_dialogue():
+	visible = false
+	dialogue_finished.emit() # Просто закрываем окно
 
 func _on_option_selected(question: String):
 	options_container.visible = false
@@ -86,7 +98,3 @@ func _on_option_selected(question: String):
 	lines = [extra_info[question]]
 	current_line = 0
 	_show_line()
-
-func _close_dialogue():
-	visible = false
-	dialogue_finished.emit()

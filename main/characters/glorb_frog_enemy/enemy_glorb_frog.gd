@@ -1,14 +1,14 @@
 extends CharacterBody2D
 
-@export var enemy_name: String = "Glorb Frog"
+@export var character_name: String = "Glorb Frog"
 @export var hp: int = 100
 @export var damage: int = 10
-@export var attack_type: String = "shield"
+@export var attack_type: String = "fruit"
 @export var dialogue_lines: Array[String] = ["Croak-Croak!", "Come on here, lets fight!"]
 @export var portrait: Texture2D
 @export var attack_first: bool = false
 
-@export var enemy_id: String = "forest_1_glorb_frog"
+@export var character_id: String = "forest_1_glorb_frog"
 
 # --- Настройки прыжков ---
 @export var jump_distance := 120.0 
@@ -25,10 +25,10 @@ var is_jumping := false
 var is_talking := false # НОВЫЙ ФЛАГ: Состояние разговора
 
 func _ready():
-	if enemy_id == "":
-		enemy_id = name
+	if character_id == "":
+		character_id = name
 	
-	if PlayerStorage.is_enemy_defeated(enemy_id):
+	if PlayerStorage.is_character_defeated(character_id):
 		queue_free()
 		return
 	
@@ -85,7 +85,7 @@ func interact():
 	anim.play("idle") # Гарантируем анимацию покоя
 	
 	if dialogue_ui:
-		dialogue_ui.start_dialogue(dialogue_lines, enemy_name, portrait)
+		dialogue_ui.start_dialogue(dialogue_lines, character_name, portrait)
 		# Подключаемся к сигналу завершения, чтобы сбросить флаг или начать бой
 		if not dialogue_ui.dialogue_finished.is_connected(_on_dialogue_finished):
 			dialogue_ui.dialogue_finished.connect(_on_dialogue_finished, CONNECT_ONE_SHOT)
@@ -96,10 +96,10 @@ func _on_dialogue_finished():
 	_start_battle() # Запускаем переход в сцену боя
 
 func _start_battle():
-	BattleManager.current_enemy_id = enemy_id
+	BattleManager.current_character_id = character_id
 	
-	BattleManager.enemy_data = {
-		"name": enemy_name,
+	BattleManager.character_data = {
+		"name": character_name,
 		"hp": hp,
 		"damage": damage,
 		"attack_type": attack_type,

@@ -23,7 +23,6 @@ func _physics_process(_delta):
 	_handle_movement()
 
 	if Input.is_action_just_pressed("interact") and current_interactable:
-			print("Нажата E! Вызываю interact() у: ", current_interactable.name)
 			current_interactable.interact()
 
 func _handle_movement():
@@ -38,21 +37,36 @@ func _handle_movement():
 	move_and_slide()
 
 func _on_area_entered(area):
-	# Проверяем метод у области ИЛИ у её родителя (самой жабы)
+	# Ищем цель (саму область или её родителя-NPC)
 	var target = area
 	if not target.has_method("interact"):
 		target = area.get_parent()
 	
 	if target.has_method("interact"):
 		current_interactable = target
+		
+		# Пытаемся получить имя. В Mushroom Boy это 'enemy_name'
+		# Используем .get(), чтобы избежать ошибки, если переменной нет
+		var npc_name = target.get("enemy_name") 
+		if not npc_name:
+			npc_name = "NPC" # Имя по умолчанию
+			
+		# Обновляем текст подсказки
+		if interact_prompt is Label:
+			interact_prompt.text = "[E] " + npc_name
+		elif interact_prompt.has_node("Label"): # Если Label лежит внутри спрайта
+			interact_prompt.get_node("Label").text = "[E] " + npc_name
+			
 		interact_prompt.visible = true
-		print("Готов к диалогу с: ", target.name)
+		print("Готов к диалогу с: ", npc_name)
 
 func _on_area_exited(area):
-	# Проверяем и область, и родителя при выходе
 	if current_interactable == area or current_interactable == area.get_parent():
 		current_interactable = null
 		interact_prompt.visible = false
+		# Сбрасываем текст (необязательно, но полезно для отладки)
+		if interact_prompt is Label:
+			interact_prompt.text = "[E]"
 
 func take_damage(amount: int):
 	health -= amount

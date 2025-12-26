@@ -2,10 +2,10 @@ extends CanvasLayer
 
 @onready var player_attack_game = %PlayerAttack 
 @onready var log_label = $VBoxContainer/LogPanel/RichTextLabel 
-@onready var enemy_hp_bar: ProgressBar = %EnemyHPBar # Убедись, что Unique Name включен!
+@onready var character_hp_bar: ProgressBar = %CharacterHPBar # Убедись, что Unique Name включен!
 @onready var player_hp_bar: ProgressBar = %PlayerHPBar
-@onready var enemy_name_label: Label = %EnemyName
-@onready var enemy_portrait_sprite: TextureRect = %EnemyPortrait
+@onready var character_name_label: Label = %CharacterName
+@onready var character_portrait_sprite: TextureRect = %CharacterPortrait
 
 @onready var instruction_label: Label = %InstructionLabel
 
@@ -17,40 +17,40 @@ const INSTRUCTIONS = {
 }
 
 @onready var attack_nodes = {
-	"focus": %EnemyAttackFocus,
-	"geometry_dash": %EnemyAttackGeometryDash,
-	"fruit": %EnemyAttackFruitSlasher,
-	"shield": %EnemyAttackShieldOrbit
+	"focus": %characterAttackFocus,
+	"geometry_dash": %characterAttackGeometryDash,
+	"fruit": %characterAttackFruitSlasher,
+	"shield": %characterAttackShieldOrbit
 }
 
 const DEFAULT_ATTACK = "focus"
 
-var current_enemy_hp: int = 100
-var enemy_damage: int = 10
-var active_enemy_attack = null
+var current_character_hp: int = 100
+var character_damage: int = 10
+var active_character_attack = null
 var attack_running := false
-var player_damage_to_enemy: float = 50.0 # Базовый урон игрока
+var player_damage_to_character: float = 50.0 # Базовый урон игрока
 
 func _ready():
-	var data = BattleManager.enemy_data
+	var data = BattleManager.character_data
 	
 	instruction_label.text = ""
 	
-	enemy_name_label.text = data["name"]
-	enemy_portrait_sprite.texture = data["portrait"]
+	character_name_label.text = data["name"]
+	character_portrait_sprite.texture = data["portrait"]
 	
-	current_enemy_hp = data.get("hp", 100)
-	enemy_damage = data.get("damage", 10)
+	current_character_hp = data.get("hp", 100)
+	character_damage = data.get("damage", 10)
 	
 	for attack_node in attack_nodes.values():
 		if attack_node:
 			# Проверяем и подключаем сигнал 'finished'
-			if not attack_node.finished.is_connected(_on_enemy_attack_finished):
-				attack_node.finished.connect(_on_enemy_attack_finished)
+			if not attack_node.finished.is_connected(_on_character_attack_finished):
+				attack_node.finished.connect(_on_character_attack_finished)
 	
 	# 2. Инициализируем активную атаку
 	var type = data.get("attack_type", "focus")
-	active_enemy_attack = attack_nodes.get(type)
+	active_character_attack = attack_nodes.get(type)
 	
 	# 3. Настройка UI через ГЛОБАЛЬНОЕ здоровье
 	if player_hp_bar:
@@ -79,35 +79,35 @@ func _on_attack_pressed():
 
 func _on_player_attack_finished(multiplier: float): # ИСПРАВЛЕНО ИМЯ (multiplier)
 	attack_running = false
-	var damage_dealt = int(player_damage_to_enemy * multiplier)
-	current_enemy_hp -= damage_dealt
+	var damage_dealt = int(player_damage_to_character * multiplier)
+	current_character_hp -= damage_dealt
 	
-	if enemy_hp_bar:
-		enemy_hp_bar.value = current_enemy_hp
+	if character_hp_bar:
+		character_hp_bar.value = current_character_hp
 	
 	update_log("You dealed " + str(damage_dealt) + " damage!")
 	
-	if current_enemy_hp <= 0:
-		_on_enemy_died()
+	if current_character_hp <= 0:
+		_on_character_died()
 	else:
 		await get_tree().create_timer(1.0).timeout
-		start_enemy_turn()
+		start_character_turn()
 
-func start_enemy_turn():
-	if active_enemy_attack:
+func start_character_turn():
+	if active_character_attack:
 		disable_buttons()
-		update_log("Enemy is attacking!")
+		update_log("character is attacking!")
 		
-		var attack_type = BattleManager.enemy_data.get("attack_type", DEFAULT_ATTACK)
+		var attack_type = BattleManager.character_data.get("attack_type", DEFAULT_ATTACK)
 		
 		instruction_label.text = INSTRUCTIONS.get(attack_type, "Watch out!")
 		
-		active_enemy_attack.start({ "damage": enemy_damage, "duration": 10.0 })
+		active_character_attack.start({ "damage": character_damage, "duration": 10.0 })
 	else:
-		update_log("The enemy is confused...")
+		update_log("The character is confused...")
 		enable_buttons()
 
-func _on_enemy_attack_finished(result: Dictionary):
+func _on_character_attack_finished(result: Dictionary):
 	attack_running = false # СБРОС ФЛАГА (теперь можно снова атаковать)
 	enable_buttons()
 	
@@ -119,7 +119,7 @@ func _on_enemy_attack_finished(result: Dictionary):
 	if result.get("success", false):
 		update_log("You dodged!!")
 	else:
-		var dmg = result.get("damage", enemy_damage)
+		var dmg = result.get("damage", character_damage)
 		update_log("You took " + str(dmg) + " damage.")
 		
 		# Наносим урон напрямую в ГЛОБАЛЬНЫЙ менеджер
@@ -127,16 +127,16 @@ func _on_enemy_attack_finished(result: Dictionary):
 		if player_hp_bar:
 			player_hp_bar.value = BattleManager.player_health
 
-func _on_enemy_died():
-	update_log("The enemy is killed!")
+func _on_character_died():
+	update_log("The character is killed!")
 	await get_tree().create_timer(1.5).timeout
-	_on_enemy_defeated()
+	_on_character_defeated()
 
-func _on_enemy_defeated():
+func _on_character_defeated():
 	# Регистрируем победу по сохраненному ID
-	var enemy_id = BattleManager.current_enemy_id
-	if enemy_id != "":
-		PlayerStorage.register_defeat(enemy_id)
+	var character_id = BattleManager.character_name_id
+	if character_id != "":
+		PlayerStorage.register_defeat(character_id)
 	
 	# Возвращаемся в мир
 	get_tree().change_scene_to_file("res://main/main.tscn")

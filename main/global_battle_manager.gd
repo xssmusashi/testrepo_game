@@ -4,10 +4,10 @@ extends Node
 var player_health: int = 100
 var player_max_health: int = 100
 
-var current_enemy_id: String = "" # Храним ID текущего противника
+var current_character_id: String = "" # Храним ID текущего противника
 
 # Данные текущего боя
-var enemy_data = {
+var character_data = {
 	"name": "Unknown",
 	"hp": 100,
 	"damage": 10,

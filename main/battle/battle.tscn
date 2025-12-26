@@ -210,20 +210,20 @@ label_settings = SubResource("LabelSettings_ksl0e")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyBox" type="VBoxContainer" parent="VBoxContainer/TopPanel"]
+[node name="CharacterBox" type="VBoxContainer" parent="VBoxContainer/TopPanel"]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 
-[node name="EnemyPortrait" type="TextureRect" parent="VBoxContainer/TopPanel/EnemyBox"]
+[node name="CharacterPortrait" type="TextureRect" parent="VBoxContainer/TopPanel/CharacterBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 
-[node name="EnemyName" type="Label" parent="VBoxContainer/TopPanel/EnemyBox"]
+[node name="CharacterName" type="Label" parent="VBoxContainer/TopPanel/CharacterBox"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="EnemyHPBar" type="ProgressBar" parent="VBoxContainer/TopPanel/EnemyBox"]
+[node name="CharacterHPBar" type="ProgressBar" parent="VBoxContainer/TopPanel/CharacterBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
