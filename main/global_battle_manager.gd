@@ -6,6 +6,8 @@ var player_max_health: int = 100
 
 var current_character_id: String = "" # Храним ID текущего противника
 
+var can_spare: bool = false # Флаг: можно ли пощадить врага сейчас
+
 # Данные текущего боя
 var character_data = {
 	"name": "Unknown",

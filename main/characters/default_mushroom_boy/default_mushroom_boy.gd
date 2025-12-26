@@ -138,6 +138,8 @@ func _on_animation_finished():
 func interact():
 	if is_talking: return
 	
+	BattleManager.can_spare = true
+	
 	is_talking = true
 	velocity = Vector2.ZERO 
 	anim.play("default")

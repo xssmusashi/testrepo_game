@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dajsoxawargk1"]
+[gd_scene load_steps=29 format=3 uid="uid://dajsoxawargk1"]
 
 [ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle/battle.gd" id="1_ip7xm"]
 [ext_resource type="Shader" uid="uid://dxvaqdlnvt7qn" path="res://main/main.gdshader" id="2_keope"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://duq3wnc6qhgw1" path="res://main/character_attack_mini_games/character_attack_geometry_dash/character_attack_geometry_dash.tscn" id="3_o63kq"]
 [ext_resource type="Texture2D" uid="uid://d2iqlbex60a1s" path="res://main/battle/sprites/AttackButton_Icon.png" id="5_33lwt"]
 [ext_resource type="Texture2D" uid="uid://dn63mfionmbs0" path="res://main/battle/sprites/InventoryButton_Icon.png" id="6_c6s1a"]
-[ext_resource type="Texture2D" uid="uid://dl3r7o14ksqff" path="res://main/battle/sprites/SayButton_Icon.png" id="7_vkqg8"]
 [ext_resource type="Texture2D" uid="uid://cy6yl5cu1x4om" path="res://main/battle/sprites/HackButton_Icon.png" id="8_is2p5"]
 [ext_resource type="PackedScene" uid="uid://bh0uaqro0rbyo" path="res://main/character_attack_mini_games/character_attack_fruit_slasher/character_attack_fruit_slasher.tscn" id="8_xav1o"]
 [ext_resource type="PackedScene" uid="uid://dkaqsavsx35bt" path="res://main/character_attack_mini_games/character_attack_focus/character_attack_focus.tscn" id="9_keope"]
@@ -128,16 +127,8 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ouvwj"]
-bg_color = Color(0, 0, 1, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66um8"]
-bg_color = Color(0.69991606, 0.44884825, 1, 1)
+bg_color = Color(0, 0.44705883, 1, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -324,16 +315,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
 icon = ExtResource("6_c6s1a")
 icon_alignment = 1
 
-[node name="Say" type="Button" parent="VBoxContainer/ActionsPanel"]
-custom_minimum_size = Vector2(47, 46)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_ouvwj")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_gapho")
-icon = ExtResource("7_vkqg8")
-icon_alignment = 1
-
-[node name="Hack" type="Button" parent="VBoxContainer/ActionsPanel"]
+[node name="Mercy" type="Button" parent="VBoxContainer/ActionsPanel"]
 custom_minimum_size = Vector2(47, 46)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -344,3 +326,4 @@ icon_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/ActionsPanel/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="VBoxContainer/ActionsPanel/Inventory" to="." method="_on_inventory_pressed"]
+[connection signal="pressed" from="VBoxContainer/ActionsPanel/Mercy" to="." method="_on_mercy_pressed"]

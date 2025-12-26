@@ -80,6 +80,8 @@ func interact():
 	if is_jumping: 
 		return 
 		
+	BattleManager.can_spare = false # В начале боя нельзя
+		
 	is_talking = true # ПОДНИМАЕМ ФЛАГ: ИИ замирает
 	velocity = Vector2.ZERO
 	anim.play("idle") # Гарантируем анимацию покоя

@@ -9,6 +9,8 @@ extends CanvasLayer
 
 @onready var instruction_label: Label = %InstructionLabel
 
+@onready var mercy_button = $VBoxContainer/ActionsPanel/Mercy
+
 const INSTRUCTIONS = {
 	"focus": "Keep your cursor inside the circle!",
 	"geometry_dash": "Press SPACE to jump!",
@@ -38,6 +40,9 @@ func _ready():
 	
 	character_name_label.text = data["name"]
 	character_portrait_sprite.texture = data["portrait"]
+	
+	mercy_button.pressed.connect(_on_mercy_pressed)
+	_update_mercy_status()
 	
 	current_character_hp = data.get("hp", 100)
 	character_damage = data.get("damage", 10)
@@ -148,3 +153,30 @@ func disable_buttons():
 func enable_buttons():
 	for btn in [$VBoxContainer/ActionsPanel/Attack, $VBoxContainer/ActionsPanel/Inventory, $VBoxContainer/ActionsPanel/Say, $VBoxContainer/ActionsPanel/Hack]:
 		if btn: btn.disabled = false
+
+func _update_mercy_status():
+	# Врага можно пощадить, если его HP меньше 30%
+	var enemy_hp = BattleManager.character_data["hp"]
+	# Здесь можно добавить проверку: BattleManager.can_spare = (enemy_hp < 30)
+	# Для теста сделаем, что пощада доступна всегда
+	BattleManager.can_spare = true 
+	
+	# Визуально выделяем кнопку, если пощада доступна (как в Undertale)
+	if BattleManager.can_spare:
+		mercy_button.modulate = Color.YELLOW
+	else:
+		mercy_button.modulate = Color.WHITE
+
+func _end_battle_peacefully():
+	# Помечаем NPC как "побежденного" (мирно), чтобы он исчез с карты
+	PlayerStorage.mark_character_defeated(BattleManager.current_character_id)
+	
+	# Переход обратно в мир
+	get_tree().change_scene_to_file("res://main/main.tscn")
+
+func _on_mercy_pressed():
+	if BattleManager.can_spare:
+		_end_battle_peacefully()
+	else:
+		# Можно вывести текст "Враг еще не хочет сдаваться..."
+		print("You can't spare yet!")
