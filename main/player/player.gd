@@ -9,9 +9,13 @@ extends CharacterBody2D
 @onready var inventory: Inventory = $Inventory
 
 var current_interactable = null
-@export var health: int = 100 # Добавим HP для урона в бою
+
+var health := 0
 
 func _ready():
+	# Загружаем здоровье из глобального менеджера
+	health = BattleManager.player_health
+	
 	interact_detector.area_entered.connect(_on_area_entered)
 	interact_detector.area_exited.connect(_on_area_exited)
 
@@ -52,9 +56,14 @@ func _on_area_exited(area):
 
 func take_damage(amount: int):
 	health -= amount
+	# Обновляем глобальный стейт, чтобы в бою или другой сцене данные были актуальны
+	BattleManager.player_health = health 
+	
 	print("HP Игрока: ", health)
 	if health <= 0:
-		get_tree().reload_current_scene() # Рестарт при смерти
+		# Перед рестартом можно восстановить HP или оставить как есть для Game Over
+		BattleManager.player_health = BattleManager.player_max_health
+		get_tree().reload_current_scene()
 
 func choose_animation(dir):
 	if abs(dir.x) > abs(dir.y):

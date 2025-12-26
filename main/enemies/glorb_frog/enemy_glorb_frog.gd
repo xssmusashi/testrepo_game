@@ -6,6 +6,7 @@ extends Node2D
 @export var attack_type: String = "geometry_dash" # Какую мини-игру запустить
 @export var dialogue_lines: Array[String] = ["Ква-ква!", "Ты не пройдешь!"]
 @export var portrait: Texture2D 
+@export var attack_first: bool = false # Нападает ли враг сразу после диалога
 
 @onready var dialogue_ui = get_tree().root.find_child("DialogueUI", true, false)
 
@@ -22,6 +23,7 @@ func _start_battle():
 		"hp": hp,
 		"damage": damage,
 		"attack_type": attack_type,
-		"portrait": portrait
+		"portrait": portrait,
+		"attack_first": attack_first
 	}
 	get_tree().change_scene_to_file("res://main/battle/battle.tscn")

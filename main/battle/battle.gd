@@ -29,14 +29,24 @@ func _ready():
 		enemy_hp_bar.value = current_enemy_hp
 		
 	# Инициализируем полоску игрока
-	var player = get_tree().root.find_child("Player", true, false)
-	if player and player_hp_bar:
-		player_hp_bar.max_value = 100 # Или player.max_health
-		player_hp_bar.value = player.health
+	if player_hp_bar:
+		player_hp_bar.max_value = BattleManager.player_max_health
+		player_hp_bar.value = BattleManager.player_health
 	
 	# Коннектим сигналы (с защитой от дублей)
 	if not player_attack_game.attack_finished.is_connected(_on_player_attack_finished):
 		player_attack_game.attack_finished.connect(_on_player_attack_finished)
+	
+	# 3. РЕШАЕМ, КТО ХОДИТ ПЕРВЫМ
+	if data.get("attack_first", false):
+		disable_buttons() # Блокируем игрока
+		update_log("Враг нападает первым!")
+		# Небольшая пауза перед атакой для красоты
+		await get_tree().create_timer(1.0).timeout 
+		start_enemy_turn()
+	else:
+		update_log("Твой ход!")
+		enable_buttons()
 	
 	update_log("Начало боя!")
 
@@ -83,13 +93,20 @@ func _on_enemy_attack_finished(result: Dictionary):
 		var dmg = result.get("damage", enemy_damage)
 		update_log("Вы получили " + str(dmg) + " урона.")
 		
-		# Наносим урон игроку
-		var player = get_tree().root.find_child("Player", true, false)
-		if player:
-			player.take_damage(dmg)
-			# ОБНОВЛЯЕМ ПОЛОСКУ ЗДОРОВЬЯ ИГРОКА
-			if player_hp_bar:
-				player_hp_bar.value = player.health
+		# Прямое нанесение урона глобальному стейту
+		BattleManager.player_health -= dmg
+		
+		# Обновляем UI
+		if player_hp_bar:
+			player_hp_bar.value = BattleManager.player_health
+		
+		# Проверка смерти игрока в бою
+		if BattleManager.player_health <= 0:
+			update_log("Вы погибли...")
+			await get_tree().create_timer(1.0).timeout
+			# Возвращаем HP для перезапуска (или вызываем экран смерти)
+			BattleManager.player_health = BattleManager.player_max_health
+			get_tree().change_scene_to_file("res://main/main.tscn")
 
 func _on_enemy_died():
 	update_log("Враг повержен!")
