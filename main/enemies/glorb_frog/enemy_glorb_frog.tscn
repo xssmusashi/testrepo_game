@@ -92,6 +92,7 @@ size = Vector2(107, 98.5)
 size = Vector2(58, 47)
 
 [node name="EnemyGlorbFrog" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_r8amt")
 portrait = ExtResource("2_1lxgq")
 attack_first = true

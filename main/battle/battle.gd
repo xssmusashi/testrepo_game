@@ -23,33 +23,30 @@ func _ready():
 	current_enemy_hp = data.get("hp", 100)
 	enemy_damage = data.get("damage", 10)
 	
-	# ИСПРАВЛЕНИЕ: Связываем строковый тип атаки с узлом из словаря
-	var type = data.get("attack_type", "focus")
-	if type in attack_nodes:
-		active_enemy_attack = attack_nodes[type]
+	for attack_node in attack_nodes.values():
+		if attack_node:
+			# Проверяем и подключаем сигнал 'finished'
+			if not attack_node.finished.is_connected(_on_enemy_attack_finished):
+				attack_node.finished.connect(_on_enemy_attack_finished)
 	
-	# Настройка UI
-	if enemy_hp_bar:
-		enemy_hp_bar.max_value = current_enemy_hp
-		enemy_hp_bar.value = current_enemy_hp
-		
-	# Используем глобальное здоровье вместо поиска узла Player
+	# 2. Инициализируем активную атаку
+	var type = data.get("attack_type", "focus")
+	active_enemy_attack = attack_nodes.get(type)
+	
+	# 3. Настройка UI через ГЛОБАЛЬНОЕ здоровье
 	if player_hp_bar:
 		player_hp_bar.max_value = BattleManager.player_max_health
 		player_hp_bar.value = BattleManager.player_health
-	
-	if not player_attack_game.attack_finished.is_connected(_on_player_attack_finished):
-		player_attack_game.attack_finished.connect(_on_player_attack_finished)
 
-	# РЕАЛИЗАЦИЯ ПЕРВОГО ХОДА
-	if data.get("attack_first", false):
-		disable_buttons()
-		update_log("Враг нападает первым!")
-		await get_tree().create_timer(1.0).timeout 
-		start_enemy_turn()
-	else:
-		update_log("Твой ход!")
-		enable_buttons()
+	if player_attack_game:
+		if player_attack_game.has_signal("finished"):
+			if not player_attack_game.finished.is_connected(_on_player_attack_finished):
+				player_attack_game.finished.connect(_on_player_attack_finished)
+		elif player_attack_game.has_signal("attack_finished"):
+			if not player_attack_game.attack_finished.is_connected(_on_player_attack_finished):
+				player_attack_game.attack_finished.connect(_on_player_attack_finished)
+	
+	update_log("Начало боя!")
 
 func update_log(text: String):
 	if log_label: log_label.text = text
@@ -87,24 +84,19 @@ func start_enemy_turn():
 		enable_buttons()
 
 func _on_enemy_attack_finished(result: Dictionary):
+	attack_running = false # СБРОС ФЛАГА (теперь можно снова атаковать)
 	enable_buttons()
+	
 	if result.get("success", false):
 		update_log("Вы уклонились!")
 	else:
 		var dmg = result.get("damage", enemy_damage)
 		update_log("Вы получили " + str(dmg) + " урона.")
 		
-		# Прямое изменение глобального HP
+		# Наносим урон напрямую в ГЛОБАЛЬНЫЙ менеджер
 		BattleManager.player_health -= dmg
 		if player_hp_bar:
 			player_hp_bar.value = BattleManager.player_health
-		
-		if BattleManager.player_health <= 0:
-			update_log("Вы погибли...")
-			await get_tree().create_timer(1.0).timeout
-			# Возвращаем HP для перезапуска (или вызываем экран смерти)
-			BattleManager.player_health = BattleManager.player_max_health
-			get_tree().change_scene_to_file("res://main/main.tscn")
 
 func _on_enemy_died():
 	update_log("Враг повержен!")

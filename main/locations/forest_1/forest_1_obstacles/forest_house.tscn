@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://b4h6p3icfel7"]
+[gd_scene load_steps=8 format=3 uid="uid://b4h6p3icfel7"]
 
 [ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_8udq7"]
 [ext_resource type="Shader" uid="uid://d0o21nngmm31a" path="res://main/locations/forest_1/forest_1_obstacles/forest_house.gdshader" id="2_no31m"]
-[ext_resource type="Texture2D" uid="uid://ecmplv0611li" path="res://main/locations/forest_1/forest_1_sprites/forest_house.png" id="2_y3v6b"]
+[ext_resource type="Texture2D" uid="uid://cgy856i302kah" path="res://main/locations/forest_1/forest_1_sprites/forest_house.png" id="2_y3v6b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5pamj"]
 shader = ExtResource("2_no31m")
@@ -10,16 +10,13 @@ shader_parameter/shadow_params = Vector3(10, -15, 0.3)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3v6b"]
-size = Vector2(107.66667, 86.333336)
+size = Vector2(208.16669, 127.16667)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_no31m"]
-size = Vector2(131.66667, 62.000004)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5pamj"]
-size = Vector2(10.333336, 52.333336)
+size = Vector2(208.33334, 127)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q8phr"]
-size = Vector2(10.666672, 51.666668)
+size = Vector2(18, 130.41667)
 
 [node name="BaseObstacle" instance=ExtResource("1_8udq7")]
 
@@ -28,17 +25,17 @@ material = SubResource("ShaderMaterial_5pamj")
 texture = ExtResource("2_y3v6b")
 
 [node name="CollisionShape2D" parent="TrunkCollision (main collision)" index="0"]
-position = Vector2(0.16666667, 9.833334)
+position = Vector2(0.2500051, 62.583336)
 shape = SubResource("RectangleShape2D_y3v6b")
 
 [node name="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="0"]
-position = Vector2(-1.8333334, -64.66667)
+position = Vector2(0.16666937, -64.5)
 shape = SubResource("RectangleShape2D_no31m")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="1"]
-position = Vector2(59.5, -7.499999)
-shape = SubResource("RectangleShape2D_5pamj")
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="1"]
+position = Vector2(-113, -9.458336)
+shape = SubResource("RectangleShape2D_q8phr")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="2"]
-position = Vector2(-59.333336, -7.8333335)
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="2"]
+position = Vector2(112, -10.666667)
 shape = SubResource("RectangleShape2D_q8phr")

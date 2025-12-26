@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgy856i302kah"
-path="res://.godot/imported/forest_house.png-4707e411e161dc5747806b1f3dea8d2d.ctex"
+uid="uid://ecmplv0611li"
+path="res://.godot/imported/forest_house_1.png-26f237d6b8b0553ed914fddeeb2aedb1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/locations/forest_1/forest_1_sprites/forest_house.png"
-dest_files=["res://.godot/imported/forest_house.png-4707e411e161dc5747806b1f3dea8d2d.ctex"]
+source_file="res://main/locations/forest_1/forest_1_sprites/forest_house_1.png"
+dest_files=["res://.godot/imported/forest_house_1.png-26f237d6b8b0553ed914fddeeb2aedb1.ctex"]
 
 [params]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://bxfmuy5jnbvex"]
+[gd_scene load_steps=16 format=4 uid="uid://bxfmuy5jnbvex"]
 
 [ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png" id="1_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player/player.tscn" id="2_0xm2m"]
@@ -31,6 +31,8 @@ texture_region_size = Vector2i(64, 64)
 3:3/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_67ri8"]
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_4dugh")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_3wy1v"]
@@ -45,24 +47,6 @@ scenes/3/scene = ExtResource("4_kfbq2")
 
 [sub_resource type="TileSet" id="TileSet_3wy1v"]
 sources/0 = SubResource("TileSetScenesCollectionSource_c651c")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kfbq2"]
-size = Vector2(1523.125, 2692)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4dugh"]
-size = Vector2(3271.75, 1285)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_67ri8"]
-size = Vector2(2315, 2433)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_grrlh"]
-size = Vector2(2251.5, 1252.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0i4oc"]
-size = Vector2(1082.75, 2269.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bsumw"]
-size = Vector2(1932.5, 1170)
 
 [node name="Main" type="Node2D"]
 y_sort_enabled = true
@@ -83,46 +67,15 @@ tile_set = SubResource("TileSet_kfbq2")
 y_sort_enabled = true
 tile_set = SubResource("TileSet_3wy1v")
 
-[node name="Area2D" type="StaticBody2D" parent="."]
-disable_mode = 1
-collision_layer = 3
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(1400, 1034)
-shape = SubResource("RectangleShape2D_kfbq2")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(514.125, -671.5)
-shape = SubResource("RectangleShape2D_4dugh")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-1303.5, 145.5)
-shape = SubResource("RectangleShape2D_67ri8")
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(314, 2950)
-shape = SubResource("RectangleShape2D_grrlh")
-
-[node name="CollisionShape2D5" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-2597, 2514)
-shape = SubResource("RectangleShape2D_0i4oc")
-
-[node name="CollisionShape2D6" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-563.25, 3005)
-shape = SubResource("RectangleShape2D_bsumw")
-
-[node name="CollisionShape2D7" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-2672, 3005)
-shape = SubResource("RectangleShape2D_bsumw")
-
 [node name="Player" parent="." instance=ExtResource("2_0xm2m")]
-position = Vector2(-962, 1987)
+position = Vector2(-616, 2168)
 scale = Vector2(4, 4)
 
 [node name="BaseObstacle" parent="." instance=ExtResource("7_4dugh")]
 position = Vector2(-1495, 1871)
 
 [node name="EnemyGlorbFrog" parent="." instance=ExtResource("8_67ri8")]
-position = Vector2(-1248, 2000)
+position = Vector2(-864, 2176)
+scale = Vector2(2, 2)
 
 [node name="DialogueUI" parent="." instance=ExtResource("9_grrlh")]
