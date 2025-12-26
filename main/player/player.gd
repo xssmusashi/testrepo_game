@@ -47,7 +47,7 @@ func _on_area_entered(area):
 		
 		# Пытаемся получить имя. В Mushroom Boy это 'enemy_name'
 		# Используем .get(), чтобы избежать ошибки, если переменной нет
-		var npc_name = target.get("enemy_name") 
+		var npc_name = target.get("character_name") 
 		if not npc_name:
 			npc_name = "NPC" # Имя по умолчанию
 			

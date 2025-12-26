@@ -154,12 +154,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lat6o"]
-size = Vector2(40, 40)
-
 [sub_resource type="LabelSettings" id="LabelSettings_pi8k8"]
 font = ExtResource("3_4v151")
-font_size = 8
+font_size = 12
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lat6o"]
+size = Vector2(40, 40)
 
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -175,6 +175,21 @@ shape = SubResource("RectangleShape2D_hqtel")
 sprite_frames = SubResource("SpriteFrames_4flbx")
 animation = &"walk_left"
 
+[node name="InteractPrompt" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -12.0
+offset_right = 12.0
+offset_bottom = 14.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+text = "[E]"
+label_settings = SubResource("LabelSettings_pi8k8")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="InteractDetector" type="Area2D" parent="."]
 unique_name_in_owner = true
 collision_layer = 3
@@ -182,13 +197,3 @@ collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractDetector"]
 shape = SubResource("RectangleShape2D_lat6o")
-
-[node name="InteractPrompt" type="Label" parent="InteractDetector"]
-unique_name_in_owner = true
-visible = false
-offset_left = -11.0
-offset_top = -20.0
-offset_right = 13.0
-offset_bottom = -12.0
-text = "[E]"
-label_settings = SubResource("LabelSettings_pi8k8")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://w1q3ucysd0n6"]
 
-[ext_resource type="Script" uid="uid://b7haebojcekv2" path="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/fruit/fruit.gd" id="1_n8vwe"]
+[ext_resource type="Script" uid="uid://b7haebojcekv2" path="res://main/character_attack_mini_games/character_attack_fruit_slasher/fruit/fruit.gd" id="1_n8vwe"]
 
 [node name="Fruit" type="Control"]
 custom_minimum_size = Vector2(40, 40)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0at7knxtjnda"
-path="res://.godot/imported/fruits.png-1e69b437c625cc601a2d8172e76f7f9e.ctex"
+uid="uid://dkp0x835mu0l"
+path="res://.godot/imported/battle_portrait.png-a19bb15eaccac8a8676813d41379ca49.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/fruit/fruits.png"
-dest_files=["res://.godot/imported/fruits.png-1e69b437c625cc601a2d8172e76f7f9e.ctex"]
+source_file="res://main/characters/default_mushroom_boy/battle_portrait.png"
+dest_files=["res://.godot/imported/battle_portrait.png-a19bb15eaccac8a8676813d41379ca49.ctex"]
 
 [params]
 

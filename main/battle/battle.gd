@@ -17,10 +17,10 @@ const INSTRUCTIONS = {
 }
 
 @onready var attack_nodes = {
-	"focus": %characterAttackFocus,
-	"geometry_dash": %characterAttackGeometryDash,
-	"fruit": %characterAttackFruitSlasher,
-	"shield": %characterAttackShieldOrbit
+	"focus": %CharacterAttackFocus,
+	"geometry_dash": %CharacterAttackGeometryDash,
+	"fruit": %CharacterAttackFruitSlasher,
+	"shield": %CharacterAttackShieldOrbit
 }
 
 const DEFAULT_ATTACK = "focus"
@@ -108,13 +108,9 @@ func start_character_turn():
 		enable_buttons()
 
 func _on_character_attack_finished(result: Dictionary):
-	attack_running = false # СБРОС ФЛАГА (теперь можно снова атаковать)
+	attack_running = false # Сбрасываем флаг, чтобы можно было атаковать снова
 	enable_buttons()
-	
 	instruction_label.text = ""
-	
-	attack_running = false
-	enable_buttons()
 	
 	if result.get("success", false):
 		update_log("You dodged!!")
@@ -122,10 +118,15 @@ func _on_character_attack_finished(result: Dictionary):
 		var dmg = result.get("damage", character_damage)
 		update_log("You took " + str(dmg) + " damage.")
 		
-		# Наносим урон напрямую в ГЛОБАЛЬНЫЙ менеджер
+		# Наносим урон в глобальный менеджер
 		BattleManager.player_health -= dmg
 		if player_hp_bar:
 			player_hp_bar.value = BattleManager.player_health
+			
+		# СОВЕТ: Добавьте проверку на смерть игрока здесь
+		if BattleManager.player_health <= 0:
+			update_log("You were defeated...")
+			# Тут логика проигрыша
 
 func _on_character_died():
 	update_log("The character is killed!")
@@ -133,14 +134,13 @@ func _on_character_died():
 	_on_character_defeated()
 
 func _on_character_defeated():
-	# Регистрируем победу по сохраненному ID
-	var character_id = BattleManager.character_name_id
+	# ИСПОЛЬЗУЕМ: current_character_id, как указано в BattleManager
+	var character_id = BattleManager.current_character_id
 	if character_id != "":
 		PlayerStorage.register_defeat(character_id)
 	
-	# Возвращаемся в мир
 	get_tree().change_scene_to_file("res://main/main.tscn")
-
+	
 func disable_buttons():
 	for btn in [$VBoxContainer/ActionsPanel/Attack, $VBoxContainer/ActionsPanel/Inventory, $VBoxContainer/ActionsPanel/Say, $VBoxContainer/ActionsPanel/Hack]:
 		if btn: btn.disabled = true

@@ -12,12 +12,13 @@ extends CharacterBody2D
 @export var hp: int = 80
 @export var damage: int = 8
 @export var attack_type: String = "shield"
-@export var portrait: Texture2D # Назначьте в инспекторе!
+@export var dialogue_portrait: Texture2D # Назначьте в инспекторе!
+@export var battle_portrait: Texture2D
 
-@export var dialogue_lines: Array[String] = ["Привет! Я просто лесной гриб.", "Не наступай на меня!"]
+@export var dialogue_lines: Array[String] = ["Hey! I am mushroomian!", "Don't step on me!"]
 @export var ask_info: Dictionary = {
-	"О лесе": "Этот лес полон странных существ, вроде Глорба.",
-	"О тебе": "Я люблю дождь и тишину."
+	"About this place": "You are on the territory of the Legion of the Mushroom Outskirts!\nIt used to be just the outskirts.\nNow we’ve added “Legion” to the name.\nWell.\nTo sound more warlike.",
+	"About yourself": "I love rain and silence.\nThe rain is still here, but I haven’t heard silence for a long time.\nI'm tired."
 }
 
 @onready var anim = $AnimatedSprite2D
@@ -142,7 +143,7 @@ func interact():
 	anim.play("default")
 	
 	if dialogue_ui:
-		dialogue_ui.start_dialogue(dialogue_lines, character_name, portrait, ask_info)
+		dialogue_ui.start_dialogue(dialogue_lines, character_name, dialogue_portrait, ask_info)
 		
 		# Подключаем два разных сценария
 		if not dialogue_ui.dialogue_finished.is_connected(_on_dialogue_finished):
@@ -168,7 +169,7 @@ func _start_battle():
 		"hp": hp,
 		"damage": damage,
 		"attack_type": attack_type,
-		"portrait": portrait,
+		"portrait": battle_portrait,
 		"attack_first": false
 	}
 	get_tree().change_scene_to_file("res://main/battle/battle.tscn")

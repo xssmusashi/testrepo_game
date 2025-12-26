@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cj1naildc5r7d"]
 
-[ext_resource type="Script" uid="uid://ccio5xggdmjjg" path="res://main/enemy_attack_mini_games/enemy_attack_shield_orbit/enemy_attack_shield_orbit.gd" id="1_d5xgv"]
+[ext_resource type="Script" uid="uid://ccio5xggdmjjg" path="res://main/character_attack_mini_games/character_attack_shield_orbit/character_attack_shield_orbit.gd" id="1_d5xgv"]
 [ext_resource type="Texture2D" uid="uid://dn8rdudeegkm" path="res://main/ui_elements/enemy_attack_clock.png" id="2_qbkpb"]
 
 [node name="EnemyAttackShieldOrbit" type="Control"]

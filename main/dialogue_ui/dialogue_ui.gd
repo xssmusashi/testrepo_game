@@ -4,8 +4,8 @@ signal dialogue_finished
 signal battle_requested
 
 @onready var text_label = $Panel/RichTextLabel
-@onready var name_label = $Panel/NameLabel     # Узел для имени
-@onready var portrait_rect = $Panel/PanelContainer/Portrait   # Узел для портрета
+@onready var name_label = $Panel/VBoxContainer/NameLabel     # Узел для имени
+@onready var portrait_rect = $Panel/VBoxContainer/PanelContainer/Portrait   # Узел для портрета
 @onready var timer = $Timer
 @onready var options_container = $Panel/OptionsContainer
 
@@ -69,7 +69,7 @@ func _show_options():
 	
 	# Кнопка "АТАКА" (всегда первая или выделенная)
 	var attack_btn = Button.new()
-	attack_btn.text = "Вступить в бой!"
+	attack_btn.text = "Attack!"
 	attack_btn.pressed.connect(_on_attack_selected)
 	options_container.add_child(attack_btn)
 	
@@ -80,7 +80,7 @@ func _show_options():
 		options_container.add_child(btn)
 	
 	var exit_btn = Button.new()
-	exit_btn.text = "Закончить разговор"
+	exit_btn.text = "End dialogue"
 	exit_btn.pressed.connect(_close_dialogue)
 	options_container.add_child(exit_btn)
 

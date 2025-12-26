@@ -1,7 +1,9 @@
-[gd_scene load_steps=28 format=3 uid="uid://ctcllfxgwaapc"]
+[gd_scene load_steps=30 format=3 uid="uid://ctcllfxgwaapc"]
 
 [ext_resource type="Script" uid="uid://bq2qqy56dvdhp" path="res://main/characters/default_mushroom_boy/default_mushroom_boy.gd" id="1_0hsi6"]
 [ext_resource type="Texture2D" uid="uid://b6jkdbodqi0bs" path="res://main/characters/default_mushroom_boy/default_mushroom_boy_spritesheet.png" id="1_vqc28"]
+[ext_resource type="Texture2D" uid="uid://cnhhvm8nbk35t" path="res://main/characters/default_mushroom_boy/dialogue_portrait.png" id="2_6ea3g"]
+[ext_resource type="Texture2D" uid="uid://dkp0x835mu0l" path="res://main/characters/default_mushroom_boy/battle_portrait.png" id="2_6tgxg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wgfyr"]
 atlas = ExtResource("1_vqc28")
@@ -234,6 +236,8 @@ size = Vector2(72, 32)
 [node name="DefaultMushroomBoy" type="CharacterBody2D"]
 scale = Vector2(2, 2)
 script = ExtResource("1_0hsi6")
+dialogue_portrait = ExtResource("2_6ea3g")
+battle_portrait = ExtResource("2_6tgxg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ashr5")

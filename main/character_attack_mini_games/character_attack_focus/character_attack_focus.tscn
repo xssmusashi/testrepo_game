@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dkaqsavsx35bt"]
 
-[ext_resource type="Script" uid="uid://bts5xm3lbxgb0" path="res://main/enemy_attack_mini_games/enemy_attack_focus/enemy_attack_focus.gd" id="1_h86m6"]
+[ext_resource type="Script" uid="uid://bts5xm3lbxgb0" path="res://main/character_attack_mini_games/character_attack_focus/character_attack_focus.gd" id="1_h86m6"]
 [ext_resource type="Texture2D" uid="uid://dm8xjewsap16x" path="res://main/ui_elements/player_crosshair.png" id="2_1whs6"]
 [ext_resource type="Texture2D" uid="uid://dn8rdudeegkm" path="res://main/ui_elements/enemy_attack_clock.png" id="2_q1r0s"]
 
