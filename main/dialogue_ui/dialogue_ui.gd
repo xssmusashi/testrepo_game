@@ -20,6 +20,13 @@ func force_close():
 	for child in options_container.get_children():
 		child.queue_free()
 
+func close_silently():
+	visible = false
+	timer.stop()
+	# Очищаем варианты выбора, чтобы они не всплыли потом
+	for child in options_container.get_children():
+		child.queue_free()
+
 func _ready():
 	visible = false
 	options_container.visible = false

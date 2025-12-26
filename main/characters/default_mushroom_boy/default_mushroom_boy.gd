@@ -174,13 +174,10 @@ func _start_battle():
 	}
 	get_tree().change_scene_to_file("res://main/battle/battle.tscn")
 
-func _on_interaction_area_body_exited(body: Node2D) -> void:
+func _on_interact_area_body_exited(body: Node2D) -> void:
+	print("Игрок вышел!")
 	if is_talking and body.is_in_group("player"):
 		is_talking = false
 		if dialogue_ui:
-			dialogue_ui.force_close()
-		_choose_next_action() # Возвращаем гриб к обычному поведению
-
-
-func _on_interact_area_body_exited(body: Node2D) -> void:
-	pass # Replace with function body.
+			dialogue_ui.close_silently()
+		_choose_next_action() # Гриб снова начинает гулять
