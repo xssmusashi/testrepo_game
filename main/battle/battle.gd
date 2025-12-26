@@ -83,7 +83,7 @@ func _on_attack_pressed():
 	if attack_running: return
 	is_spare_attempt = false # Обычная атака
 	attack_running = true
-	disable_buttons()
+	set_buttons_disabled(true)
 	update_log("You attack...")
 	player_attack_game.start()
 	
@@ -91,29 +91,24 @@ func _on_mercy_pressed():
 	if attack_running: return
 	is_spare_attempt = true # Попытка пощады
 	attack_running = true
-	disable_buttons()
+	set_buttons_disabled(false)
 	update_log("You try to spare... Be perfect!")
 	player_attack_game.start()
 
 func _on_player_attack_finished(multiplier: float):
-	attack_running = false
+	# Мы НЕ сбрасываем attack_running здесь, так как ход боя еще продолжается (идет смена хода)
 	
 	if is_spare_attempt:
-		# ПОЩАДА: Нужен идеальный результат (multiplier >= 1.0)
-		if multiplier >= 0.95: # Даем небольшую погрешность для "идеала"
+		if multiplier >= 0.95:
 			update_log("Perfect! The enemy accepts your mercy.")
 			await get_tree().create_timer(1.0).timeout
 			_end_battle_peacefully()
+			return # Выходим, бой окончен
 		else:
 			update_log("Your mercy wasn't convincing...")
-			await get_tree().create_timer(1.0).timeout
-			start_character_turn()
 	else:
-		# ОБЫЧНАЯ АТАКА
 		var damage_dealt = int(player_damage_to_character * multiplier)
 		current_character_hp -= damage_dealt
-		
-		# СОХРАНЕНИЕ HP: Записываем остаток здоровья сразу после удара
 		PlayerStorage.save_character_hp(BattleManager.current_character_id, current_character_hp)
 		
 		if character_hp_bar:
@@ -123,44 +118,45 @@ func _on_player_attack_finished(multiplier: float):
 		
 		if current_character_hp <= 0:
 			_on_character_died()
-		else:
-			await get_tree().create_timer(1.0).timeout
-			start_character_turn()
+			return
+
+	# После любой атаки (Mercy или удар) ждем и передаем ход
+	await get_tree().create_timer(1.0).timeout
+	_update_mercy_status() # Обновляем статус пощады после изменения HP
+	start_character_turn()
 
 func start_character_turn():
+	attack_running = true # Убеждаемся, что флаг активен во время хода врага
+	set_buttons_disabled(true)
+	
 	if active_character_attack:
-		disable_buttons()
-		update_log("character is attacking!")
-		
+		update_log("The enemy is attacking!")
 		var attack_type = BattleManager.character_data.get("attack_type", DEFAULT_ATTACK)
-		
 		instruction_label.text = INSTRUCTIONS.get(attack_type, "Watch out!")
-		
 		active_character_attack.start({ "damage": character_damage, "duration": 10.0 })
 	else:
 		update_log("The character is confused...")
-		enable_buttons()
+		await get_tree().create_timer(1.0).timeout
+		_on_character_attack_finished({"success": true, "damage": 0})
 
 func _on_character_attack_finished(result: Dictionary):
-	attack_running = false # Сбрасываем флаг, чтобы можно было атаковать снова
-	enable_buttons()
 	instruction_label.text = ""
+	# Только здесь, когда враг закончил, мы позволяем игроку снова нажимать кнопки
+	attack_running = false 
+	set_buttons_disabled(false)
 	
 	if result.get("success", false):
 		update_log("You dodged!!")
 	else:
 		var dmg = result.get("damage", character_damage)
 		update_log("You took " + str(dmg) + " damage.")
-		
-		# Наносим урон в глобальный менеджер
 		BattleManager.player_health -= dmg
 		if player_hp_bar:
 			player_hp_bar.value = BattleManager.player_health
-			
-		# СОВЕТ: Добавьте проверку на смерть игрока здесь
+		
 		if BattleManager.player_health <= 0:
 			update_log("You were defeated...")
-			# Тут логика проигрыша
+			# Добавьте здесь вызов экрана проигрыша
 
 func _on_character_died():
 	update_log("The character is killed!")
@@ -182,14 +178,11 @@ func _on_character_defeated():
 		PlayerStorage.register_defeat(character_id)
 	
 	get_tree().change_scene_to_file("res://main/main.tscn")
-	
-func disable_buttons():
-	for btn in [$VBoxContainer/ActionsPanel/Attack, $VBoxContainer/ActionsPanel/Inventory, $VBoxContainer/ActionsPanel/Say, $VBoxContainer/ActionsPanel/Hack]:
-		if btn: btn.disabled = true
 
-func enable_buttons():
-	for btn in [$VBoxContainer/ActionsPanel/Attack, $VBoxContainer/ActionsPanel/Inventory, $VBoxContainer/ActionsPanel/Say, $VBoxContainer/ActionsPanel/Hack]:
-		if btn: btn.disabled = false
+func set_buttons_disabled(is_disabled: bool):
+	for btn in $VBoxContainer/ActionsPanel.get_children():
+		if btn is Button:
+			btn.disabled = is_disabled
 
 func _update_mercy_status():
 	# Врага можно пощадить, если его HP меньше 30%
@@ -202,4 +195,4 @@ func _update_mercy_status():
 	if BattleManager.can_spare:
 		mercy_button.modulate = Color("0072ff")
 	else:
-		mercy_button.modulate = Color("000e1fff")
+		mercy_button.modulate = Color.BLACK
