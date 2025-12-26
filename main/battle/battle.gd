@@ -59,7 +59,7 @@ func _ready():
 			if not player_attack_game.attack_finished.is_connected(_on_player_attack_finished):
 				player_attack_game.attack_finished.connect(_on_player_attack_finished)
 	
-	update_log("Начало боя!")
+	update_log("The battle begins!")
 
 func update_log(text: String):
 	if log_label: log_label.text = text
@@ -68,7 +68,7 @@ func _on_attack_pressed():
 	if attack_running: return
 	attack_running = true
 	disable_buttons()
-	update_log("Вы атакуете...")
+	update_log("You attack...")
 	player_attack_game.start()
 
 func _on_player_attack_finished(multiplier: float): # ИСПРАВЛЕНО ИМЯ (multiplier)
@@ -79,7 +79,7 @@ func _on_player_attack_finished(multiplier: float): # ИСПРАВЛЕНО ИМ�
 	if enemy_hp_bar:
 		enemy_hp_bar.value = current_enemy_hp
 	
-	update_log("You made " + str(damage_dealt) + " damage!")
+	update_log("You dealed " + str(damage_dealt) + " damage!")
 	
 	if current_enemy_hp <= 0:
 		_on_enemy_died()
@@ -98,7 +98,7 @@ func start_enemy_turn():
 		
 		active_enemy_attack.start({ "damage": enemy_damage, "duration": 10.0 })
 	else:
-		update_log("Враг в замешательстве...")
+		update_log("The enemy is confused...")
 		enable_buttons()
 
 func _on_enemy_attack_finished(result: Dictionary):
@@ -111,10 +111,10 @@ func _on_enemy_attack_finished(result: Dictionary):
 	enable_buttons()
 	
 	if result.get("success", false):
-		update_log("Вы уклонились!")
+		update_log("You dodged!!")
 	else:
 		var dmg = result.get("damage", enemy_damage)
-		update_log("Вы получили " + str(dmg) + " урона.")
+		update_log("You took " + str(dmg) + " damage.")
 		
 		# Наносим урон напрямую в ГЛОБАЛЬНЫЙ менеджер
 		BattleManager.player_health -= dmg
@@ -122,8 +122,17 @@ func _on_enemy_attack_finished(result: Dictionary):
 			player_hp_bar.value = BattleManager.player_health
 
 func _on_enemy_died():
-	update_log("Враг повержен!")
+	update_log("The enemy is killed!")
 	await get_tree().create_timer(1.5).timeout
+	_on_enemy_defeated()
+
+func _on_enemy_defeated():
+	# Регистрируем победу по сохраненному ID
+	var enemy_id = BattleManager.current_enemy_id
+	if enemy_id != "":
+		PlayerStorage.register_defeat(enemy_id)
+	
+	# Возвращаемся в мир
 	get_tree().change_scene_to_file("res://main/main.tscn")
 
 func disable_buttons():

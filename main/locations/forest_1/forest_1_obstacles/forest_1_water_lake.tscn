@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo31lw6bs1ji"]
+
+[ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_2goej"]
+[ext_resource type="Texture2D" uid="uid://cvv2atkhp58a2" path="res://main/locations/forest_1/forest_1_sprites/forest_water_lake.png" id="2_yd8iw"]
+
+[node name="BaseObstacle" instance=ExtResource("1_2goej")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_yd8iw")
+
+[node name="CollisionShape2D" parent="TrunkCollision (main collision)" index="0"]
+visible = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TrunkCollision (main collision)" index="1"]
+z_index = 1
+z_as_relative = false
+polygon = PackedVector2Array(-2.6666667, -85.333336, 13, -88.66667, 46, -87.66667, 57, -78.66667, 76.66667, -68, 78.66667, -57.333336, 93.333336, -30.666668, 90.66667, -23, 73.333336, -6, 67.66667, 0, 68, 17.333334, 75, 33, 74, 48.666668, 71.66667, 58.333336, 61.666668, 65, 50.333336, 78.333336, 39.333336, 82.333336, 27.333334, 81.333336, 6.666667, 82, -14.666667, 82, -27.666668, 65, -42.333336, 62, -56.666668, 65, -73, 54.333336, -88, 36.333336, -87, 15.333334, -80.333336, 7, -79.333336, -4.3333335, -86.333336, -15.666667, -83.66667, -33, -74.66667, -39.333336, -57.666668, -55.333336, -31.666668, -58, -20.333334, -64.66667)
+
+[node name="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="0"]
+visible = false

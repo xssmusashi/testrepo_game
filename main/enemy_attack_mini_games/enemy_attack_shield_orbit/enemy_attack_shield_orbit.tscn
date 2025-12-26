@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cj1naildc5r7d"]
+[gd_scene load_steps=3 format=3 uid="uid://cj1naildc5r7d"]
 
 [ext_resource type="Script" uid="uid://ccio5xggdmjjg" path="res://main/enemy_attack_mini_games/enemy_attack_shield_orbit/enemy_attack_shield_orbit.gd" id="1_d5xgv"]
+[ext_resource type="Texture2D" uid="uid://dn8rdudeegkm" path="res://main/ui_elements/enemy_attack_clock.png" id="2_qbkpb"]
 
 [node name="EnemyAttackShieldOrbit" type="Control"]
 layout_mode = 3
@@ -55,15 +56,20 @@ grow_vertical = 2
 [node name="SpawnTimer" type="Timer" parent="."]
 
 [node name="HUD" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="TimeLabel" type="Label" parent="HUD"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 23.0
-grow_horizontal = 0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="TimerProgress" type="TextureProgressBar" parent="HUD"]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 40.0
+offset_bottom = 60.0
+value = 100.0
+fill_mode = 4
+texture_progress = ExtResource("2_qbkpb")

@@ -10,13 +10,14 @@ signal finished(result: Dictionary)
 
 var is_active := false
 var time_left := 10.0
+var max_duration := 12
 var score := 0
 
 @onready var play_area: Control = $PlayArea
 @onready var shield_pivot: Node2D = $PlayArea/ShieldPivot
 @onready var bullets_container: Control = $PlayArea/BulletsContainer
 @onready var spawn_timer: Timer = $SpawnTimer
-@onready var time_label: Label = $HUD/TimeLabel
+@onready var timer_progress: TextureProgressBar = $HUD/TimerProgress
 
 @onready var shield: ColorRect = $PlayArea/ShieldPivot/Shield
 
@@ -68,7 +69,7 @@ func _process(delta: float):
 	if not is_active: return
 	
 	time_left -= delta
-	time_label.text = str(ceil(time_left))
+	timer_progress.value = (time_left / max_duration) * 100.0
 	
 	# --- ВРАЩЕНИЕ ЩИТА ---
 	var mouse_pos = play_area.get_local_mouse_position()

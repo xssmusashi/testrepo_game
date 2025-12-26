@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://bxfmuy5jnbvex"]
+[gd_scene load_steps=19 format=4 uid="uid://bxfmuy5jnbvex"]
 
 [ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png" id="1_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player/player.tscn" id="2_0xm2m"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cyefg7o2picp0" path="res://main/characters/glorb_frog_enemy/enemy_glorb_frog.tscn" id="8_67ri8"]
 [ext_resource type="PackedScene" uid="uid://coi3renlv8qbw" path="res://main/dialogue_ui/dialogue_ui.tscn" id="9_grrlh"]
 [ext_resource type="Shader" uid="uid://dxvaqdlnvt7qn" path="res://main/main.gdshader" id="10_0i4oc"]
+[ext_resource type="PackedScene" uid="uid://bo31lw6bs1ji" path="res://main/locations/forest_1/forest_1_obstacles/forest_1_water_lake.tscn" id="11_bsumw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0i4oc"]
 shader = ExtResource("10_0i4oc")
@@ -118,3 +119,6 @@ position = Vector2(-864, 2176)
 scale = Vector2(2, 2)
 
 [node name="DialogueUI" parent="." instance=ExtResource("9_grrlh")]
+
+[node name="BaseObstacle2" parent="." instance=ExtResource("11_bsumw")]
+position = Vector2(-63.99997, 1392)

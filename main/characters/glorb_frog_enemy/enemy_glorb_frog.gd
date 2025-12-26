@@ -4,9 +4,11 @@ extends CharacterBody2D
 @export var hp: int = 100
 @export var damage: int = 10
 @export var attack_type: String = "shield"
-@export var dialogue_lines: Array[String] = ["Ква-ква!", "Ты не пройдешь!"]
+@export var dialogue_lines: Array[String] = ["Croak-Croak!", "Come on here, lets fight!"]
 @export var portrait: Texture2D
 @export var attack_first: bool = false
+
+@export var enemy_id: String = "forest_1_glorb_frog"
 
 # --- Настройки прыжков ---
 @export var jump_distance := 120.0 
@@ -23,6 +25,13 @@ var is_jumping := false
 var is_talking := false # НОВЫЙ ФЛАГ: Состояние разговора
 
 func _ready():
+	if enemy_id == "":
+		enemy_id = name
+	
+	if PlayerStorage.is_enemy_defeated(enemy_id):
+		queue_free()
+		return
+	
 	velocity = Vector2.ZERO
 	jump_timer = 0.0
 
@@ -87,6 +96,8 @@ func _on_dialogue_finished():
 	_start_battle() # Запускаем переход в сцену боя
 
 func _start_battle():
+	BattleManager.current_enemy_id = enemy_id
+	
 	BattleManager.enemy_data = {
 		"name": enemy_name,
 		"hp": hp,
