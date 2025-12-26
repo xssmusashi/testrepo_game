@@ -251,3 +251,5 @@ shape = SubResource("RectangleShape2D_6pq7i")
 y_sort_enabled = true
 position = Vector2(0, 36)
 shape = SubResource("RectangleShape2D_wgfyr")
+
+[connection signal="body_exited" from="InteractArea" to="." method="_on_interact_area_body_exited"]

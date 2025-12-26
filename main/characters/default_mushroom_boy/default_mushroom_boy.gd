@@ -139,18 +139,18 @@ func interact():
 	if is_talking: return
 	
 	is_talking = true
-	velocity = Vector2.ZERO # Полная остановка перед общением
+	velocity = Vector2.ZERO 
 	anim.play("default")
 	
 	if dialogue_ui:
 		dialogue_ui.start_dialogue(dialogue_lines, character_name, dialogue_portrait, ask_info)
 		
-		# Подключаем два разных сценария
+		# Используем CONNECT_ONE_SHOT для чистоты
 		if not dialogue_ui.dialogue_finished.is_connected(_on_dialogue_finished):
-			dialogue_ui.dialogue_finished.connect(_on_dialogue_finished)
+			dialogue_ui.dialogue_finished.connect(_on_dialogue_finished, CONNECT_ONE_SHOT)
 		
 		if not dialogue_ui.battle_requested.is_connected(_on_battle_requested):
-			dialogue_ui.battle_requested.connect(_on_battle_requested)
+			dialogue_ui.battle_requested.connect(_on_battle_requested, CONNECT_ONE_SHOT)
 
 func _on_dialogue_finished():
 	# Просто возвращаемся к жизни, боя не будет
@@ -173,3 +173,14 @@ func _start_battle():
 		"attack_first": false
 	}
 	get_tree().change_scene_to_file("res://main/battle/battle.tscn")
+
+func _on_interaction_area_body_exited(body: Node2D) -> void:
+	if is_talking and body.is_in_group("player"):
+		is_talking = false
+		if dialogue_ui:
+			dialogue_ui.force_close()
+		_choose_next_action() # Возвращаем гриб к обычному поведению
+
+
+func _on_interact_area_body_exited(body: Node2D) -> void:
+	pass # Replace with function body.

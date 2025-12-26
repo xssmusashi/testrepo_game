@@ -161,7 +161,7 @@ font_size = 12
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lat6o"]
 size = Vector2(40, 40)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 y_sort_enabled = true
 script = ExtResource("1_onrkg")
 

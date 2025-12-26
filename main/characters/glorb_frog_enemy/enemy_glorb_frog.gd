@@ -107,3 +107,14 @@ func _start_battle():
 		"attack_first": attack_first
 	}
 	get_tree().change_scene_to_file("res://main/battle/battle.tscn")
+
+func _on_interaction_area_body_exited(body: Node2D) -> void:
+	if is_talking and body.is_in_group("player"):
+		is_talking = false
+		if dialogue_ui:
+			dialogue_ui.force_close()
+		# Жаба автоматически вернется в idle через _physics_process
+
+
+func _on_interact_area_body_shape_exited(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	pass # Replace with function body.

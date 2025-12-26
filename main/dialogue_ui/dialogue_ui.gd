@@ -13,6 +13,13 @@ var lines: Array = []
 var current_line: int = 0
 var extra_info: Dictionary = {}
 
+func force_close():
+	visible = false
+	timer.stop()
+	# Очищаем кнопки выбора, если они были открыты
+	for child in options_container.get_children():
+		child.queue_free()
+
 func _ready():
 	visible = false
 	options_container.visible = false
