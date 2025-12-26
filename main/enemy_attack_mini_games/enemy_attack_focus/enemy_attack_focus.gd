@@ -3,17 +3,17 @@ extends Control
 signal finished(result: Dictionary)
 
 @export_group("Movement")
-@export var base_speed: float = 250.0 
-@export var change_dir_time: float = 0.5
+@export var base_speed: float = 300.0 
+@export var change_dir_time: float = 0.2
 
 @export_group("Mechanics")
-@export var stability_drain: float = 45.0
+@export var stability_drain: float = 80.0
 @export var stability_recovery: float = 12.0
 @export var focus_radius: float = 65.0
 
 var is_active := false
-var time_left := 10.0
-var max_duration := 10.0
+var time_left := 3.0
+var max_duration := 3.0
 var stability := 100.0
 var current_velocity := Vector2.ZERO
 var dir_change_timer := 0.0

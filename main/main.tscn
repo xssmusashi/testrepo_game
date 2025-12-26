@@ -116,14 +116,13 @@ position = Vector2(-2672, 3005)
 shape = SubResource("RectangleShape2D_bsumw")
 
 [node name="Player" parent="." instance=ExtResource("2_0xm2m")]
-position = Vector2(-1166, 1989)
+position = Vector2(-962, 1987)
 scale = Vector2(4, 4)
 
 [node name="BaseObstacle" parent="." instance=ExtResource("7_4dugh")]
 position = Vector2(-1495, 1871)
 
 [node name="EnemyGlorbFrog" parent="." instance=ExtResource("8_67ri8")]
-position = Vector2(-1271, 1984)
-scale = Vector2(2, 2)
+position = Vector2(-1248, 2000)
 
 [node name="DialogueUI" parent="." instance=ExtResource("9_grrlh")]

@@ -23,32 +23,33 @@ func _ready():
 	current_enemy_hp = data.get("hp", 100)
 	enemy_damage = data.get("damage", 10)
 	
-	# Настройка UI в начале боя
+	# ИСПРАВЛЕНИЕ: Связываем строковый тип атаки с узлом из словаря
+	var type = data.get("attack_type", "focus")
+	if type in attack_nodes:
+		active_enemy_attack = attack_nodes[type]
+	
+	# Настройка UI
 	if enemy_hp_bar:
 		enemy_hp_bar.max_value = current_enemy_hp
 		enemy_hp_bar.value = current_enemy_hp
 		
-	# Инициализируем полоску игрока
+	# Используем глобальное здоровье вместо поиска узла Player
 	if player_hp_bar:
 		player_hp_bar.max_value = BattleManager.player_max_health
 		player_hp_bar.value = BattleManager.player_health
 	
-	# Коннектим сигналы (с защитой от дублей)
 	if not player_attack_game.attack_finished.is_connected(_on_player_attack_finished):
 		player_attack_game.attack_finished.connect(_on_player_attack_finished)
-	
-	# 3. РЕШАЕМ, КТО ХОДИТ ПЕРВЫМ
+
+	# РЕАЛИЗАЦИЯ ПЕРВОГО ХОДА
 	if data.get("attack_first", false):
-		disable_buttons() # Блокируем игрока
+		disable_buttons()
 		update_log("Враг нападает первым!")
-		# Небольшая пауза перед атакой для красоты
 		await get_tree().create_timer(1.0).timeout 
 		start_enemy_turn()
 	else:
 		update_log("Твой ход!")
 		enable_buttons()
-	
-	update_log("Начало боя!")
 
 func update_log(text: String):
 	if log_label: log_label.text = text
@@ -93,14 +94,11 @@ func _on_enemy_attack_finished(result: Dictionary):
 		var dmg = result.get("damage", enemy_damage)
 		update_log("Вы получили " + str(dmg) + " урона.")
 		
-		# Прямое нанесение урона глобальному стейту
+		# Прямое изменение глобального HP
 		BattleManager.player_health -= dmg
-		
-		# Обновляем UI
 		if player_hp_bar:
 			player_hp_bar.value = BattleManager.player_health
 		
-		# Проверка смерти игрока в бою
 		if BattleManager.player_health <= 0:
 			update_log("Вы погибли...")
 			await get_tree().create_timer(1.0).timeout

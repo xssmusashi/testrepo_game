@@ -1,8 +1,89 @@
-[gd_scene load_steps=6 format=3 uid="uid://cyefg7o2picp0"]
+[gd_scene load_steps=16 format=3 uid="uid://cyefg7o2picp0"]
 
 [ext_resource type="Script" uid="uid://3swei4didcy" path="res://main/enemies/glorb_frog/enemy_glorb_frog.gd" id="1_r8amt"]
 [ext_resource type="Texture2D" uid="uid://de0vdc5lb1abx" path="res://main/enemies/glorb_frog/glorb_sprite.png" id="1_r41eq"]
 [ext_resource type="Texture2D" uid="uid://bekwequdq3lmt" path="res://main/enemies/glorb_frog/glorb_portrait.png" id="2_1lxgq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lxgq"]
+atlas = ExtResource("1_r41eq")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c04vs"]
+atlas = ExtResource("1_r41eq")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hyq35"]
+atlas = ExtResource("1_r41eq")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ocev8"]
+atlas = ExtResource("1_r41eq")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40cex"]
+atlas = ExtResource("1_r41eq")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kucy"]
+atlas = ExtResource("1_r41eq")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4lo6"]
+atlas = ExtResource("1_r41eq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fua7"]
+atlas = ExtResource("1_r41eq")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0bwf"]
+atlas = ExtResource("1_r41eq")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r8amt"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_1lxgq")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_c04vs")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_hyq35")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ocev8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40cex")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kucy")
+}],
+"loop": true,
+"name": &"jump_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4lo6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2fua7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0bwf")
+}],
+"loop": true,
+"name": &"jump_right",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r8amt"]
 size = Vector2(107, 98.5)
@@ -10,17 +91,20 @@ size = Vector2(107, 98.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1lxgq"]
 size = Vector2(58, 47)
 
-[node name="EnemyGlorbFrog" type="StaticBody2D"]
+[node name="EnemyGlorbFrog" type="CharacterBody2D"]
 script = ExtResource("1_r8amt")
 portrait = ExtResource("2_1lxgq")
+attack_first = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_r41eq")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_r8amt")
+animation = &"idle"
 
 [node name="InteractArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
-position = Vector2(-14.5, -13.25)
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_r8amt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
