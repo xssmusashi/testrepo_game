@@ -126,18 +126,20 @@ func _on_player_attack_finished(multiplier: float):
 	start_character_turn()
 
 func start_character_turn():
-	attack_running = true # Убеждаемся, что флаг активен во время хода врага
+	# Убеждаемся, что кнопки выключены на время хода врага
 	set_buttons_disabled(true)
 	
 	if active_character_attack:
-		update_log("The enemy is attacking!")
+		update_log("character is attacking!")
 		var attack_type = BattleManager.character_data.get("attack_type", DEFAULT_ATTACK)
 		instruction_label.text = INSTRUCTIONS.get(attack_type, "Watch out!")
 		active_character_attack.start({ "damage": character_damage, "duration": 10.0 })
 	else:
 		update_log("The character is confused...")
+		# Если атаки нет, ждем секунду и возвращаем ход игроку
 		await get_tree().create_timer(1.0).timeout
-		_on_character_attack_finished({"success": true, "damage": 0})
+		attack_running = false # ОБЯЗАТЕЛЬНО сбрасываем флаг
+		set_buttons_disabled(false)
 
 func _on_character_attack_finished(result: Dictionary):
 	instruction_label.text = ""
