@@ -21,6 +21,9 @@ extends CharacterBody2D
 	"About yourself": "I love rain and silence.\nThe rain is still here, but I haven’t heard silence for a long time.\nI'm tired."
 }
 
+@export var mercy_threshold: float = 1.0 # Можно пощадить сразу (100% HP)
+@export var mercy_denial_message: String = "" # Сообщение не нужно, если порог 1.0
+
 @onready var anim = $AnimatedSprite2D
 @onready var dialogue_ui = get_tree().root.find_child("DialogueUI", true, false)
 
@@ -172,7 +175,9 @@ func _start_battle():
 		"damage": damage,
 		"attack_type": attack_type,
 		"portrait": battle_portrait,
-		"attack_first": false
+		"attack_first": false,
+		"mercy_threshold": mercy_threshold,
+		"mercy_denial": mercy_denial_message
 	}
 	get_tree().change_scene_to_file("res://main/battle/battle.tscn")
 

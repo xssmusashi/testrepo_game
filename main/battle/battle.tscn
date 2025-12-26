@@ -287,7 +287,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 
-[node name="RichTextLabel" type="Label" parent="VBoxContainer/LogPanel"]
+[node name="Label" type="Label" parent="VBoxContainer/LogPanel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/normal = SubResource("StyleBoxFlat_3fv4m")

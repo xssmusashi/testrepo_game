@@ -24,6 +24,9 @@ var jump_timer: float = 0.0
 var is_jumping := false
 var is_talking := false # НОВЫЙ ФЛАГ: Состояние разговора
 
+@export var mercy_threshold: float = 0.5 # Можно пощадить только при < 50% HP
+@export var mercy_denial_message: String = "The frog is too riled up to listen!"
+
 func _ready():
 	if character_id == "":
 		character_id = name
@@ -106,7 +109,9 @@ func _start_battle():
 		"damage": damage,
 		"attack_type": attack_type,
 		"portrait": portrait,
-		"attack_first": attack_first
+		"attack_first": attack_first,
+		"mercy_threshold": mercy_threshold,
+		"mercy_denial": mercy_denial_message
 	}
 	get_tree().change_scene_to_file("res://main/battle/battle.tscn")
 
