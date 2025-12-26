@@ -4,6 +4,8 @@ extends CanvasLayer
 @onready var log_label = $VBoxContainer/LogPanel/RichTextLabel 
 @onready var enemy_hp_bar: ProgressBar = %EnemyHPBar # Убедись, что Unique Name включен!
 @onready var player_hp_bar: ProgressBar = %PlayerHPBar
+@onready var enemy_name_label: Label = %EnemyName
+@onready var enemy_portrait_sprite: TextureRect = %EnemyPortrait
 
 @onready var instruction_label: Label = %InstructionLabel
 
@@ -30,9 +32,13 @@ var attack_running := false
 var player_damage_to_enemy: float = 50.0 # Базовый урон игрока
 
 func _ready():
+	var data = BattleManager.enemy_data
+	
 	instruction_label.text = ""
 	
-	var data = BattleManager.enemy_data
+	enemy_name_label.text = data["name"]
+	enemy_portrait_sprite.texture = data["portrait"]
+	
 	current_enemy_hp = data.get("hp", 100)
 	enemy_damage = data.get("damage", 10)
 	

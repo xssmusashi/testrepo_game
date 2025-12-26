@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://bxfmuy5jnbvex"]
+[gd_scene load_steps=20 format=4 uid="uid://bxfmuy5jnbvex"]
 
 [ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png" id="1_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player/player.tscn" id="2_0xm2m"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://coi3renlv8qbw" path="res://main/dialogue_ui/dialogue_ui.tscn" id="9_grrlh"]
 [ext_resource type="Shader" uid="uid://dxvaqdlnvt7qn" path="res://main/main.gdshader" id="10_0i4oc"]
 [ext_resource type="PackedScene" uid="uid://bo31lw6bs1ji" path="res://main/locations/forest_1/forest_1_obstacles/forest_1_water_lake.tscn" id="11_bsumw"]
+[ext_resource type="PackedScene" uid="uid://ctcllfxgwaapc" path="res://main/characters/default_mushroom_boy/default_mushroom_boy.tscn" id="12_fwcvl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0i4oc"]
 shader = ExtResource("10_0i4oc")
@@ -79,6 +80,7 @@ y_sort_enabled = true
 
 [node name="PostProcessLayer" type="CanvasLayer" parent="."]
 layer = 100
+visible = false
 
 [node name="CRTShader" type="ColorRect" parent="PostProcessLayer"]
 material = SubResource("ShaderMaterial_0i4oc")
@@ -104,7 +106,6 @@ tile_set = SubResource("TileSet_kfbq2")
 [node name="Trees" type="TileMapLayer" parent="."]
 y_sort_enabled = true
 scale = Vector2(2, 2)
-tile_map_data = PackedByteArray("AADe/zEAAAAAAAAAAQDB/zwAAAAAAAAAAQDI/y8AAAAAAAAAAQDb/0kAAAAAAAAAAQD5/z4AAAAAAAAAAwA=")
 tile_set = SubResource("TileSet_3wy1v")
 
 [node name="Player" parent="." instance=ExtResource("2_0xm2m")]
@@ -122,3 +123,6 @@ scale = Vector2(2, 2)
 
 [node name="BaseObstacle2" parent="." instance=ExtResource("11_bsumw")]
 position = Vector2(-63.99997, 1392)
+
+[node name="DefaultMushroomBoy" parent="." instance=ExtResource("12_fwcvl")]
+position = Vector2(-440, 2200)

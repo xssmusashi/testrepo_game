@@ -214,13 +214,14 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 
-[node name="Portrait" type="TextureRect" parent="VBoxContainer/TopPanel/EnemyBox"]
+[node name="EnemyPortrait" type="TextureRect" parent="VBoxContainer/TopPanel/EnemyBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 
-[node name="Name" type="Label" parent="VBoxContainer/TopPanel/EnemyBox"]
+[node name="EnemyName" type="Label" parent="VBoxContainer/TopPanel/EnemyBox"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "GLORB"
 
 [node name="EnemyHPBar" type="ProgressBar" parent="VBoxContainer/TopPanel/EnemyBox"]
 unique_name_in_owner = true

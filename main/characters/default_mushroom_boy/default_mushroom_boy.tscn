@@ -120,7 +120,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_157c6")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_4l18c")
 }],
 "loop": true,
@@ -140,7 +140,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lujhk")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_l7slf")
 }],
 "loop": true,
@@ -172,12 +172,13 @@ size = Vector2(256, 256)
 size = Vector2(96, 112)
 
 [node name="DefaultMushroomBoy" type="CharacterBody2D"]
+scale = Vector2(2, 2)
 script = ExtResource("1_0hsi6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ashr5")
-animation = &"idle"
-frame_progress = 0.14305508
+animation = &"walk_up"
+frame_progress = 0.73834836
 
 [node name="InteractArea" type="Area2D" parent="."]
 

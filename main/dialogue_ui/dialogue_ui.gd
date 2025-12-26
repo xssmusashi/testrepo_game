@@ -6,22 +6,27 @@ signal dialogue_finished
 @onready var name_label = $Panel/NameLabel     # Узел для имени
 @onready var portrait_rect = $Panel/PanelContainer/Portrait   # Узел для портрета
 @onready var timer = $Timer
+@onready var options_container = $Panel/OptionsContainer
 
 var lines: Array = []
 var current_line: int = 0
+var extra_info: Dictionary = {}
 
 func _ready():
 	visible = false
+	options_container.visible = false
 	if not timer.timeout.is_connected(_on_timer_timeout):
 		timer.timeout.connect(_on_timer_timeout)
 
 # ТЕПЕРЬ: принимаем текст, имя и портрет
-func start_dialogue(data: Array, char_name: String, portrait_texture: Texture2D):
+func start_dialogue(data: Array, char_name: String, portrait_texture: Texture2D, extra_data: Dictionary = {}):
 	lines = data
+	extra_info = extra_data
 	current_line = 0
-	name_label.text = char_name            # Устанавливаем имя
-	portrait_rect.texture = portrait_texture # Устанавливаем портрет
+	name_label.text = char_name
+	portrait_rect.texture = portrait_texture
 	visible = true
+	options_container.visible = false
 	_show_line()
 
 func _show_line():
@@ -30,7 +35,10 @@ func _show_line():
 		text_label.visible_characters = 0
 		timer.start()
 	else:
-		_close_dialogue()
+		if not extra_info.is_empty():
+			_show_options()
+		else:
+			_close_dialogue()
 
 func _on_timer_timeout():
 	if text_label.visible_characters < text_label.text.length():
@@ -51,6 +59,33 @@ func _input(event):
 			# Если строка закончена - идем к следующей
 			current_line += 1
 			_show_line()
+
+func _show_options():
+	# Очищаем старые кнопки
+	for child in options_container.get_children():
+		child.queue_free()
+	
+	options_container.visible = true
+	
+	# Создаем кнопку для каждого вопроса
+	for question in extra_info.keys():
+		var btn = Button.new()
+		btn.text = question
+		btn.pressed.connect(_on_option_selected.bind(question))
+		options_container.add_child(btn)
+	
+	# Кнопка "Завершить"
+	var exit_btn = Button.new()
+	exit_btn.text = "Закончить разговор"
+	exit_btn.pressed.connect(_close_dialogue)
+	options_container.add_child(exit_btn)
+
+func _on_option_selected(question: String):
+	options_container.visible = false
+	# Показываем ответ как новую строку диалога
+	lines = [extra_info[question]]
+	current_line = 0
+	_show_line()
 
 func _close_dialogue():
 	visible = false
