@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://bxfmuy5jnbvex"]
+[gd_scene load_steps=18 format=4 uid="uid://bxfmuy5jnbvex"]
 
 [ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png" id="1_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player/player.tscn" id="2_0xm2m"]
@@ -9,6 +9,31 @@
 [ext_resource type="PackedScene" uid="uid://b4h6p3icfel7" path="res://main/locations/forest_1/forest_1_obstacles/forest_house.tscn" id="7_4dugh"]
 [ext_resource type="PackedScene" uid="uid://cyefg7o2picp0" path="res://main/enemies/glorb_frog/enemy_glorb_frog.tscn" id="8_67ri8"]
 [ext_resource type="PackedScene" uid="uid://coi3renlv8qbw" path="res://main/dialogue_ui/dialogue_ui.tscn" id="9_grrlh"]
+[ext_resource type="Shader" uid="uid://dxvaqdlnvt7qn" path="res://main/main.gdshader" id="10_0i4oc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0i4oc"]
+shader = ExtResource("10_0i4oc")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.0
+shader_parameter/scanlines_width = 0.0
+shader_parameter/grille_opacity = 0.0
+shader_parameter/resolution = Vector2(1024, 720)
+shader_parameter/pixelate = false
+shader_parameter/roll = false
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.0
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.0
+shader_parameter/aberration = 4.7499999933364734e-08
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = false
+shader_parameter/warp_amount = 1.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4dugh"]
 texture = ExtResource("1_3wy1v")
@@ -51,6 +76,18 @@ sources/0 = SubResource("TileSetScenesCollectionSource_c651c")
 [node name="Main" type="Node2D"]
 y_sort_enabled = true
 
+[node name="PostProcessLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="CRTShader" type="ColorRect" parent="PostProcessLayer"]
+material = SubResource("ShaderMaterial_0i4oc")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="Ground" type="TileMapLayer" parent="."]
 z_index = -1
 scale = Vector2(4, 4)
@@ -65,10 +102,12 @@ tile_set = SubResource("TileSet_kfbq2")
 
 [node name="Trees" type="TileMapLayer" parent="."]
 y_sort_enabled = true
+scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AADe/zEAAAAAAAAAAQDB/zwAAAAAAAAAAQDI/y8AAAAAAAAAAQDb/0kAAAAAAAAAAQD5/z4AAAAAAAAAAwA=")
 tile_set = SubResource("TileSet_3wy1v")
 
 [node name="Player" parent="." instance=ExtResource("2_0xm2m")]
-position = Vector2(-616, 2168)
+position = Vector2(-728, 2040)
 scale = Vector2(4, 4)
 
 [node name="BaseObstacle" parent="." instance=ExtResource("7_4dugh")]

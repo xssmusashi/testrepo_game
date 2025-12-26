@@ -6,13 +6,14 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gimkf"]
 shader = ExtResource("2_8pa80")
+shader_parameter/shadow_params = Vector3(-15, 0, 0.3)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7gio5"]
 size = Vector2(55.666668, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8pa80"]
-size = Vector2(119.333336, 109.33334)
+size = Vector2(117, 53.000004)
 
 [node name="BaseObstacle" instance=ExtResource("1_tnpb5")]
 
@@ -25,5 +26,8 @@ position = Vector2(-1.8333347, 47.5)
 shape = SubResource("RectangleShape2D_7gio5")
 
 [node name="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="0"]
-position = Vector2(0.6666641, -14.666671)
+position = Vector2(-0.5000019, 13.5)
 shape = SubResource("RectangleShape2D_8pa80")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CanopyArea (transparensy collision)" index="1"]
+polygon = PackedVector2Array(-58.333336, -13, -54.666668, -22, -48.666668, -25, -47.666668, -35.666668, -39, -45, -25.666668, -46.666668, -21, -53, -2.6666667, -53, 10, -56, 23.666668, -51, 25.666668, -47.333336, 35.666668, -46, 38.666668, -38, 45.333336, -37.333336, 45.666668, -34, 50.666668, -32, 53.666668, -26, 55.666668, -20.333334, 55, -16, 57.666668, -13)

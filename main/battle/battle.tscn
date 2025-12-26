@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://dajsoxawargk1"]
+[gd_scene load_steps=29 format=3 uid="uid://dajsoxawargk1"]
 
 [ext_resource type="Script" uid="uid://cpf0vof1la4bo" path="res://main/battle/battle.gd" id="1_ip7xm"]
+[ext_resource type="Shader" uid="uid://dxvaqdlnvt7qn" path="res://main/main.gdshader" id="2_keope"]
 [ext_resource type="Texture2D" uid="uid://cc1tayp6vmxrl" path="res://main/player/player_portait.png" id="2_oxp8w"]
 [ext_resource type="FontFile" uid="uid://figoqy7xtpx5" path="res://PressStart2P-Regular.ttf" id="2_vkqg8"]
 [ext_resource type="PackedScene" uid="uid://de37unrvy5g8p" path="res://main/battle/player_attack.tscn" id="3_7sfm4"]
@@ -12,6 +13,30 @@
 [ext_resource type="PackedScene" uid="uid://bh0uaqro0rbyo" path="res://main/enemy_attack_mini_games/enemy_attack_fruit_slasher/enemy_attack_fruit_slasher.tscn" id="8_xav1o"]
 [ext_resource type="PackedScene" uid="uid://dkaqsavsx35bt" path="res://main/enemy_attack_mini_games/enemy_attack_focus/enemy_attack_focus.tscn" id="9_keope"]
 [ext_resource type="PackedScene" uid="uid://cj1naildc5r7d" path="res://main/enemy_attack_mini_games/enemy_attack_shield_orbit/enemy_attack_shield_orbit.tscn" id="10_xav1o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_keope"]
+shader = ExtResource("2_keope")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.0
+shader_parameter/scanlines_width = 0.0
+shader_parameter/grille_opacity = 0.0
+shader_parameter/resolution = Vector2(1024, 720)
+shader_parameter/pixelate = false
+shader_parameter/roll = false
+shader_parameter/roll_speed = 0.0
+shader_parameter/roll_size = 1.0000000475
+shader_parameter/roll_variation = 1.00000004424012
+shader_parameter/distort_intensity = 0.0
+shader_parameter/noise_opacity = 0.0
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.1230000058425
+shader_parameter/aberration = 4.7499999933364734e-08
+shader_parameter/brightness = 1.0
+shader_parameter/discolor = false
+shader_parameter/warp_amount = 0.242000011495
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.1
+shader_parameter/vignette_opacity = 0.11600000551
 
 [sub_resource type="LabelSettings" id="LabelSettings_yv0sx"]
 font = ExtResource("2_vkqg8")
@@ -115,6 +140,18 @@ border_color = Color(1, 1, 1, 1)
 
 [node name="Battle" type="CanvasLayer"]
 script = ExtResource("1_ip7xm")
+
+[node name="PostProcessLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="CRTShader" type="ColorRect" parent="PostProcessLayer"]
+material = SubResource("ShaderMaterial_keope")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15

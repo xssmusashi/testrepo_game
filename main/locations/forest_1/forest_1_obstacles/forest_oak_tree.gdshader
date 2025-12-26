@@ -1,28 +1,31 @@
 shader_type canvas_item;
 
-// Цвет и прозрачность тени (Alpha = 0.5 для полупрозрачности)
+// x = смещение по X, y = смещение по Y, z = наклон (skew)
+uniform vec3 shadow_params = vec3(10.0, -15.0, 0.3);
 uniform vec4 shadow_color : source_color = vec4(0.0, 0.0, 0.0, 0.5);
-// -----------------
-
 
 void fragment() {
-    // Получаем цвет текущего пикселя спрайта
-    vec4 col = texture(TEXTURE, UV);
+	vec2 ps = TEXTURE_PIXEL_SIZE;
+	vec4 col = texture(TEXTURE, UV);
 
-    // Вычисляем, где должен быть пиксель тени.
-    // Мы берем координату UV и смещаем её в обратную сторону от желаемого направления тени.
-    vec4 shadow_sample = texture(TEXTURE, UV - (vec2(0,-3) * TEXTURE_PIXEL_SIZE));
+	// Рассчитываем UV для тени
+	vec2 shadow_uv = UV;
 
-    // Создаем итоговый цвет тени, используя альфа-канал смещенного семпла
-    vec4 final_shadow = shadow_color;
-    final_shadow.a *= shadow_sample.a;
+	// 1. Применяем смещение из vec3.x и vec3.y
+	shadow_uv -= vec2(shadow_params.x, shadow_params.y) * ps;
 
-    // СМЕШИВАНИЕ (ВАЖНЫЙ МОМЕНТ):
-    // Функция mix работает так: mix(Тень, Объект, ПрозрачностьОбъекта).
-    // Если пиксель объекта непрозрачный (col.a = 1), мы видим объект.
-    // Если пиксель объекта прозрачный, мы видим тень.
-    // Это значит, что сам объект всегда рисуется ПОВЕРХ своей тени в этом шейдере.
-    vec4 final_col = mix(final_shadow, col, col.a);
+	// 2. Применяем наклон (skew) из vec3.z
+	// Мы привязываем наклон к вертикальной координате (UV.y),
+	// чтобы основание объекта оставалось на месте, а верхушка тени уходила вбок.
+	shadow_uv.x += (UV.y - 1.0) * shadow_params.z;
 
-    COLOR = final_col;
+	// Берем текстуру с новыми координатами
+	vec4 shadow = texture(TEXTURE, shadow_uv);
+
+	// Рисуем тень только там, где она не перекрывается основным спрайтом
+	vec4 final_shadow = shadow_color;
+	final_shadow.a *= shadow.a;
+
+	// Смешиваем основной спрайт и тень
+	COLOR = mix(final_shadow, col, col.a);
 }

@@ -6,8 +6,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5pamj"]
 shader = ExtResource("2_no31m")
-shader_parameter/shadow_params = Vector3(10, -15, 0.3)
-shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_params = Vector3(-20, 0, 0.3)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3v6b"]
 size = Vector2(208.16669, 127.16667)

@@ -35,5 +35,6 @@ shape = SubResource("RectangleShape2D_w0l43")
 polygon = PackedVector2Array(-37, -9, -20.666668, -8.666667, -14.666667, -30, -4.3333335, -35, 6.666667, -33.666668, 14, -29.666668, 18.333334, -10, 38, -12, 36, -24.333334, 24.666668, -44.666668, 11.666667, -50.666668, -7.3333335, -53.666668, -28.333334, -42.333336, -38, -22.333334)
 
 [node name="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="1"]
+visible = false
 position = Vector2(-1.8333309, -47.333336)
 shape = SubResource("RectangleShape2D_kllgw")
