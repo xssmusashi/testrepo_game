@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal item_used
+
 # --- Ссылки на узлы (Unique Names) ---
 @onready var player_attack_game = %PlayerAttack 
 @onready var log_label: Label = $VBoxContainer/LogPanel/Label
@@ -12,6 +14,9 @@ extends CanvasLayer
 # --- Кнопки ---
 @onready var attack_button = $VBoxContainer/ActionsPanel/Attack
 @onready var mercy_button = $VBoxContainer/ActionsPanel/Mercy
+@onready var inventory_button = $VBoxContainer/ActionsPanel/Inventory
+
+@onready var inventory_ui = get_tree().root.find_child("InventoryUI", true, false)
 
 var shake_strength: float = 0.0
 var shake_fade: float = 20.0
@@ -64,6 +69,26 @@ func _ready() -> void:
 	_connect_signals()
 	_update_mercy_status()
 	update_log("The battle begins!")
+	
+	if inventory_button:
+		inventory_button.pressed.connect(_on_inventory_used)
+		self.item_used.connect(_on_inventory_actually_used)
+	
+func _on_inventory_used():
+	if attack_running: return
+	if inventory_ui:
+		inventory_ui.toggle_visibility()
+		
+func _on_inventory_actually_used():
+	# Предмет использован, закрываем инвентарь и передаем ход врагу
+	if inventory_ui:
+		inventory_ui.panel.visible = false
+	
+	update_log("You used an item and restored health!")
+	player_hp_bar.value = BattleManager.player_health # Обновляем полоску
+	
+	await get_tree().create_timer(1.0).timeout
+	start_character_turn() # Переход хода
 
 func _setup_battle() -> void:
 	var data = BattleManager.character_data

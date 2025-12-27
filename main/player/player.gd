@@ -6,6 +6,8 @@ extends CharacterBody2D
 @onready var interact_detector = %InteractDetector
 @onready var interact_prompt = %InteractPrompt
 
+@onready var inventory_ui = get_tree().root.find_child("InventoryUI", true, false)
+
 var current_interactable = null
 var interactable_candidates = [] # Список всех NPC в радиусе
 
@@ -26,6 +28,11 @@ func _ready():
 	
 	interact_detector.area_entered.connect(_on_area_entered)
 	interact_detector.area_exited.connect(_on_area_exited)
+
+func _input(event):
+	if event.is_action_pressed("inventory"):
+		if inventory_ui:
+			inventory_ui.toggle_visibility()
 
 func _physics_process(_delta):
 	_handle_movement()

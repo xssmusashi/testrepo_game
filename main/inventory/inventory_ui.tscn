@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxy262yld4soa"]
+[gd_scene load_steps=4 format=3 uid="uid://cxy262yld4soa"]
 
 [ext_resource type="Script" uid="uid://bpdfwk8woccvp" path="res://main/inventory/inventory_ui.gd" id="1_18mls"]
+[ext_resource type="PackedScene" uid="uid://ggafsjsi6oeb" path="res://main/inventory/inventory_slot/inventory_slot.tscn" id="2_3rch5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_18mls"]
 bg_color = Color(0, 0, 0, 1)
@@ -16,30 +17,28 @@ anchors_preset = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_18mls")
+slot_scene = ExtResource("2_3rch5")
 
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_18mls")
 
-[node name="GridContainer" type="GridContainer" parent="Panel"]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 3
-theme_override_constants/v_separation = 3
-columns = 12
+columns = 4
 
-[node name="Label" type="Label" parent="Panel"]
+[node name="Label" type="Label" parent="CanvasLayer/Panel"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
