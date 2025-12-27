@@ -14,9 +14,9 @@ signal item_used
 # --- Кнопки ---
 @onready var attack_button = $VBoxContainer/ActionsPanel/Attack
 @onready var mercy_button = $VBoxContainer/ActionsPanel/Mercy
-@onready var inventory_button = $VBoxContainer/ActionsPanel/Inventory
+@onready var items_button = $VBoxContainer/ActionsPanel/Items
 
-@onready var inventory_ui = get_tree().root.find_child("InventoryUI", true, false)
+@onready var inventory_ui: Control = $InventoryUI
 
 var shake_strength: float = 0.0
 var shake_fade: float = 20.0
@@ -65,21 +65,23 @@ func apply_ui_shake(strength: float) -> void:
 	shake_strength = strength
 
 func _ready() -> void:
+	rng.randomize()
+	
 	_setup_battle()
 	_connect_signals()
 	_update_mercy_status()
 	update_log("The battle begins!")
 	
-	if inventory_button:
-		inventory_button.pressed.connect(_on_inventory_used)
-		self.item_used.connect(_on_inventory_actually_used)
+	if items_button:
+		items_button.pressed.connect(_on_inventory_used)
+		self.item_used.connect(_on_item_used)
 	
 func _on_inventory_used():
 	if attack_running: return
 	if inventory_ui:
 		inventory_ui.toggle_visibility()
 		
-func _on_inventory_actually_used():
+func _on_item_used():
 	# Предмет использован, закрываем инвентарь и передаем ход врагу
 	if inventory_ui:
 		inventory_ui.panel.visible = false

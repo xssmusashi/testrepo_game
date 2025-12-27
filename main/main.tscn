@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://bxfmuy5jnbvex"]
+[gd_scene load_steps=21 format=4 uid="uid://bxfmuy5jnbvex"]
 
 [ext_resource type="Texture2D" uid="uid://bo021asdafvw" path="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png" id="1_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://c4hymvse8mgh3" path="res://main/player/player.tscn" id="2_0xm2m"]
@@ -12,6 +12,7 @@
 [ext_resource type="Shader" uid="uid://dxvaqdlnvt7qn" path="res://main/main.gdshader" id="10_0i4oc"]
 [ext_resource type="PackedScene" uid="uid://bo31lw6bs1ji" path="res://main/locations/forest_1/forest_1_obstacles/forest_1_water_lake.tscn" id="11_bsumw"]
 [ext_resource type="PackedScene" uid="uid://ctcllfxgwaapc" path="res://main/characters/default_mushroom_boy/default_mushroom_boy.tscn" id="12_fwcvl"]
+[ext_resource type="PackedScene" uid="uid://cxy262yld4soa" path="res://main/inventory/inventory_ui.tscn" id="13_na0o7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0i4oc"]
 shader = ExtResource("10_0i4oc")
@@ -77,6 +78,8 @@ sources/0 = SubResource("TileSetScenesCollectionSource_c651c")
 
 [node name="Main" type="Node2D"]
 y_sort_enabled = true
+
+[node name="InventoryUI" parent="." instance=ExtResource("13_na0o7")]
 
 [node name="PostProcessLayer" type="CanvasLayer" parent="."]
 layer = 100

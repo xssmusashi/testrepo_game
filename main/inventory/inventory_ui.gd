@@ -1,8 +1,8 @@
 extends Control
 
 @export var player_path: NodePath
-@onready var panel: Control = $Panel
-@onready var grid: GridContainer = $Panel/GridContainer
+@onready var panel: Control = $CanvasLayer/Panel
+@onready var grid: GridContainer = $CanvasLayer/Panel/GridContainer
 
 @export var slot_scene: PackedScene # Перетащите сюда inventory_slot.tscn в инспекторе
 
