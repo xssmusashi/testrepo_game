@@ -169,6 +169,11 @@ func _on_battle_requested():
 func _start_battle():
 	# Передаем данные именно этого NPC в глобальный менеджер
 	BattleManager.current_character_id = character_id
+	
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		BattleManager.last_world_position = player.global_position
+	
 	BattleManager.character_data = {
 		"name": character_name,
 		"hp": hp,

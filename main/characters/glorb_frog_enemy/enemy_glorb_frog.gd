@@ -103,6 +103,10 @@ func _on_dialogue_finished():
 func _start_battle():
 	BattleManager.current_character_id = character_id
 	
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		BattleManager.last_world_position = player.global_position
+	
 	BattleManager.character_data = {
 		"name": character_name,
 		"hp": hp,

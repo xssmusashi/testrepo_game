@@ -6,14 +6,22 @@ extends CharacterBody2D
 @onready var interact_detector = %InteractDetector
 @onready var interact_prompt = %InteractPrompt
 
-@onready var inventory: Inventory = $Inventory
-
 var current_interactable = null
+var interactable_candidates = [] # Список всех NPC в радиусе
 
 var health := 0
 
 func _ready():
-	# Загружаем здоровье из глобального менеджера
+	# 1. Скрываем подсказку сразу при загрузке мира
+	if interact_prompt:
+		interact_prompt.visible = false
+	
+	# 2. Восстанавливаем позицию после боя
+	if BattleManager.get("last_world_position") and BattleManager.last_world_position != Vector2.ZERO:
+		global_position = BattleManager.last_world_position
+		BattleManager.last_world_position = Vector2.ZERO
+	
+	# 3. Загружаем здоровье
 	health = BattleManager.player_health
 	
 	interact_detector.area_entered.connect(_on_area_entered)
@@ -21,9 +29,8 @@ func _ready():
 
 func _physics_process(_delta):
 	_handle_movement()
-
 	if Input.is_action_just_pressed("interact") and current_interactable:
-			current_interactable.interact()
+		current_interactable.interact()
 
 func _handle_movement():
 	var direction = Input.get_vector("left", "right", "up", "down")
@@ -37,56 +44,44 @@ func _handle_movement():
 	move_and_slide()
 
 func _on_area_entered(area):
-	# Ищем цель (саму область или её родителя-NPC)
+	var target = _get_interactable_from_area(area)
+	if target and not target in interactable_candidates:
+		interactable_candidates.append(target)
+		_update_interaction_state()
+
+func _on_area_exited(area):
+	var target = _get_interactable_from_area(area)
+	if target in interactable_candidates:
+		interactable_candidates.erase(target)
+		_update_interaction_state()
+
+func _get_interactable_from_area(area):
 	var target = area
 	if not target.has_method("interact"):
 		target = area.get_parent()
-	
-	if target.has_method("interact"):
-		current_interactable = target
-		
-		# Пытаемся получить имя. В Mushroom Boy это 'enemy_name'
-		# Используем .get(), чтобы избежать ошибки, если переменной нет
-		var npc_name = target.get("character_name") 
-		if not npc_name:
-			npc_name = "NPC" # Имя по умолчанию
-			
-		# Обновляем текст подсказки
-		if interact_prompt is Label:
-			interact_prompt.text = "[E] " + npc_name
-		elif interact_prompt.has_node("Label"): # Если Label лежит внутри спрайта
-			interact_prompt.get_node("Label").text = "[E] " + npc_name
-			
-		interact_prompt.visible = true
-		print("Готов к диалогу с: ", npc_name)
+	return target if target.has_method("interact") else null
 
-func _on_area_exited(area):
-	if current_interactable == area or current_interactable == area.get_parent():
+func _update_interaction_state():
+	# Если рядом никого нет — гарантированно скрываем [E]
+	if interactable_candidates.is_empty():
 		current_interactable = null
 		interact_prompt.visible = false
-		# Сбрасываем текст (необязательно, но полезно для отладки)
-		if interact_prompt is Label:
-			interact_prompt.text = "[E]"
+		return
 
-func take_damage(amount: int):
-	health -= amount
-	# Обновляем глобальный стейт, чтобы в бою или другой сцене данные были актуальны
-	BattleManager.player_health = health 
+	# Берем последнего зашедшего в зону NPC
+	current_interactable = interactable_candidates[-1]
+	var npc_name = current_interactable.get("character_name") or "NPC"
 	
-	print("HP Игрока: ", health)
-	if health <= 0:
-		# Перед рестартом можно восстановить HP или оставить как есть для Game Over
-		BattleManager.player_health = BattleManager.player_max_health
-		get_tree().reload_current_scene()
+	# Обновляем текст подсказки
+	if interact_prompt is Label:
+		interact_prompt.text = "[E] " + npc_name
+	elif interact_prompt.has_node("Label"):
+		interact_prompt.get_node("Label").text = "[E] " + npc_name
+		
+	interact_prompt.visible = true
 
 func choose_animation(dir):
 	if abs(dir.x) > abs(dir.y):
-		if dir.x > 0:
-			anim.play("walk_right")
-		else:
-			anim.play("walk_left")
+		anim.play("walk_right" if dir.x > 0 else "walk_left")
 	else:
-		if dir.y > 0:
-			anim.play("walk_down")
-		else:
-			anim.play("walk_up")
+		anim.play("walk_down" if dir.y > 0 else "walk_up")

@@ -8,6 +8,8 @@ var current_character_id: String = "" # Храним ID текущего про�
 
 var can_spare: bool = false # Флаг: можно ли пощадить врага сейчас
 
+var last_world_position: Vector2 = Vector2.ZERO
+
 # Данные текущего боя
 var character_data = {
 	"name": "Unknown",
