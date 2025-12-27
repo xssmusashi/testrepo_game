@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://del8h7fj16olc"]
+
+[ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_hg2un"]
+[ext_resource type="Texture2D" uid="uid://xnbxusagddp3" path="res://main/locations/intro/intro_sprites/intro_cliff.png" id="2_5qjby"]
+
+[node name="BaseObstacle" instance=ExtResource("1_hg2un")]
+
+[node name="Sprite" parent="." index="0"]
+position = Vector2(-1.3333334, -6.666667)
+texture = ExtResource("2_5qjby")
+
+[node name="CollisionShape2D" parent="TrunkCollision (main collision)" index="0"]
+visible = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TrunkCollision (main collision)" index="1"]
+polygon = PackedVector2Array(-66, 52.333336, -58.333336, 49.666668, -51, 44, -47.666668, 36, -42.333336, 30.333334, -34, 19, -29.333334, 7, -25.333334, -7.666667, -27, -12, -27, -19, -24.666668, -30, -26.666668, -33.666668, -34, -40.333336, -39.666668, -47, -34, -56, -29.333334, -56.666668, -0.33333334, -57.333336, 15.666667, -58.333336, 25.333334, -56.333336, 31.333334, -54.333336, 35.333336, -49.666668, 35, -44.333336, 32, -40, 22, -33, 20.333334, -29.666668, 22, -26.666668, 23.666668, -22, 24.333334, -14.666667, 25, 3.6666667, 27, 15.666667, 29, 26.666668, 36.333336, 32, 45, 34.333336, 49.666668, 43, 58, 46.333336, 61, 53.666668, 62, 57.333336, 72.333336, 57.333336, 60, 36.333336, 48.333336, -5.666667, 43, -48.333336, 38, -75.66667, -16.666668, -78.333336, -50, -64, -51.333336, -18, -61, 22.666668, -74, 50.333336)

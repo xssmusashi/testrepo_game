@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bahyjqu4xec8t"
-path="res://.godot/imported/dark_tree.png-2a67098d426a46e80caa14f0936fca17.ctex"
+uid="uid://bo021asdafvw"
+path="res://.godot/imported/intro_grass_floor.png-ccb3ee15bd9f720e4c121369d97d90db.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/locations/forest_1/forest_1_sprites/dark_tree.png"
-dest_files=["res://.godot/imported/dark_tree.png-2a67098d426a46e80caa14f0936fca17.ctex"]
+source_file="res://main/locations/intro/intro_sprites/intro_grass_floor.png"
+dest_files=["res://.godot/imported/intro_grass_floor.png-ccb3ee15bd9f720e4c121369d97d90db.ctex"]
 
 [params]
 

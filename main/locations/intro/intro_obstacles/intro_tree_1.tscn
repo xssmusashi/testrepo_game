@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://djeybcu5hqptn"]
+
+[ext_resource type="PackedScene" uid="uid://bm2t35r7so2v5" path="res://main/base_obstacle/base_obstacle.tscn" id="1_in4de"]
+[ext_resource type="Texture2D" uid="uid://ctqqgkhc5c2de" path="res://main/locations/intro/intro_sprites/intro_trees.png" id="2_ewo32"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dp3lc"]
+size = Vector2(1927.1667, 687.66675)
+
+[node name="BaseObstacle" instance=ExtResource("1_in4de")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_ewo32")
+region_enabled = true
+region_rect = Rect2(0, 0, 128, 128)
+
+[node name="CollisionShape2D" parent="TrunkCollision (main collision)" index="0"]
+visible = false
+position = Vector2(-161.58342, 1740.5)
+shape = SubResource("RectangleShape2D_dp3lc")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TrunkCollision (main collision)" index="1"]
+polygon = PackedVector2Array(-20, 41, -15, 35, -13, 30, 8, 30, 15, 40, 12, 43, 8, 42, 3, 39, 4, 44, -4, 44, -6, 40, -11, 41, -15, 43)
+
+[node name="CollisionShape2D" parent="CanopyArea (transparensy collision)" index="0"]
+visible = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CanopyArea (transparensy collision)" index="1"]
+polygon = PackedVector2Array(-13, 30, -12, 23, -13, 15, -19, 13, -24, 12, -26, 11, -30, 12, -35, 10, -36, 7, -35, 3, -41, 2, -43, -3, -42, -7, -39, -11, -37, -12, -40, -17, -38, -25, -32, -30, -33, -34, -28, -38, -24, -38, -22, -44, -16, -46, -8, -45, -6, -43, -1, -47, 6, -49, 12, -48, 18, -45, 22, -44, 27, -40, 29, -37, 29, -34, 33, -32, 32, -29, 32, -26, 35, -26, 38, -22, 40, -15, 42, -9, 41, -5, 38, -2, 37, 2, 34, 5, 30, 8, 26, 11, 20, 12, 12, 12, 8, 15, 7, 19, 7, 25, 8, 30)

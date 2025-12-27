@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bo021asdafvw"
-path="res://.godot/imported/forest_grass_floor.png-358083594a81be0dd682c1464d1dde86.ctex"
+uid="uid://byddw1kyumijv"
+path="res://.godot/imported/intro_silhouette.png-4e7cabc2fff50e01a71ceb593439f3af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://main/locations/forest_1/forest_1_sprites/forest_grass_floor.png"
-dest_files=["res://.godot/imported/forest_grass_floor.png-358083594a81be0dd682c1464d1dde86.ctex"]
+source_file="res://main/locations/intro/intro_sprites/intro_silhouette.png"
+dest_files=["res://.godot/imported/intro_silhouette.png-4e7cabc2fff50e01a71ceb593439f3af.ctex"]
 
 [params]
 
