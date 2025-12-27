@@ -13,6 +13,11 @@ extends CanvasLayer
 @onready var attack_button = $VBoxContainer/ActionsPanel/Attack
 @onready var mercy_button = $VBoxContainer/ActionsPanel/Mercy
 
+var shake_strength: float = 0.0
+var shake_fade: float = 20.0
+@onready var main_vbox = $VBoxContainer
+@onready var original_vbox_pos = main_vbox.position
+
 # --- Константы ---
 const INSTRUCTIONS = {
 	"focus": "Keep your cursor inside the circle!",
@@ -37,6 +42,22 @@ var active_character_attack = null
 var attack_running := false
 var is_spare_attempt := false
 var player_damage_to_character: float = 50.0 
+
+func _process(delta: float) -> void:
+	if shake_strength > 0:
+		# Постепенно уменьшаем силу тряски
+		shake_strength = lerp(shake_strength, 0.0, shake_fade * delta)
+		# Применяем случайное смещение к позиции VBoxContainer
+		main_vbox.position = original_vbox_pos + Vector2(
+			randf_range(-shake_strength, shake_strength),
+			randf_range(-shake_strength, shake_strength)
+		)
+	else:
+		# Возвращаем в исходную позицию, когда тряска окончена
+		main_vbox.position = original_vbox_pos
+
+func apply_ui_shake(strength: float) -> void:
+	shake_strength = strength
 
 func _ready() -> void:
 	_setup_battle()
@@ -126,6 +147,8 @@ func _on_player_attack_finished(multiplier: float) -> void:
 		else:
 			update_log("Your mercy wasn't convincing...")
 	else:
+		apply_ui_shake(8.0) # Небольшая встряска при ударе игрока
+		
 		var damage_dealt = int(player_damage_to_character * multiplier)
 		current_character_hp -= damage_dealt
 		PlayerStorage.save_character_hp(BattleManager.current_character_id, current_character_hp)
@@ -166,6 +189,8 @@ func _on_character_attack_finished(result: Dictionary) -> void:
 	if result.get("success", false):
 		update_log("You dodged!!")
 	else:
+		apply_ui_shake(25.0) # Небольшая встряска при ударе игрока
+		
 		var dmg = result.get("damage", character_damage)
 		update_log("You took " + str(dmg) + " damage.")
 		BattleManager.player_health -= dmg

@@ -156,6 +156,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
@@ -195,6 +196,9 @@ theme_override_styles/background = SubResource("StyleBoxFlat_ksl0e")
 theme_override_styles/fill = SubResource("StyleBoxFlat_x50yd")
 value = 100.0
 show_percentage = false
+
+[node name="Label" type="Label" parent="VBoxContainer/TopPanel"]
+layout_mode = 2
 
 [node name="InstructionLabel" type="Label" parent="VBoxContainer/TopPanel"]
 unique_name_in_owner = true

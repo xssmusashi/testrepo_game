@@ -70,7 +70,10 @@ func _update_interaction_state():
 
 	# Берем последнего зашедшего в зону NPC
 	current_interactable = interactable_candidates[-1]
-	var npc_name = current_interactable.get("character_name") or "NPC"
+	var npc_name = current_interactable.get("character_name")
+	
+	if npc_name == null:
+		npc_name = "NPC"
 	
 	# Обновляем текст подсказки
 	if interact_prompt is Label:
